@@ -1,0 +1,56 @@
+
+$primary-color:#727cf5;
+$primary-color-dark:#4854d6;
+:host{ 
+    ::ng-deep .p-dropdown{
+    border-radius: 20px!important;
+    width: 220px;
+    background-color: $primary-color;
+     box-shadow: 0 4px 8px rgba(114, 124, 245, 0.5);    
+    .p-dropdown-label{
+        padding: 0.6rem;
+        color: white;
+        font-size: small;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+}
+
+:host ::ng-deep chevrondownicon{
+opacity: 0.9;
+color: white;
+}
+
+:host ::ng-deep .custom-dropdown{
+    max-width: 20vw!important;
+}
+
+  ::ng-deep .p-dropdown-panel{
+    width: 120%!important; 
+    background-color: $primary-color!important;
+    
+    .p-dropdown-item{
+        color: white!important;
+
+    }
+
+    .p-highlight{
+        background-color: $primary-color!important;
+    }
+
+    .p-focus{
+        background-color: $primary-color!important;
+    }
+    
+}
+
+::ng-deep .p-dropdown-panel .p-dropdown-items .p-dropdown-item:not(.p-highlight):not(.p-disabled):hover{
+    background: $primary-color-dark!important;
+}
+
+.custom-dropdown{
+    position: absolute;
+    z-index: 1000;
+    top: 10px;
+}

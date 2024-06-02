@@ -1,0 +1,66 @@
+ion-header {
+    --background: transparent;
+  }
+  
+  .calendar-header {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px;
+  }
+  
+  .calendar-date {
+    text-align: center;
+    color: #aaa;
+  }
+  
+  .calendar-date.selected {
+    color: #ffffff;
+    background-color: #28a745;
+    border-radius: 12px;
+    padding: 4px 12px;
+  }
+  
+  .add-task-button {
+    display: flex;
+    justify-content: center;
+    margin: 16px 0;
+  }
+  
+  .task-list {
+    padding: 16px;
+  }
+  
+  .task-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-icon {
+    background: #28a745;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+  }
+  
+  .task-details h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .task-details p {
+    margin: 0;
+    color: #aaa;
+  }
+  
+
+  

@@ -1,0 +1,22 @@
+<!-- dashboard.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Task List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350"> -->
+  <ion-list>
+      <ion-item *ngFor="let task of tasks">
+        <ion-card [style.background-color]="task.color">
+          <ion-card-header>
+            <ion-card-title>{{ task.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>           
+          </ion-card-content>
+        </ion-card>
+      </ion-item>   
+  </ion-list>
+<!-- </cdk-virtual-scroll-viewport> -->
+</ion-content>

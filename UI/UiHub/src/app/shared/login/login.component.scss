@@ -1,0 +1,25 @@
+video {
+    width: 100%;
+    height: 100vh; /* 100% of the viewport height */
+    object-fit: cover; /* Maintain video aspect ratio while covering the entire viewport */
+  }
+
+  .authentication-bg {
+    background-image: url('./../../../assets/images//bg-auth.png');
+    background-size: cover;
+    background-position: center;
+   // animation: backgroundAnimation 60s linear infinite;
+    opacity: 1;
+}
+
+@keyframes backgroundAnimation {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }

@@ -1,0 +1,62 @@
+<!-- dashboard.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sales Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>New sales</ion-card-subtitle>
+            <ion-card-title>$ 1.458</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>New leads</ion-card-subtitle>
+            <ion-card-title>2.890</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Income per lead</ion-card-subtitle>
+            <ion-card-title>$ 1.870</ion-card-title>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-segment (ionChange)="segmentChanged($event)" value="day">
+    <ion-segment-button value="day">
+      <ion-label>Day</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="week">
+      <ion-label>Week</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="month">
+      <ion-label>Month</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngFor="let item of salesItems">
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img [src]="item.image" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.name }}</h2>
+        <p>ID {{ item.id }}</p>
+      </ion-label>
+      <ion-text slot="end">{{ item.price }}</ion-text>
+    </ion-item>
+  </div>
+</ion-content>

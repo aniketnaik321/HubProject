@@ -1,0 +1,133 @@
+
+// Add services to the container.
+using ApiHub.API.Hubs;
+using ApiHub.API.Middleware;
+using ApiHub.Domain.Models;
+using ApiHub.Service;
+using ApiHub.Service.MappingProfiles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Serilog;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+//Authentication
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key"))),
+        ValidateAudience = false,
+        ValidateIssuer = false,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddControllers();
+
+//Swagger
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(opt =>
+{
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectMonitor.API", Version = "v1" });
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+
+    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+//Database
+builder.Services.AddDbContext<HrliteDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("HRLiteDB"));
+});
+
+//Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+            builder =>
+            {
+                builder.WithOrigins("http://localhost:4200","*") // Replace with your client's URL
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowCredentials();
+            });
+});
+
+//SignalR Chat
+
+builder.Services.AddSignalR();
+
+//Service Registrations
+builder.Services.RegisterServices(builder.Configuration);
+
+//Automapper registration
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfiles>(),
+                            AppDomain.CurrentDomain.GetAssemblies());
+
+// Initialize Serilog logger with the configuration
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+
+builder.Services.AddSingleton<
+    IAuthorizationMiddlewareResultHandler, DefaultAuthorizationMiddlewareResultHandler>();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+//app.UseHttpsRedirection();
+app.UseCors("AllowSpecificOrigin");
+
+app.UseRouting();
+app.MapHub<ChatHub>("/chathub");
+app.UseAuthorization();
+
+//app.UseMiddleware<AuthorizationMiddleware>();
+
+app.UseAuthentication();
+
+app.MapControllers();
+
+
+app.Run();

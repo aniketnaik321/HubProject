@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Data Source=.\sqlexpress;Initial Catalog=HRLite_DB;User ID=admin;Password=admin;MultipleActiveResultSets=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -project ApiHub.Domain -Force

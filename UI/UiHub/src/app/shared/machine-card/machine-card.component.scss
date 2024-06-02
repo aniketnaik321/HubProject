@@ -1,0 +1,124 @@
+$base-color: #ffffff; // Change this to your desired greenish color
+
+$base-inactive-color: #490702; // Change this to your desired redish color
+$dark-color: darken($base-color, 7%);
+$light-color: lighten($base-color, 90%);
+$wave-height: 50px; // Adjust the wave height as needed
+
+.your-div {
+  position: relative; 
+  cursor: pointer;
+//background: linear-gradient(to bottom, $dark-color, $light-color);
+background:$base-color;
+  transition: all 0.3s ease; // Add a smooth transition effect
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.1), /* Primary shadow */
+    0 6px 20px rgba(0, 0, 0, 0.1); /* Secondary shadow */
+//   &::before,
+//   &::after {
+//     content: '';
+//     position: absolute;
+//     bottom: 0;
+//     width: 100%;
+//     height: $wave-height;
+//     background: $base-color;
+//     transition: all 0.3s ease; // Add a smooth transition effect
+//   }
+
+  &::before {
+    clip-path: polygon(0 0, 100% 100%, 100% 0);
+    z-index: 1;
+  }
+
+  &::after {
+    clip-path: polygon(0 100%, 100% 0, 0 0);
+    z-index: 2;
+  }
+
+  &:hover {
+    &::before {
+      transform: translateY(-$wave-height); // Move the wave up on hover
+    }
+
+    &::after {
+      transform: translateY(-$wave-height); // Move the wave up on hover
+    }
+
+    box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.5), /* Primary shadow */
+    0 6px 20px rgba(0, 0, 0, 0.5); /* Secondary shadow */
+  }
+}
+
+
+.border-active{
+    border-left: #96dd96 solid 7px;
+}
+
+.border-warning{
+    border-left: #dcdd96 solid 7px;
+}
+
+.border-inactive{
+    border-left: #dd96a3 solid 7px;
+}
+
+.line-clamp{
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+}
+
+.inactive-div {
+
+    cursor: pointer;
+    position: relative; 
+ background: linear-gradient(to bottom, $dark-color, $light-color);
+ 
+ // background:$base-color;
+    transition: all 0.3s ease; // Add a smooth transition effect
+    box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.1), /* Primary shadow */
+      0 6px 20px rgba(0, 0, 0, 0.1); /* Secondary shadow */
+  //   &::before,
+  //   &::after {
+  //     content: '';
+  //     position: absolute;
+  //     bottom: 0;
+  //     width: 100%;
+  //     height: $wave-height;
+  //     background: $base-color;
+  //     transition: all 0.3s ease; // Add a smooth transition effect
+  //   }
+  
+    &::before {
+      clip-path: polygon(0 0, 100% 100%, 100% 0);
+      z-index: 1;
+    }
+  
+    &::after {
+      clip-path: polygon(0 100%, 100% 0, 0 0);
+      z-index: 2;
+    }
+  
+    &:hover {
+      &::before {
+        transform: translateY(-$wave-height); // Move the wave up on hover
+      }
+  
+      &::after {
+        transform: translateY(-$wave-height); // Move the wave up on hover
+      }
+  
+      box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.5), /* Primary shadow */
+      0 6px 20px rgba(0, 0, 0, 0.5); /* Secondary shadow */
+    }
+  }
+
+
+  .bg-light{
+    background-color: white!important;
+  }

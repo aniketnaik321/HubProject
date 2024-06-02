@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <p-button (click)="ShowForm()" label="ADD" icon="pi pi-plus-circle" styleClass="btn-primary btn-md"
+                        [disabled]="true"></p-button>
+                </div>
+                <h4 class="page-title">Users List</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bg-white shadow">
+                <div class="card-body p-2">
+                    <p-table [paginator]="true" [value]="tableData!" [customSort]="true" [rows]="pageSize"
+                        [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="loadDataLazy($event)"
+                        [rowHover]="true" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-sm">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th pSortableColumn="name" style="width:2%"></th>
+                                <th pSortableColumn="category" style="width:20%">Full Name <p-sortIcon
+                                        field="category"></p-sortIcon></th>
+                                <th pSortableColumn="category" style="width:20%">Email Address<p-sortIcon
+                                        field="category"></p-sortIcon></th>
+                                <th pSortableColumn="isActive" style="width:20%">Status<p-sortIcon
+                                        field="category"></p-sortIcon></th>
+                                <th style="width:10%"> </th>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item>
+                            <tr>
+                                <td>
+                                    <div [attr.data-initialssmall]="getInitials(item.fullName)"></div>
+                                </td>
+                                <td>                                    
+                                   <a href="javascript:void()">{{item.fullName}}</a> 
+                                </td>
+                                <td>{{item.emailId}}</td>
+                                <td><p-tag  styleClass="pointer" (click)="updateDelete(item.id,!item.isActive)" [value]="(item.isActive)?'Active':'In-Active'"
+                                        [severity]="getSeverity(item.isActive)"></p-tag></td>
+                                <td class="text-nowrap">
+                                    <div class="dropdown text-center">
+                                        <p-button icon="pi pi-ellipsis-v" styleClass="pointer" (click)="menu.toggle($event)" label=""
+                                            [text]="true" [plain]="true"></p-button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="4">No record found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- In your Angular component's HTML (e.g., machine-attribute-dialog.component.html) -->
+<p-dialog [style]="{ width: '50vw' }" [(visible)]="dialogDisplay" [responsive]="true" [modal]="true"
+    [maximizable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="text-xl fw-bold">Users Details</span>
+    </ng-template>
+
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="p-fluid">
+
+            <div class="p-field">
+                <label>UserName</label>
+                <input pInputText class="p-inputtext-sm" id="UserName" type="text" formControlName="UserName"
+                    [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('UserName')}">
+                <div class="text-danger" *ngIf="isControlInvalid('UserName')">
+                    Name is required.
+                </div>
+            </div>
+            <div class="p-field">
+                <label>FullName</label>
+                <input pInputText class="p-inputtext-sm" id="FullName" type="text" formControlName="FullName">
+            </div>
+            <div class="p-field">
+                <label>EmailId</label>
+                <input pInputText class="p-inputtext-sm" id="EmailId" type="text" formControlName="EmailId">
+                <div class="text-danger" *ngIf="isControlInvalid('typeId')">
+                    Value type is required.
+                </div>
+            </div>
+
+
+
+            <div class="p-template-footer float-end inline-block">
+                <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md"
+                    [text]="true" [raised]="true" severity="secondary"></p-button>
+                <!-- <p-button icon="pi pi-times" label="Cancel" styleClass="rounded-3 btn-default btn-sm"  (click)="cancel()"  [text]="true" [raised]="true" severity="danger"></p-button>
+           -->
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+<p-menu #menu [model]="items" [popup]="true"></p-menu>

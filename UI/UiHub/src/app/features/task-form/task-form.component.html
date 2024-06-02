@@ -1,0 +1,114 @@
+
+<p-dialog [breakpoints]="{ '960px': '80vw' }" [style]="{ width: '70vw', height:'99vh' }" [(visible)]="sharedData.dialogDisplay"
+    [responsive]="true" [modal]="true" [maximizable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="text-xl fw-bold">Task Details</span>
+    </ng-template>
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <input type="hidden" formControlName="id"/>
+        <div class="p-fluid">
+            <div class="row">
+            <div class="p-field col-md-6 col-sm-12">
+                <label>Task Title</label>
+                <input pInputText class="p-inputtext-sm" type="text" formControlName="summary"
+                    [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('summary')}">
+                <div class="text-danger" *ngIf="isControlInvalid('summary')">
+                    Task Title is required.
+                </div>
+            </div>
+        </div>
+            <div class="p-field">
+                <label>Description</label>
+                <p-editor formControlName="description" [style]="{ height: '140px' }"  [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('description')}"></p-editor>
+                <!-- <textarea pInputTextarea rows="5" class="p-inputtext-sm" id="description" type="text"
+                    formControlName="description"> </textarea> -->
+                    <div class="text-danger" *ngIf="isControlInvalid('description')">
+                        Description is required.
+                    </div>
+            </div>
+            <div class="row">
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="endDate">Reporter</label>
+                    <div class="col-12">
+                        <p-dropdown appendTo="body"  [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('summary')}" formControlName="reporterUserId" [options]="reporters"
+                            optionLabel="name" placeholder="Select Reporter"></p-dropdown>
+                            <div class="text-danger" *ngIf="isControlInvalid('reporterUserId')">
+                                Reporter is required.
+                            </div>
+                    </div>
+                </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="endDate">Assignee</label>
+                    <div class="col-12">
+                        <p-dropdown appendTo="body" [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('assigneeUserId')}" formControlName="assigneeUserId" [options]="assignee"
+                            optionLabel="name" placeholder="Select Assignee"></p-dropdown>
+                            <div class="text-danger" *ngIf="isControlInvalid('assigneeUserId')">
+                                Assignee is required.
+                            </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="row">
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="startDate">Start Date</label>
+                    <div class="col-12">
+                        <p-calendar appendTo="body" class='p-inputtext-sm w-lg-25 w-xs-100' formControlName="startDate"
+                            [showTime]="true" [showIcon]="true"></p-calendar>
+                    </div>
+                </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="startDate">Due Date</label>
+                    <div class="col-12">
+                        <p-calendar appendTo="body" class='p-inputtext-sm w-lg-25 w-xs-100' formControlName="dueDate"
+                            [showTime]="true" [showIcon]="true"></p-calendar>
+                    </div>
+                </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="endDate">Estimate Hours
+                        <span class="pi pi-info-circle text-info small px-1"
+                            pTooltip="Expected Time in hours for completion of this task"> </span>
+                            
+                    </label>
+
+                    <div class="col-12">
+                        <input pInputText class="p-inputtext-sm" type="number" formControlName="estimatedTime"
+                            [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('estimatedTime')}">
+                            <div class="text-danger" *ngIf="isControlInvalid('assigneeUserId')">
+                                Estimated Time is required.
+                            </div>
+                    </div>
+                </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="endDate">Status</label>
+                    <div class="col-12">
+                        <p-dropdown appendTo="body" formControlName="statusId" [options]="statusList"
+                            optionLabel="name" placeholder="Select Status"></p-dropdown>
+                    </div>
+                </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="priority">Priority</label>
+                    <div class="col-12">
+                        <p-dropdown appendTo="body" formControlName="priorityId" [options]="priorityList"
+                            optionLabel="name" placeholder="Select Priority"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-template-footer float-end inline-block fixed-bottom">
+                <p-button [type]="'submit'" icon="pi pi-save" label="SUBMIT" styleClass="rounded-3 btn-success btn-md mb-3 float-end btn-width-200"
+                    [text]="true" [raised]="true" severity="secondary"></p-button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+
+<p-toast></p-toast>
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

@@ -1,0 +1,15 @@
+<!-- chat-window.component.html -->
+<div class="chat-window">
+    <div class="chat-header">
+      Send us a message
+    </div>
+    <div class="chat-body">
+      <!-- Chat content goes here -->
+      <div *ngFor="let message of messages">{{ message }}</div>
+    </div>
+    <div class="chat-footer">
+      <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type a message...">
+      <p-button icon="pi pi-send" (click)="sendMessage()"></p-button>
+    </div>
+  </div>
+  

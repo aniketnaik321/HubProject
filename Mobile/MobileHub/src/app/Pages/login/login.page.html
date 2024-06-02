@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-container">
+    <div class="logo-container">
+      <img src="assets/logo.png" alt="HR Lite Logo" class="logo">
+      <h1 class="app-name">HR Lite</h1>
+      <h2 class="app-subtitle">Project Monitor</h2>
+    </div>
+
+    <form (ngSubmit)="onLogin()">
+      <h3>Sign In</h3>
+      <p>Enter your email address and password to access account.</p>
+
+      <ion-item>
+        <ion-label position="floating">Email address</ion-label>
+        <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+      </ion-item>
+
+      <div class="forgot-password-container">
+        <ion-button fill="clear" (click)="onForgotPassword()">Forgot your password?</ion-button>
+      </div>
+
+      <ion-item lines="none">
+        <ion-checkbox slot="start" [(ngModel)]="rememberMe" name="rememberMe"></ion-checkbox>
+        <ion-label>Remember me</ion-label>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" class="login-button">Log In</ion-button>
+    </form>
+  </div>
+</ion-content>

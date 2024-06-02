@@ -1,0 +1,22 @@
+.dialog-container {
+    position: relative;
+    height: 95vh;
+    margin-bottom: 4rem;
+    /* Set height of dialog container if needed */
+  }
+  
+  .p-template-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #f7f7f7; /* Change the background color if needed */
+  }
+
+  ::ng-deep .p-dialog-content{
+    position: relative!important;
+    height: 95vh!important;
+    margin-bottom: 4rem!important;  
+  }
+
+ 

@@ -1,0 +1,7 @@
+{
+  "name": "MobileHub",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

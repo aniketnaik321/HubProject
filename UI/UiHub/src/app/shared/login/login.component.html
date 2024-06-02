@@ -1,0 +1,214 @@
+<body class="pb-0" data-layout-config='{"darkMode":true}'>
+
+    <div class="auth-fluid">
+
+
+        <!-- Auth fluid right content -->
+        <div class="auth-fluid-right text-center authentication-bg">
+
+            <!-- <video width="100%" height="auto">
+                <source src="assets/videos/Design 2.mp4" type="video/mp4">
+            </video> -->
+
+            <div class="auth-user-testimonial bg-dark" style="opacity: 0.75;">
+                <h2 class="mb-3"> HR Lite - Project Monitor</h2>
+                <p class="lead"><i class="mdi mdi-format-quote-open"></i>Seamless HR Solutions, Effortlessly Yours. <i
+                        class="mdi mdi-format-quote-close"></i>
+                </p>
+            </div> <!-- end auth-user-testimonial-->
+        </div>
+        <!-- end Auth fluid right content -->
+
+
+        <div [ngSwitch]="formType" class="auth-fluid-form-box">
+            <div *ngSwitchCase="0" class="align-items-center d-flex h-100">
+
+                <div class="card-body">
+                    <!-- <div class="alert alert-success rounded-0 bg-success text-light" role="alert" *ngIf="message!==''">
+                             <span class="fa fa-info pe-3"></span>   {{message}}
+                              </div> -->
+                    <p-messages [enableService]="true" [closable]="true"></p-messages>
+                    <!-- Logo -->
+                    <div class="auth-brand text-center text-lg-start">
+                        <a href="index.html" class="logo-dark text-nowrap">
+                            <span><img src="assets/images/hr_lite_logo.png" alt="" height="40"></span>
+                            <span><img src="assets/images/hr_lite.png" alt="" height="40"></span>
+                            <h3>Project Monitor</h3>
+                        </a>
+                        <a href="index.html" class="logo-light">
+                            <i class="uil-cog" aria-hidden="true"></i>
+                            <span><img src="assets/images/hr_lite.png" alt="" height="40"></span>
+                        </a>
+                    </div>
+
+                    <!-- title-->
+                    <h4 class="mt-0">Sign In</h4>
+                    <p class="text-muted mb-4">Enter your email address and password to access account.</p>
+
+                    <!-- form -->
+                    <form [formGroup]="loginForm" (ngSubmit)="signIn()">
+                        <div class="mb-3">
+                            <label for="emailaddress" class="form-label">Email address</label>
+                            <input class="form-control" formControlName="username" type="email" id="emailaddress"
+                                required="" placeholder="Enter your email">
+                        </div>
+                        <div class="mb-3">
+                            <!-- routerLink="/account/reset/2" -->
+                            <a href="javascript:void()" 
+                                class="text-muted float-end disabled"><small>Forgot your password?</small></a>
+                            <label for="password" class="form-label">Password</label>
+                            <input class="form-control" type="password" formControlName="password" required=""
+                                id="password" placeholder="Enter your password">
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checkbox-signin">
+                                <label class="form-check-label" for="checkbox-signin">Remember me</label>
+                            </div>
+                        </div>
+                        <div class="d-grid mb-0 text-center">
+                            <button class="btn btn-primary" type="submit" [disabled]="isDataLoaded===false">                               
+                                <span *ngIf="isDataLoaded"><i class="fa fa-sign-in"></i> Log In </span>
+                                <span *ngIf="!isDataLoaded"><i class="pi pi-spin pi-spinner"></i></span>
+                            </button>
+                        </div>
+                        <!-- social-->
+                        <!-- <div class="text-center mt-4">
+                                    <p class="text-muted font-16">Sign in with</p>
+                                    <ul class="social-list list-inline mt-3">
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+                                        </li>
+                                    </ul>
+                                </div> -->
+                    </form>
+                    <!-- end form-->
+
+                    <!-- Footer-->
+                    <!-- <footer class="footer footer-alt">
+                                <p class="text-muted">Don't have an account? <a href="pages-register-2.html" class="text-muted ms-1"><b>Sign Up</b></a></p>
+                            </footer> -->
+
+                </div> <!-- end .card-body -->
+
+            </div>
+
+            <div *ngSwitchCase="1" class="align-items-center d-flex h-100">
+
+
+                <div class="card-body">
+
+                    <p-messages [enableService]="true" [closable]="true"></p-messages>
+
+                    <!-- <div class="alert alert-danger rounded-0 bg-danger text-light" role="alert" *ngIf="message!==''">
+                                <span class="fa fa-info pe-3"></span>   {{message}}
+                                 </div> -->
+                    <!-- Logo -->
+                    <div class="auth-brand text-center text-lg-start">
+                        <a href="index.html" class="logo-dark">
+                            <i class="uil-cog" aria-hidden="true"></i>
+                            <span><img src="assets/images/MACHINE.png" alt="" height="40"></span>
+                        </a>
+                        <a href="index.html" class="logo-light">
+                            <i class="uil-cog" aria-hidden="true"></i>
+                            <span><img src="assets/images/MACHINE.png" alt="" height="40"></span>
+                        </a>
+                    </div>
+
+                    <!-- title-->
+                    <h4 class="mt-0">Reset Password</h4>
+                    <p class="text-muted mb-4">Reset your password.</p>
+
+                    <!-- form -->
+                    <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" *ngIf="requestComplete===false">
+                        <input type="hidden" formControlName="token">
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input class="form-control" formControlName="newPassword" type="password" id="newPassword"
+                                required placeholder="Enter new password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Confirm Password</label>
+                            <input class="form-control" formControlName="confirmPassword" type="password"
+                                id="confirmPassword" required placeholder="Confirm password">
+                        </div>
+                        <div class="d-grid mb-0 text-center">
+                            <button class="btn btn-primary" type="submit" [disabled]="isDataLoaded===false">                               
+                                <span *ngIf="isDataLoaded"><i class="fa fa-sign-in"></i> Reset </span>
+                                <span *ngIf="!isDataLoaded"><i class="pi pi-spin pi-spinner"></i></span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div *ngIf="requestComplete===true">
+                        <a routerLink="/login" class="btn btn-primary"> Back to Sign-in page</a>
+                    </div>
+
+                </div> <!-- end .card-body -->
+
+            </div>
+
+            <div *ngSwitchCase="2" class="align-items-center d-flex h-100">
+
+                <div class="card-body">
+
+                    <p-messages [enableService]="true" [closable]="true"></p-messages>
+
+                    <!-- <div class="alert alert-danger rounded-0 bg-danger text-light" role="alert" *ngIf="message!==''">
+                                <span class="fa fa-info pe-3"></span>   {{message}}
+                                 </div> -->
+                    <!-- Logo -->
+                    <div class="auth-brand text-center text-lg-start">
+                        <a href="index.html" class="logo-dark">
+                            <i class="uil-cog" aria-hidden="true"></i>
+                            <span><img src="assets/images/MACHINE.png" alt="" height="40"></span>
+                        </a>
+                        <a href="index.html" class="logo-light">
+                            <i class="uil-cog" aria-hidden="true"></i>
+                            <span><img src="assets/images/MACHINE.png" alt="" height="40"></span>
+                        </a>
+                    </div>
+
+                    <!-- title-->
+                    <h4 class="mt-0">Forgot Password?</h4>
+                    <p class="text-muted mb-4">Provide email address to send password reset link</p>
+
+                    <!-- form -->
+                    <form [formGroup]="forgotPasswordForm" (ngSubmit)="sendResetLink()" *ngIf="requestComplete===false">
+                        <div class="mb-3">
+                            <label for="emailId" class="form-label">Email Address</label>
+                            <input class="form-control" formControlName="emailId" type="email" id="emailId" required
+                                placeholder="Enter Email Id">
+                        </div>
+
+                        <div class="d-grid mb-0 text-center">
+                            <button class="btn btn-primary" type="submit" [disabled]="isDataLoaded===false">                               
+                                <span *ngIf="isDataLoaded"><i class="fa fa-send"></i> Send Reset Link </span>
+                                <span *ngIf="!isDataLoaded"><i class="pi pi-spin pi-spinner"></i></span>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <div *ngIf="requestComplete===true">
+                        <a routerLink="/login" class="btn btn-primary"> Back to Sign-in page</a>
+                    </div>
+
+
+                </div> <!-- end .card-body -->
+            </div> <!-- end .align-items-center.d-flex.h-100-->
+
+        </div>
+    </div>
+
+</body>

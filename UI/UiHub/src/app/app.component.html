@@ -1,0 +1,10 @@
+<router-outlet></router-outlet>
+
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
+<!-- app.component.html -->
+<div class="floating-button" (click)="toggleChatWindow()">
+    <p-button icon="pi pi-envelope"></p-button>
+  </div>
+  <app-chat-window *ngIf="isChatWindowVisible"></app-chat-window>
+  

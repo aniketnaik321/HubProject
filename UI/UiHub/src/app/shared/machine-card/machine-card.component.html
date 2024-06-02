@@ -1,0 +1,54 @@
+<div class="container mt-2">
+  <div class="row" *ngIf="MachineList===null || MachineList===undefined">
+
+    <div class="card col-md-4">
+      <div class="border-round border-1 surface-border p-4 surface-card">
+        <div class="flex mb-3">
+          <div>
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="100%" height="150px" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton height=".5rem"></p-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card col-md-4 mx-3" >
+      <div class="border-round border-1 surface-border p-4 surface-card">
+        <div class="flex mb-3">
+          <div>
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="100%" height="150px" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="10rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton width="5rem" styleClass="mb-2"></p-skeleton>
+            <p-skeleton height=".5rem"></p-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let machine of MachineList" class="col-md-4 ">
+      <div class="card mb-4 bg-light text-dark" [ngClass]="machine.workingStatus === 1 ? 'border-active' : 'border-inactive'">
+        <div class="card-body">
+          <h5 class="card-title text-primary">{{ machine.name }}
+            <span class="badge rounded-pill" [ngClass]="machine.workingStatus === 1 ? 'bg-success' : 'bg-danger'">{{GetStatusText(machine.workingStatus)}}</span>
+            <span class="float-end text-success fw-light">             
+              <a href="javascript:void(0)"  (click)="menu.toggle($event)" class="dropdown-toggle arrow-none card-drop">
+                <i class="mdi mdi-dots-vertical text-secondary"></i>
+            </a>
+            </span>           
+          </h5>
+          <p class="card-text fw-light line-clamp">{{ machine.description }}</p>
+          <p class="card-text"><strong>Category:</strong> {{ machine.category }}</p>
+          <p class="card-text"><strong>Location:</strong> {{ machine.category }}</p>
+          <p class="card-text"><strong>Created Date:</strong> {{ machine.createdOn | date }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-menu #menu [model]="items" [popup]="true"></p-menu>

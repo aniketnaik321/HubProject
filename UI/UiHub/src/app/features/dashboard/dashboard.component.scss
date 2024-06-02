@@ -1,0 +1,16 @@
+
+
+/* Add a border for card selection */
+.card.selected {
+    border: 2px solid #007bff; /* Replace with your desired border color */
+}
+
+.card{
+    cursor: pointer;
+}
+
+
+:host ::ng-deep .p-inputtext{
+    padding: 3px 10px!important;
+    font-size: 12px;
+}
