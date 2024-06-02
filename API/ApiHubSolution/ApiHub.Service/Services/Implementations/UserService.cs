@@ -82,6 +82,12 @@ namespace ApiHub.Service.Services.Implementations
         {
             return await _dbService.CallProcedure(input, Constants.AppConstants.PROC_UPDATE_USER_STATUS);
         }
+
+        public async Task<DtoCommonReponse> UpdateDeivceToken(DtoUserDeviceToken input)
+        {
+            return await _dbService.CallProcedure<DtoUserDeviceToken>(input,AppConstants.PROC_UPDATE_DEVICE_TOKEN);            
+        }
+
     }
 
 

@@ -1,5 +1,6 @@
 ﻿
 using ApiHub.Domain.Models;
+using ApiHub.Service.Attributes;
 
 namespace ApiHub.Service.DTO
 {
@@ -133,5 +134,14 @@ namespace ApiHub.Service.DTO
 
         public virtual User? User { get; set; }
     }
+
+    public partial class DtoUserDeviceToken
+    {
+        [Parameter]
+        public string UserId { get; set; }
+        [Parameter]
+        public string DeviceToken { get; set; }
+    }
+
 
 }

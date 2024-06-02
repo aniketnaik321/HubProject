@@ -17,5 +17,6 @@ namespace ApiHub.Service.Services.Contracts
         Task<DtoPagedResponse<DtoUser>> GetUserList(DtoPageRequest request);       
         Task<List<List<DtoLookup>>> GetLookups();
         Task<DtoCommonReponse> UpdateUserStatus(DtoUpdateUserStatus input);
+        Task<DtoCommonReponse> UpdateDeivceToken(DtoUserDeviceToken input);
     }
 }

@@ -47,6 +47,12 @@ namespace ApiHub.API.Controllers
             return  PreparePostResponse(await  _userService.UpdateUserStatus(input));
         }
 
+        [HttpPost("UpdateDeviceToken")]
+        public async Task<IActionResult> UpdateDeviceToken([FromBody] DtoUserDeviceToken input)
+        {
+            return PreparePostResponse(await _userService.UpdateDeivceToken(input));
+        }
+
         // PUT api/<ProjectController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

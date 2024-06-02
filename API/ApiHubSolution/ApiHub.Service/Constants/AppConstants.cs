@@ -19,6 +19,7 @@ namespace ApiHub.Service.Constants
         public const string PROC_LOAD_COMMENTS = "PM_LoadTaskComments";
         public const string PROC_UPDATE_USER_STATUS = "UpdateUserStatus";
         public const string PROC_FAQ_LIST = "PM_FaqList";
+        public const string PROC_UPDATE_DEVICE_TOKEN = "UpdateDeviceToken";
 
         //Messages
         public const string SAVE_SUCCESS = "Record has been saved";
