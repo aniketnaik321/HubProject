@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
+import { PushNotifications } from '@capacitor/push-notifications';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    TabsPageRoutingModule],
+    TabsPageRoutingModule,
+  ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
