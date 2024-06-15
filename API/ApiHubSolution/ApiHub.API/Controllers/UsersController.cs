@@ -1,4 +1,5 @@
 ﻿using ApiHub.Service.DTO;
+using ApiHub.Service.DTO.Common;
 using ApiHub.Service.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +13,12 @@ namespace ApiHub.API.Controllers
     {
 
         private IUserService _userService;
+        private IPushNotificationService _notificationService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IPushNotificationService notificationService)
         {
             _userService = userService;
+            _notificationService = notificationService;
         }
 
 
@@ -39,6 +42,12 @@ namespace ApiHub.API.Controllers
         public void Post([FromBody] DtoProject project)
         {
 
+        }
+
+        [HttpPost("SendPushNotification")]
+        public void PostNotification([FromBody] DtoNotificationMessage input)
+        {
+            _notificationService.SendPushNotificationAsync(input);
         }
 
         [HttpPost("UpdateUserStatus")]

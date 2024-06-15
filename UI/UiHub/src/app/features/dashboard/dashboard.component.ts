@@ -23,7 +23,7 @@ export class DashboardComponent {
   totalRecords: number = 0;
   userName?: string = '';
   calendarOptions: CalendarOptions = {
-    initialView: 'timeGridDay',
+    initialView: 'listWeek',
     height: "100%",
     timeZone: 'UTC',
     buttonText: {
@@ -36,7 +36,7 @@ export class DashboardComponent {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'timeGridDay,timeGridWeek,dayGridMonth,listWeek'
+      right: 'listWeek,timeGridDay,timeGridWeek,dayGridMonth'
     },
     plugins: [dayGridPlugin, timeGridPlugin, listPlugin]
   };

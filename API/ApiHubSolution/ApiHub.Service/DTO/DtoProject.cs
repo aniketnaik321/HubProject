@@ -20,6 +20,8 @@ namespace ApiHub.Service.DTO
 
         public int IssuesCount { get; set; } = 0;
 
+        public float CompletionStatus { get; set; } = 0.0f;
+
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }

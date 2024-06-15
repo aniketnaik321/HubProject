@@ -10,7 +10,7 @@ export interface IProject {
     startDate?: Date;
     endDate?: Date;
     issues?: IIssues[];
-    completionState?:number;
+    completionStatus?:number;
   }
   
   // DtoIssues.interface.ts
