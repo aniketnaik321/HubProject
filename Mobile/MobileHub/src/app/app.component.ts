@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 import {
 PushNotification,
 PushNotificationToken,
@@ -17,7 +18,7 @@ export class AppComponent {
   ngOnInit() {
     console.log('Initializing HomePage');
 
-   
+ 
     PushNotifications.requestPermissions().then( result => {
       if (result.receive) {
         // Register with Apple / Google to receive push via APNS/FCM
@@ -27,13 +28,15 @@ export class AppComponent {
       }
     });
 
+     
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration',
       (token: PushNotificationToken) => {
         alert('Push registration success, token: ' + token.value);
+        console.log('Registration token: ', token.value);
       }
     );
-
+ 
     // Some issue with our setup and push will not work
     PushNotifications.addListener('registrationError',
       (error: any) => {

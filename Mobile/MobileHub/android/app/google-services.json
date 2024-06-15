@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1019158484850",
+    "project_id": "globalsoftsuite-1703555432642",
+    "storage_bucket": "globalsoftsuite-1703555432642.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019158484850:android:d6adb41ed9155df8cbefeb",
+        "android_client_info": {
+          "package_name": "com.getcapacitor.myapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhM4XhiRpPX5qJ5_Kpt-iqEAuTW3Ds4Gc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
