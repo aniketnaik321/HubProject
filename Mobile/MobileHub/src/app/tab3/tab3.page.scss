@@ -1,34 +1,34 @@
-/* dashboard.page.scss */
-ion-card {
-    margin: 10px;
-    width: 95vw;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
-                0 6px 20px rgba(0, 0, 0, 0.1);
-    transform: translateY(0);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  ion-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 
-                0 12px 40px rgba(0, 0, 0, 0.2);
-  }
-  
-  ion-card-header {
-    color: white;
-  }
-  
-  ion-card-title {
-    font-size: 1.2em;
-    color: white;
-  }
-  
-  ion-card-content {
-    color: white;
-  }
-  
-  ion-item {
-    --padding-start: 0;
-    background-color: transparent;
-  }
+.project-card {
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.project-card h4 {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.project-card .text-title {
+  text-decoration: none;
+  color: var(--ion-color-primary);
+}
+
+.project-card .text-title:hover {
+  text-decoration: underline;
+}
+
+.project-card .clamped-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-card .progress-bar {
+  height: 10px;
+  border-radius: 5px;
+}
+
+

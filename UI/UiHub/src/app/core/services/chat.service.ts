@@ -9,11 +9,12 @@ export class ChatService {
 
   
   private baseUrl =  environment.ApiURL;
+  private hubUrl =  environment.SignarlRHub;
     private hubConnection: signalR.HubConnection;
   
     constructor() {
       this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl('http://localhost:5233/chathub')
+        .withUrl(this.hubUrl)
         .build();
     }
   

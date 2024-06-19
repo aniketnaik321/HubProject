@@ -24,6 +24,8 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
 
 
 :root {
@@ -91,3 +93,44 @@
 	--ion-color-dark-tint: #444444;
 
 }
+
+
+/* src/global.scss */
+
+body {
+	background: linear-gradient(135deg, #f6f9fc, #e9eef2);
+	min-height: 100vh;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  }
+  
+  ion-app {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background: transparent; /* To ensure the gradient from body is visible */
+  }
+  
+
+  .px-2{
+	padding-left: 20px!important;
+	padding-right: 20pximportant;
+  }
+
+  ion-content {
+	--background: linear-gradient(to bottom right, #f0f8ff, #f5f5f5);
+	color: #263238; /* Set text color to dark black */
+	padding-left: 20px!important;
+	padding-right: 20px !important;
+  }
+
+  .header-logo {
+	height: 40px; /* Adjust the height as needed */
+	width: auto;
+  }

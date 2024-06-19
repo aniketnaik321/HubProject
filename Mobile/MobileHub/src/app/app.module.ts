@@ -10,15 +10,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
 import { PushNotifications } from '@capacitor/push-notifications';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
-    IonicModule,
+    IonicModule.forRoot(), // Add this line
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
+    HttpClientModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { IProject } from '../shared-models/ProjectModels';
+import { IPagedRequest } from '../shared-models/PagedFilterRequest';
+import { ApiService } from '../Services/api.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab3',
@@ -7,49 +11,90 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Tab3Page implements OnInit {
 
-  tasks = [
-    {
-      title: 'In the morning',
-      date: '10 May 2019',
-      color: '#4CAF50',
-      subtasks: ['Take medicine on time', 'Wash yesterday\'s clothes'],
-    },
-    {
-      title: 'After work',
-      date: '10 May 2019',
-      color: '#FF9800',
-      subtasks: ['Go to the bank', 'Register in the wave release service', 'See a movie'],
-    },
-    {
-      title: 'Going to bed',
-      date: '10 May 2019',
-      color: '#3F51B5',
-      subtasks: ['Call mom', 'Read a design journal'],
-    },
-    // Add more tasks as needed
-  ];
+  tableData?: IProject[];
+  selecteddata?: IProject;
+  request?: IPagedRequest;
+  dialogDisplay: boolean = false;
 
-  constructor() {}
+  totalRecords: number = 0;
+  pageSize: number = 10;
+  showDropdown: any;
+
+
+
+  constructor(private apiService: ApiService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    this.addMoreTasks();
+    this.loadDataLazy();
   }
 
-  addMoreTasks() {
-    // Simulate adding more tasks
-    for (let i = 0; i < 10; i++) {
-      this.tasks.push({
-        title: `Task ${this.tasks.length + 1}`,
-        date: '10 May 2019',
-        color: this.getRandomColor(),
-        subtasks: ['Subtask 1', 'Subtask 2', 'Subtask 3'],
-      });
+
+  getBadgeColor(completionStatus: number): string {
+    if (completionStatus === 0) {
+      return 'medium'; // Default grey
+    } else if (completionStatus > 0 && completionStatus < 100) {
+      return 'primary'; // In-Progress yellow
+    } else if (completionStatus === 100) {
+      return 'success'; // Completed green
     }
+    return 'medium';
   }
 
-  getRandomColor() {
-    const colors = ['#4CAF50', '#FF9800', '#3F51B5'];
-    return colors[Math.floor(Math.random() * colors.length)];
+  getBadgeText(completionStatus: number): string {
+    if (completionStatus === 0) {
+      return 'Not Started';
+    } else if (completionStatus > 0 && completionStatus < 100) {
+      return 'In Progress';
+    } else if (completionStatus === 100) {
+      return 'Completed';
+    }
+    return 'Not Started'
+  }
+
+  async loadDataLazy() {
+    let request: IPagedRequest = {
+      pageNumber: 1,
+      pageSize: 10,
+      filterKeys: "",//event.filters, // Implement this based on your filtering logic
+      filterValues: "",
+      orderByKey: 'createdOn',
+      sortDirection: 1
+    };
+    if (event) {
+      // Update your request parameters based on the LazyLoadEvent
+      request = {
+        pageNumber: 1,
+        pageSize: this.pageSize,
+        filterKeys: "",//event.filters, // Implement this based on your filtering logic
+        filterValues: "",
+        orderByKey: 'createdOn',
+        sortDirection: 1
+      };
+    }
+    await this.presentLoading();
+    // Call your API service for lazy loading
+    this.apiService.getProjectList(request).subscribe((data) => {
+      this.tableData = data.data; // Update with the actual property in your API response
+      this.totalRecords = data.totalCount; // Update with the actual property in your API response
+      this.dismissLoading();
+    });
+  }
+
+
+  toggleDropdown(project: IProject) {
+    project.showDropdown = !project.showDropdown;
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading...',
+      spinner: 'lines'
+    });
+    await loading.present();
+  }
+
+  async dismissLoading() {
+    await this.loadingCtrl.dismiss();
   }
 
 }

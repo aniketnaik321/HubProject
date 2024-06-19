@@ -1,62 +1,82 @@
-<!-- dashboard.page.html -->
+<!-- src/app/pages/issue-list/issue-list.component.html -->
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Dashboard</ion-title>
-  </ion-toolbar>
+  <app-header [title]="'Dashboard'"></app-header>
 </ion-header>
 
+
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="4">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>New sales</ion-card-subtitle>
-            <ion-card-title>$ 1.458</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col size="4">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>New leads</ion-card-subtitle>
-            <ion-card-title>2.890</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-      <ion-col size="4">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-subtitle>Income per lead</ion-card-subtitle>
-            <ion-card-title>$ 1.870</ion-card-title>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <ion-segment (ionChange)="segmentChanged($event)" value="day">
-    <ion-segment-button value="day">
-      <ion-label>Day</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="week">
-      <ion-label>Week</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="month">
-      <ion-label>Month</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
-  <div *ngFor="let item of salesItems">
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <img [src]="item.image" />
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ item.name }}</h2>
-        <p>ID {{ item.id }}</p>
-      </ion-label>
-      <ion-text slot="end">{{ item.price }}</ion-text>
-    </ion-item>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="summary-cards">
+    <ion-card class="summary-card" (click)="scrollToCategory('To Do')">
+      <ion-card-content class="to-do">
+        <ion-icon name="list-circle"></ion-icon>
+        <div>
+          <h2>{{ summaryCounts.toDo }}</h2>
+          <p>To Do</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="summary-card " (click)="scrollToCategory('In Progress')">
+      <ion-card-content class="in-progress">
+        <ion-icon name="construct"></ion-icon>
+        <div>
+          <h2>{{ summaryCounts.inProgress }}</h2>
+          <p style="text-wrap: nowrap;">In-Progress</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="summary-card" (click)="scrollToCategory('Done')">
+      <ion-card-content class="done">
+        <ion-icon name="checkmark-done-circle"></ion-icon>
+        <div>
+          <h2>{{ summaryCounts.done }}</h2>
+          <p>Closed</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
+
+  <ng-container  *ngFor="let category of ['To Do', 'In Progress', 'Done']">
+
+    <div  [attr.id]="category">
+      <ion-label class="my-auto">
+        <ion-card-title class="px-2">{{ category }}</ion-card-title>
+      </ion-label>
+     
+        <div *ngFor="let issue of categorizedIssues[category]">
+          
+            <ion-card class="issue-card">
+              <ion-card-header>
+                <div class="row">
+                <ion-card-title class="col-9 my-auto">{{ issue.summary }}</ion-card-title>
+                <div class="col-3 text-nowrap">
+                  <span class="text-nowrap float-end mt-0" [style.color]="issue.priorityTagColorCode">
+                   <span class="mx-3"> <ion-icon name="alert-circle-outline"></ion-icon> {{ issue.priorityName }}</span>
+                    <ion-button shape="round" class="p-1" fill="red" (click)="viewDetails(issue)">
+                      <ion-icon name="eye"></ion-icon>
+                     
+                    </ion-button>
+                </span>
+                  
+                </div>
+                  </div>
+
+              </ion-card-header>
+              <ion-label>
+                <p><ion-icon name="document-text-outline"></ion-icon> {{ issue.description }}</p>
+                <p><ion-icon name="calendar-outline"></ion-icon> Due: {{ issue.dueDate | date }}</p>
+                <p><ion-icon name="person-outline"></ion-icon> Assignee: {{ issue.assigneeUserName }}</p>
+              
+              </ion-label>
+          </ion-card>
+        
+        </div>
+        <p class="no-issues" *ngIf="categorizedIssues[category].length === 0">No issues in this category.</p>
+     
+    </div>
+  </ng-container>
 </ion-content>

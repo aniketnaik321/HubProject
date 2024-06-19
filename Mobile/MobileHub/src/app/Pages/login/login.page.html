@@ -7,12 +7,12 @@
 <ion-content>
   <div class="login-container">
     <div class="logo-container">
-      <img src="assets/logo.png" alt="HR Lite Logo" class="logo">
+      <img src="assets/images/hr_lite_logo.png" alt="HR Lite Logo" class="logo">
       <h1 class="app-name">HR Lite</h1>
       <h2 class="app-subtitle">Project Monitor</h2>
     </div>
 
-    <form (ngSubmit)="onLogin()">
+    <form (ngSubmit)="signIn()">
       <h3>Sign In</h3>
       <p>Enter your email address and password to access account.</p>
 
@@ -27,7 +27,7 @@
       </ion-item>
 
       <div class="forgot-password-container">
-        <ion-button fill="clear" (click)="onForgotPassword()">Forgot your password?</ion-button>
+        <ion-button fill="clear" >Forgot your password?</ion-button>
       </div>
 
       <ion-item lines="none">

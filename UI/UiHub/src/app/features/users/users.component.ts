@@ -25,6 +25,7 @@ export class UsersComponent {
   pageSize: number = 10;
   dataTypeIdOptions?: ILookupItem[];
   items: MenuItem[] | undefined;
+  photoUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +38,7 @@ export class UsersComponent {
       UserName: ['', [Validators.required]],
       FullName: [''],
       EmailId: [null],      
+      Photo: [null]
     });
 
     this.items = [
@@ -67,6 +69,15 @@ export class UsersComponent {
 
   ngOnInit(): void {
     this.setupLookup();
+  }
+
+  onUpload(event: any): void {
+    const file = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.photoUrl = reader.result;
+    };
+    reader.readAsDataURL(file);
   }
 
   loadDataLazy(event?: TableLazyLoadEvent) {

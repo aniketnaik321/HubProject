@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-img [src]="'assets/images/hr_lite_logo.png'" class="header-logo"></ion-img>
+    </ion-buttons>
+    <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onNotificationClick()">
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+        <ion-badge color="primary" class="notification-badge">{{ notificationCount }}</ion-badge>
+      </ion-button>
+      <ion-button (click)="onMessagingClick()">
+        <ion-icon slot="icon-only" name="chatbubble-ellipses-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onProfileClick()">
+        <ion-icon slot="icon-only" name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

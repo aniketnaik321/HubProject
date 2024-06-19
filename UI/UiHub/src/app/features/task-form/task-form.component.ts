@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
 import { ApiService } from 'src/app/core/services/api.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { DefaultProjectService } from 'src/app/core/services/default-project.service';
 import { ILookupItem } from 'src/app/core/shared-models/ILookupItem';
 import { IPagedData } from 'src/app/core/shared-models/IPagedData';
@@ -42,7 +43,8 @@ export class TaskFormComponent {
     private apiService: ApiService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private defaultProjectService: DefaultProjectService
+    private defaultProjectService: DefaultProjectService,
+    private authService: AuthService
   ) {
     this.form = this.fb.group({
       id: [null],
@@ -57,6 +59,12 @@ export class TaskFormComponent {
       dueDate: [null],
       assigneeUserId: [null, Validators.required],
       reporterUserId: [null, Validators.required]
+    });
+
+
+    // Subscribe to changes on dueDate
+    this.form.get('dueDate')?.valueChanges.subscribe(value => {
+      this.calculateEstimatedTime();
     });
   }
 
@@ -99,6 +107,24 @@ export class TaskFormComponent {
       this.priorityList = data[1];
       this.assignee = data[2];
       this.reporters = data[2];
+      this.patchDefaultValues();
+    });
+  }
+
+
+  private patchDefaultValues() {
+    const currentDate = new Date();
+    const threeHoursLater = new Date(currentDate.getTime() + 3 * 60 * 60 * 1000);
+    const currentUserId = this.authService.GetAuthenticationData()?.userId; // Assuming AuthService has a method to get current user ID
+
+    this.form.patchValue({
+      statusId: this.statusList?.find(T => T.code === '1'), // Assuming 1 is the default status ID
+      priorityId: this.priorityList?.find(T => T.name === 'Major'),
+      startDate: currentDate,
+      dueDate: threeHoursLater,
+      estimatedTime: 3,
+      assigneeUserId: this.assignee?.find(T=>T.code.toLocaleLowerCase()===currentUserId?.toLocaleLowerCase()),
+      reporterUserId: this.reporters?.find(T=>T.code.toLocaleLowerCase()===currentUserId?.toLocaleLowerCase())
     });
   }
 
@@ -122,7 +148,7 @@ export class TaskFormComponent {
 
   ShowForm(): void {
     this.form.reset();
-    this.sharedData.dialogDisplay = true;    
+    this.sharedData.dialogDisplay = true;
   }
 
   ShowEditForm(selectedData: any): void {
@@ -145,6 +171,7 @@ export class TaskFormComponent {
       });
       this.sharedData.dialogDisplay = true;
     });
+
   }
   save() {
     const inputData: IIssues = this.form.value;
@@ -157,7 +184,7 @@ export class TaskFormComponent {
       inputData.assigneeUserId = formData.assigneeUserId.code;
       inputData.reporterUserId = formData.reporterUserId.code;
       inputData.projectId = this.defaultProjectService.getDefaultProjectId();
-      if (formData.id) {        
+      if (formData.id) {
         this.apiService.updateTask(inputData).subscribe(data => {
           // this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
           Swal.fire({
@@ -205,6 +232,20 @@ export class TaskFormComponent {
 
       }
     });
+  }
+
+  private calculateEstimatedTime() {
+    const startDate = new Date(this.form.get('startDate')?.value);
+    const dueDate = new Date(this.form.get('dueDate')?.value);
+
+    if (startDate && dueDate) {
+      const diffInMs = dueDate.getTime() - startDate.getTime();
+      const diffInHours = diffInMs / (1000 * 60 * 60);
+
+      this.form.patchValue({
+        estimatedTime: (diffInHours>0)?diffInHours.toFixed(2):0
+      });
+    }
   }
 
   cancel() {

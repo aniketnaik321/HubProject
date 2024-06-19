@@ -1,5 +1,6 @@
 export const environment = {
   // ApiURL:"http://localhost:5233/api"
-     ApiURL:"https://app.globalsoftsuite.xyz/pm_backend/api"
+     ApiURL:"https://app.globalsoftsuite.xyz/pm_backend/api",
+     SignarlRHub:"https://app.globalsoftsuite.xyz/pm_backend/chathub"
     };
     

@@ -8,7 +8,8 @@ namespace ApiHub.API.Hubs
     {
         public async Task SendMessageToUser(string userId, string message)
         {
-            await Clients.User(userId).SendAsync("ReceiveMessage", message);
+            //  await Clients.User(userId).SendAsync("ReceiveMessage", message);
+            await Clients.All.SendAsync("ReceiveMessage", message);
         }
     }
 }

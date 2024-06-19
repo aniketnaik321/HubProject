@@ -31,8 +31,7 @@ export class AppComponent {
      
     // On success, we should be able to receive notifications
     PushNotifications.addListener('registration',
-      (token: PushNotificationToken) => {
-        alert('Push registration success, token: ' + token.value);
+      (token: PushNotificationToken) => {        
         console.log('Registration token: ', token.value);
       }
     );

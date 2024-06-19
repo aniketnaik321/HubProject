@@ -77,7 +77,7 @@
                     </label>
 
                     <div class="col-12">
-                        <input pInputText class="p-inputtext-sm" type="number" formControlName="estimatedTime"
+                        <input pInputText class="p-inputtext-sm" readonly="true" type="number" formControlName="estimatedTime"
                             [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('estimatedTime')}">
                             <div class="text-danger" *ngIf="isControlInvalid('assigneeUserId')">
                                 Estimated Time is required.
@@ -85,14 +85,7 @@
                     </div>
                 </div>
 
-                <div class="p-field col-md-6 col-sm-12">
-                    <label for="endDate">Status</label>
-                    <div class="col-12">
-                        <p-dropdown appendTo="body" formControlName="statusId" [options]="statusList"
-                            optionLabel="name" placeholder="Select Status"></p-dropdown>
-                    </div>
-                </div>
-
+                
                 <div class="p-field col-md-6 col-sm-12">
                     <label for="priority">Priority</label>
                     <div class="col-12">
@@ -100,6 +93,15 @@
                             optionLabel="name" placeholder="Select Priority"></p-dropdown>
                     </div>
                 </div>
+
+                <div class="p-field col-md-6 col-sm-12">
+                    <label for="endDate">Status</label>
+                    <div class="col-12">
+                        <p-dropdown appendTo="body"  formControlName="statusId"  [disabled]="true" [options]="statusList"
+                            optionLabel="name" placeholder="Select Status"></p-dropdown>
+                    </div>
+                </div>
+
             </div>
 
             <div class="p-template-footer float-end inline-block fixed-bottom">

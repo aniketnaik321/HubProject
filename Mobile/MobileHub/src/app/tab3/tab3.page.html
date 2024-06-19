@@ -1,24 +1,64 @@
 
 <!-- dashboard.page.html -->
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Task List</ion-title>
-  </ion-toolbar>
+<ion-header>
+  <app-header [title]="'Dashboard'"></app-header>
 </ion-header>
 
 <ion-content>
-  <!-- <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350"> -->
-  <ion-list>
-      <ion-item *ngFor="let task of tasks">
-        <ion-card [style.background-color]="task.color">
-          <ion-card-header>
-            <ion-card-title>{{ task.title }}</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>           
-          </ion-card-content>
-        </ion-card>
-      </ion-item>   
-  </ion-list>
-<!-- </cdk-virtual-scroll-viewport> -->
+  <div class="row">
+    <div class="col-md-6 col-xxl-3" *ngFor="let project of tableData">
+      <ion-card class="project-card">
+        <ion-card-header>
+          <div class="row">
+            <div class="col-10">
+              <h4 class="mt-0">
+                <a [routerLink]="['/hrlite/projectdetails', project.id]" class="text-title">{{ project.projectName }}</a>
+              </h4>
+            </div>
+            <div class="col-2">
+              <ion-button fill="clear" size="small"   (click)="toggleDropdown(project)">
+                <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+               
+              </ion-button>
+              <ion-popover *ngIf="project.showDropdown">
+                <ion-list>
+                  <ion-item button >
+                    <ion-icon name="pencil" slot="start"></ion-icon>
+                    Edit
+                  </ion-item>
+                  <ion-item button>
+                    <ion-icon name="trash" slot="start"></ion-icon>
+                    Delete
+                  </ion-item>
+                </ion-list>
+              </ion-popover>
+            </div>
+          </div>
+          <ion-badge [color]="getBadgeColor(project.completionStatus! )">{{ getBadgeText(project.completionStatus!) }}</ion-badge>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p class="text-muted font-13 my-1 clamped-text">{{ project.description }}</p>
+          <p class="mb-1">
+            <span class="pe-2 text-nowrap mb-2 d-inline-block">
+              <ion-icon name="list" class="text-muted"></ion-icon>
+              <b class="ms-1">{{ project.issuesCount }}</b> Tasks
+            </span>
+          </p>
+          <div>
+            <span>Start Date:</span><strong>{{ project.startDate | date }} </strong><br>
+            <span>Completion Date:</span><strong>{{ project.endDate | date }} </strong>
+          </div>
+        </ion-card-content>
+
+        <ion-item lines="none">
+          <div slot="start" class="fw-bold">Progress</div>
+          <div slot="end">{{ project.completionStatus | number: '1.2-2' }}%</div>
+        </ion-item>
+        <ion-progress-bar [ariaValueMin]="0" [ariaValueMax]="100" value="{{ project.completionStatus!/100 }}"></ion-progress-bar>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
+
 

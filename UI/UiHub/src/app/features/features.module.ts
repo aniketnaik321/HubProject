@@ -44,6 +44,8 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TagModule } from 'primeng/tag';
 import { FaqComponent } from './faq/faq.component';
+import { FileUploadModule } from 'primeng/fileupload';
+
 
 
 @NgModule({
@@ -91,6 +93,7 @@ import { FaqComponent } from './faq/faq.component';
     InputTextareaModule,
     EditorModule,
     TagModule,
+    FileUploadModule,
     FullCalendarModule // register FullCalendar with your app
   ],
   providers: [MessageService,ConfirmationService,AuthGuard]

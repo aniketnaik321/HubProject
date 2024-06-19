@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 
 import { Tab1Page } from './tab1.page';
+import { HeaderModule } from "../components/header/header.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    Tab1PageRoutingModule
-  ],
-  declarations: [Tab1Page]
+    declarations: [Tab1Page],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        Tab1PageRoutingModule,
+        HeaderModule
+    ]
 })
 export class Tab1PageModule {}

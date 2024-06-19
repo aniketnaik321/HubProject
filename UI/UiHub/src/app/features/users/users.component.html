@@ -3,8 +3,7 @@
         <div class="col-12">
             <div class="page-title-box">
                 <div class="page-title-right">
-                    <p-button (click)="ShowForm()" label="ADD" icon="pi pi-plus-circle" styleClass="btn-primary btn-md"
-                        [disabled]="true"></p-button>
+                    <p-button (click)="ShowForm()" label="ADD" icon="pi pi-plus-circle" styleClass="btn-primary btn-md"></p-button>
                 </div>
                 <h4 class="page-title">Users List</h4>
             </div>
@@ -73,38 +72,60 @@
     </ng-template>
 
     <form [formGroup]="form" (ngSubmit)="save()">
-        <div class="p-fluid">
-
+        <div class="p-fluid form-grid">
             <div class="p-field">
-                <label>UserName</label>
-                <input pInputText class="p-inputtext-sm" id="UserName" type="text" formControlName="UserName"
-                    [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('UserName')}">
+                <label for="UserName">User Name</label>
+                <input pInputText class="p-inputtext-sm" id="UserName" type="text" formControlName="UserName" [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('UserName')}">
                 <div class="text-danger" *ngIf="isControlInvalid('UserName')">
                     Name is required.
                 </div>
             </div>
             <div class="p-field">
-                <label>FullName</label>
+                <label for="FullName">Full Name</label>
                 <input pInputText class="p-inputtext-sm" id="FullName" type="text" formControlName="FullName">
             </div>
             <div class="p-field">
-                <label>EmailId</label>
+                <label for="EmailId">Email Id</label>
                 <input pInputText class="p-inputtext-sm" id="EmailId" type="text" formControlName="EmailId">
-                <div class="text-danger" *ngIf="isControlInvalid('typeId')">
+                <div class="text-danger" *ngIf="isControlInvalid('EmailId')">
                     Value type is required.
                 </div>
             </div>
-
-
+            <div class="p-field">
+                <label for="photo">Photo</label>
+                <p-fileUpload name="photo[]" url="./upload" (onUpload)="onUpload($event)" accept="image/*" [auto]="true"></p-fileUpload>
+                <div *ngIf="photoUrl">
+                    <img [src]="photoUrl" alt="Uploaded Photo" class="uploaded-photo">
+                </div>
+            </div>
 
             <div class="p-template-footer float-end inline-block">
-                <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md"
-                    [text]="true" [raised]="true" severity="secondary"></p-button>
-                <!-- <p-button icon="pi pi-times" label="Cancel" styleClass="rounded-3 btn-default btn-sm"  (click)="cancel()"  [text]="true" [raised]="true" severity="danger"></p-button>
-           -->
+                <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md" [text]="true" [raised]="true" severity="secondary"></p-button>
+                <!-- <p-button icon="pi pi-times" label="Cancel" styleClass="rounded-3 btn-default btn-sm"  (click)="cancel()"  [text]="true" [raised]="true" severity="danger"></p-button> -->
             </div>
         </div>
     </form>
+    
+    <style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .form-grid .p-field {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .p-template-footer {
+        grid-column: span 2;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1rem;
+    }
+    </style>
+    
 </p-dialog>
 
 <p-toast></p-toast>

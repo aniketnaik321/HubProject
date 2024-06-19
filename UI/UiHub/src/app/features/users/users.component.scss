@@ -9,3 +9,29 @@ label{
 .pointer{
     cursor: pointer !important;
 }
+
+.p-dialog-content {
+    position: relative !important;
+    height: auto!important;
+    margin-bottom: 4rem !important;
+}
+
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.form-grid .p-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.p-template-footer {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
