@@ -7,15 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { Tab2PageRoutingModule } from './tab2-routing.module';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Tab2Page } from './tab2.page';
+import { HeaderModule } from "../components/header/header.module";
+
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    Tab2PageRoutingModule,
-    ScrollingModule
-  ],
-  declarations: [Tab2Page]
+    declarations: [Tab2Page],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        Tab2PageRoutingModule,
+        ScrollingModule,
+        HeaderModule
+        
+    ]
 })
 export class Tab2PageModule {}

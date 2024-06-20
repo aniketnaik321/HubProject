@@ -9,6 +9,8 @@ export interface ILoginModel {
     refreshToken: string | null;
     token: string;
     emailId: string;
+    totalNotifications:number,
+    totalMessages:number,
     userProfiles: IUserProfile[] | null;
     roles: string[] | null;
   }

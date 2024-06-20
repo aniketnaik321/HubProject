@@ -21,6 +21,9 @@ namespace ApiHub.Service.DTO
         [Parameter]
         public string? UserComment { get; set; }
 
+        [JsonIgnore]
+        public string? DeviceToken { get; set; }
+
     }
 
 

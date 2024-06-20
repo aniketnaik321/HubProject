@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ApiHub.Service.Attributes;
+using ApiHub.Service.Constants;
+using ApiHub.Service.DTO;
 using ApiHub.Service.DTO.Common;
 using ApiHub.Service.Services.Contracts;
 using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Logging;
+
 using Microsoft.AspNetCore.Builder.Extensions;
-using Serilog.Core;
+using Serilog;
 
 namespace ApiHub.Service.Services.Implementations
 {
@@ -18,16 +20,13 @@ namespace ApiHub.Service.Services.Implementations
 
     public class PushNotificationService: IPushNotificationService
     {
-        private readonly FirebaseApp _firebaseApp;
+        
         private readonly ILogger _logger;
-
-        public PushNotificationService()
-        {
-            _firebaseApp = FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile("firebase_account.json"),
-            });
-         
+        private readonly IDbService _dbService;
+        public PushNotificationService(ILogger logger, IDbService dbService)
+        {          
+            this._logger = logger;
+            this._dbService = dbService;
         }
 
         public async Task SendPushNotificationAsync(DtoNotificationMessage input)
@@ -38,7 +37,9 @@ namespace ApiHub.Service.Services.Implementations
                 Notification = new Notification()
                 {
                     Title = input.Title,
-                    Body = input.Message
+                    Body = input.Message,
+                    ImageUrl= "https://picsum.photos/200/100"
+
                 },
             //    Data = new Dictionary<string, string>()
             //{
@@ -49,8 +50,21 @@ namespace ApiHub.Service.Services.Implementations
 
             string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
 
-           // _logger.Info("Successfully sent message: " + response);
+            //Log the notification
+            await _dbService.CallProcedure<DtoNotificationLogRequest>(new DtoNotificationLogRequest()
+            {
+                DeviceToken = input.DeviceToken,
+                UserId = input.userId,
+                NotificationText = input.Message,
+                NotificationTitle = input.Title
+            }, AppConstants.PROC_LOG_NOTIFICATION);
+            
           //  Console.WriteLine("Successfully sent message: " + response);
+        }
+
+        public async Task<DtoPagedResponse<DtoNotificationResponse>> GetNotificationList(DtoPageRequest request)
+        {
+            return await _dbService.GetPaginatedResultset<DtoNotificationResponse>(request, AppConstants.PROC_GETNOTIFICATIONS);
         }
     }
 

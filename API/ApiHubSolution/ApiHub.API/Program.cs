@@ -5,14 +5,18 @@ using ApiHub.API.Middleware;
 using ApiHub.Domain.Models;
 using ApiHub.Service;
 using ApiHub.Service.MappingProfiles;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Text;
+using ILogger = Serilog.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,7 +106,15 @@ builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfiles>(),
 // Initialize Serilog logger with the configuration
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
-    .CreateLogger();
+.CreateLogger();
+
+
+builder.Services.AddSingleton(typeof(ILogger), Log.Logger);
+
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromFile("firebase_account.json"),
+});
 
 
 builder.Services.AddSingleton<

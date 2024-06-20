@@ -1,4 +1,5 @@
-﻿using ApiHub.Service.DTO.Common;
+﻿using ApiHub.Service.DTO;
+using ApiHub.Service.DTO.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace ApiHub.Service.Services.Contracts
     public interface IPushNotificationService
     {
         Task SendPushNotificationAsync(DtoNotificationMessage input);
+        Task<DtoPagedResponse<DtoNotificationResponse>> GetNotificationList(DtoPageRequest request);
     }
 }

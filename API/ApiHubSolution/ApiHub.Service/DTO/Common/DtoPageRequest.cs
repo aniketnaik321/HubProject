@@ -23,6 +23,10 @@ namespace ApiHub.Service.DTO.Common
         [Parameter]
         public string? OrderByKey { get; set; }
 
+        [Parameter]
+        [JsonIgnore]
+        public string? UserId { get; set; }
+
         public int? SortDirection { set
             {
                 if (value == 1)

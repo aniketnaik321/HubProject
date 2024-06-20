@@ -20,6 +20,10 @@ namespace ApiHub.Service.Constants
         public const string PROC_UPDATE_USER_STATUS = "UpdateUserStatus";
         public const string PROC_FAQ_LIST = "PM_FaqList";
         public const string PROC_UPDATE_DEVICE_TOKEN = "UpdateDeviceToken";
+        public const string PROC_GET_NOTIFICATION_TEMPLATE = "PM_GetNotificationTemplate";
+        public const string PROC_GET_DEVICE_TOKEN= "PM_GetDeviceToken";
+        public const string PROC_GETNOTIFICATIONS = "PM_GetNotificationList";
+        public const string PROC_LOG_NOTIFICATION= "PM_LogNotification";
 
         //Messages
         public const string SAVE_SUCCESS = "Record has been saved";
@@ -31,5 +35,10 @@ namespace ApiHub.Service.Constants
         public const string LOOKUP_USERS = "USERS_LOOKUP";
         public const string LOOKUP_PROJECTS = "PROJECT_LOOKUP";
         public const string LOOKUP_ISSUES= "ISSUE_LOOKUP";
+
+        //Template Codes
+        public const string T_TASK_ASSIGNED = "TASK_ASSIGNED";
+        public const string T_TASK_MOVED = "TASK_MOVED";
+
     }
 }

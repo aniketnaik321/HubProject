@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs/tabs-routing.module';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { HttpClientModule } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { HeaderModule } from './components/header/header.module';
+import { HeaderComponent } from './components/header/header.component';
 
 
 @NgModule({
@@ -22,7 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
     TabsPageRoutingModule,
     HttpClientModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },Storage],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

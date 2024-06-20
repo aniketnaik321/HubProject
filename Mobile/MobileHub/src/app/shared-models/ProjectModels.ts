@@ -93,3 +93,24 @@ export interface IProject {
   export interface IUser {
     // Define User properties here
   }
+
+  export interface IDeviceToken{
+    userId?:string,
+    deviceToken:string
+  }
+
+  export interface INotificationRequest{
+    isReadonly:boolean
+
+  }
+
+  export interface INotificationResponse {
+    id: number;
+    notificationTitle: string;
+    notificationText: string;
+    logTimeStamp: Date;
+    extra1: string;
+    extra2: string;
+    isRead: boolean;
+    readDateTime: Date | null;
+  }

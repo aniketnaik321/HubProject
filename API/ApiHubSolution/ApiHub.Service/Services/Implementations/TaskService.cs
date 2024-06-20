@@ -18,13 +18,15 @@ namespace ApiHub.Service.Services.Implementations
         private readonly IProjectRepository _projectRepository;
         private readonly IMapper _automapper;
         private readonly IDbService _dbService;
+        private readonly IPushNotificationService _pushNotificationService;
 
         public TaskService(
             ITaskRepository taskRepository,
             IMapper mapper,
             IDbService dbService,
             ICommentRepository commentRepository,
-            IProjectRepository projectRepository
+            IProjectRepository projectRepository,
+            IPushNotificationService pushNotificationService
             )
         {            
             _taskRepository = taskRepository;
@@ -32,6 +34,7 @@ namespace ApiHub.Service.Services.Implementations
             _automapper = mapper;
             _commentRepository = commentRepository;
             _projectRepository = projectRepository;
+            _pushNotificationService = pushNotificationService;
         }
 
         public async Task<DtoCommonReponse> Create(DtoIssues input)
@@ -85,8 +88,28 @@ namespace ApiHub.Service.Services.Implementations
             return await _dbService.GetDataLookupResults(AppConstants.LOOKUP_ISSUES);
         }
         public async Task<DtoCommonReponse> UpdateTaskStatus(DtoStatusUpdateRequest input)
-        {                   
-            return await _dbService.CallProcedure(input, AppConstants.PROC_UPDATE_STATUS);
+        {
+            var result= await _dbService.CallProcedure(input, AppConstants.PROC_UPDATE_STATUS);
+            var template = (await this._dbService.GetListFromProcedure<DtoNotificationTemplateResponse, DtoNotificationTemplateRequest>(new DtoNotificationTemplateRequest()
+            {
+                TemplateCode = AppConstants.T_TASK_MOVED
+            }, Constants.AppConstants.PROC_GET_NOTIFICATION_TEMPLATE)).FirstOrDefault();
+
+            var userToken = (await this._dbService.GetListFromProcedure<DtoDeviceTokenResponse, DtoDeviceTokenRequest>(new DtoDeviceTokenRequest()
+            {
+                UserId=input.UserId!.Value
+            }, Constants.AppConstants.PROC_GET_DEVICE_TOKEN)).FirstOrDefault();
+
+            await  _pushNotificationService.SendPushNotificationAsync(new DtoNotificationMessage()
+            {
+                Message = template.TemplateString,
+                Title = template.Title,
+                DeviceToken=userToken.DeviceTokens,
+                userId=input.UserId.ToString()
+            });
+
+            return result;
+
         }
         public async Task<List<DtoUserComment>> LoadComments(DtoPostCommentRequest input)
         {

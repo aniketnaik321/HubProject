@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //ApiURL:"http://localhost:5233/api"
-  ApiURL:"https://app.globalsoftsuite.xyz/pm_backend/api"
+ // ApiURL:"http://localhost:5233/api"
+ApiURL:"https://app.globalsoftsuite.xyz/pm_backend/api"
 };
 
 /*

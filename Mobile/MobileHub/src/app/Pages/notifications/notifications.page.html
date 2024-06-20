@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+ <app-header [title]="'Notifications'"></app-header>
+</ion-header>
+
+<ion-content>
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-list>
+      <ion-item *cdkVirtualFor="let item of notifications">
+        <ion-avatar slot="start">
+          <ion-icon name="checkmark-done-outline" color="primary" size="large"></ion-icon>
+        </ion-avatar>
+        <ion-label>
+          <h2>{{ item.notificationTitle }}</h2>
+          <p>{{ item.notificationText }}</p>
+          <p>{{ item.logTimeStamp | date: 'short' }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more notifications...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

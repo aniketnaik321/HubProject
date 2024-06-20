@@ -97,4 +97,8 @@ export class Tab3Page implements OnInit {
     await this.loadingCtrl.dismiss();
   }
 
+  add(){
+    this.apiService.addNotification();
+  }
+
 }

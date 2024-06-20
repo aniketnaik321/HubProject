@@ -29,7 +29,8 @@ namespace ApiHub.Service.DTO
         public virtual ICollection<DtoIssues> Issues { get; set; } = new List<DtoIssues>();
     }
 
-    public class DtoIssues {
+    public class DtoIssues
+    {
         public int? Id { get; set; }
 
         public Guid? ProjectId { get; set; }
@@ -75,7 +76,7 @@ namespace ApiHub.Service.DTO
         public virtual Project? Project { get; set; }
 
         public virtual Status? Status { get; set; }
-        
+
     }
 
     public partial class DtoUserComment
@@ -118,7 +119,7 @@ namespace ApiHub.Service.DTO
 
         public string? DocumentUrl { get; set; }
 
-       
+
 
         public Guid? ProjectId { get; set; }
 
@@ -143,6 +144,70 @@ namespace ApiHub.Service.DTO
         public string UserId { get; set; }
         [Parameter]
         public string DeviceToken { get; set; }
+    }
+
+    public class DtoNotificationTemplateRequest
+    {
+        [Parameter]
+        public string TemplateCode { get; set; }
+
+    }
+
+    public class DtoNotificationTemplateResponse
+    {
+
+        public string Id { get; set; }
+        public string TemplateString { get; set; }
+        public string Title { get; set; }
+
+    }
+
+    public class DtoDeviceTokenRequest
+    {
+        [Parameter]
+        public Guid UserId { get; set; }
+
+    }
+
+    public class DtoDeviceTokenResponse
+    {
+
+
+        public string DeviceTokens { get; set; }
+
+
+    }
+
+    public class DtoNotificationResponse
+    {
+    
+        public int Id { get; set; }
+        public string NotificationTitle { get; set; }
+        public string NotificationText { get; set; }
+       
+        public DateTime LogTimeStamp { get; set; }
+        public string Extra1 { get; set; }
+        public string Extra2 { get; set; }
+        public bool IsRead { get; set; }
+        public DateTime? ReadDateTime { get; set; }
+    
+
+}
+
+    public class DtoNotificationLogRequest
+    {
+        [Parameter]
+        public string NotificationTitle { get; set; }
+        [Parameter]
+        public string NotificationText { get; set; }
+        [Parameter]
+        public string UserId { get; set; }
+        [Parameter]
+        public string DeviceToken { get; set; }
+        [Parameter]
+        public string Extra1 { get; set; }
+        [Parameter]
+        public string Extra2 { get; set; }
     }
 
 

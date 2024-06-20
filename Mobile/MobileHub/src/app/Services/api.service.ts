@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ILoginModel, IResetPasswordModel, IChangePasswordModel, IResetResetLinkRequest } from '../shared-models/IAccountModels';
 import { ICommonResponse } from '../shared-models/ICommonResponse';
@@ -8,7 +8,7 @@ import { ILookupList } from '../shared-models/ILookupItem';
 import { IPagedData } from '../shared-models/IPagedData';
 import { IUserService } from '../shared-models/IUserService';
 import { IPagedRequest, IPagedRequestWithoutFilters } from '../shared-models/PagedFilterRequest';
-import { IProject, IIssues, IIssueRequest, IUserComment, IComment, IStatusUpdateRequest } from '../shared-models/ProjectModels';
+import { IProject, IIssues, IIssueRequest, IUserComment, IComment, IStatusUpdateRequest, IDeviceToken, INotificationRequest, INotificationResponse } from '../shared-models/ProjectModels';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,23 @@ import { IProject, IIssues, IIssueRequest, IUserComment, IComment, IStatusUpdate
 export class ApiService {
   private baseUrl =  environment.ApiURL;
 
-  constructor(private http: HttpClient) {}
+  deviceToken:string='';
 
+  private notificationCount = new BehaviorSubject<number>(0);
+  constructor(private http: HttpClient) {}
+   // Increment the count
+   addNotification() {
+    this.notificationCount.next(this.notificationCount.value + 1);
+  }
+
+
+  resetNotification() {
+    this.notificationCount.next(0);
+  }
+
+  getNotificationCount() {
+    return this.notificationCount.asObservable();
+  }
 
   ///************************************************************ */
   //  USER ACCOUNT MANAGMENT
@@ -227,4 +242,29 @@ getTaskById(id: number): Observable<IIssues> {
         catchError(this.handleError)
       );
   }
+
+  updateDeviceToken(data:IDeviceToken): Observable<ICommonResponse> {
+    return this.http.post<ICommonResponse>(this.baseUrl + '/Users/UpdateDeviceToken',data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  
+
+  getNotifications(data:IPagedRequest): Observable<IPagedData<INotificationResponse>> {
+    return this.http.post<IPagedData<INotificationResponse>>(this.baseUrl + '/Users/GetNotificationList',data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  setDeviceToken(data:string) {
+   this.deviceToken=data;
+  }
+
+  getDeviceToken() {
+    return this.deviceToken;
+   }
 }

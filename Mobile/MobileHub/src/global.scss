@@ -131,6 +131,34 @@ body {
   }
 
   .header-logo {
-	height: 40px; /* Adjust the height as needed */
+	height: 30px; /* Adjust the height as needed */
 	width: auto;
   }
+
+
+  /* src/app/app.component.scss or global styles */
+.custom-toast {
+	--background: rgba(20, 89, 199, 0.8);
+	color: white;
+	border-radius: 5px;
+	text-align: left;
+  }
+  
+  .custom-toast ion-icon {
+	font-size: 20px;
+	vertical-align: middle;
+	margin-right: 8px;
+  }
+  
+  .custom-toast strong {
+	font-weight: bold;
+	font-size: 16px;
+  }
+  
+  .custom-toast small {
+	font-weight: lighter;
+	font-size: 12px;
+	display: block;
+	margin-top: 4px;
+  }
+  

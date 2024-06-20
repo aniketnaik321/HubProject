@@ -1,12 +1,9 @@
-.header-logo {
-    height: 40px; /* Adjust the height as needed */
-    width: auto;
-  }
+
 
   .notification-badge {
     position: absolute;
-    top: -4px; /* Adjust as needed to align with the top edge */
-    right: -4px; /* Adjust as needed to align with the right edge */
+    top: -7px; /* Adjust as needed to align with the top edge */
+    right: -6px; /* Adjust as needed to align with the right edge */
     font-size: 0.8em; /* Adjust font size if necessary */
     min-width: unset; /* Ensures badge width adjusts to content */
     padding: 0.2em 0.5em; /* Adjust padding to fit content */

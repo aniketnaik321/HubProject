@@ -37,6 +37,8 @@ namespace ApiHub.API.Controllers
             return "value";
         }
 
+
+
         // POST api/<ProjectController>
         [HttpPost]
         public void Post([FromBody] DtoProject project)
@@ -48,6 +50,12 @@ namespace ApiHub.API.Controllers
         public void PostNotification([FromBody] DtoNotificationMessage input)
         {
             _notificationService.SendPushNotificationAsync(input);
+        }
+
+        [HttpPost("GetNotificationList")]
+        public async Task<IActionResult> GetNotifications([FromBody] DtoPageRequest input)
+        {
+            return Ok(await _notificationService.GetNotificationList(input));
         }
 
         [HttpPost("UpdateUserStatus")]

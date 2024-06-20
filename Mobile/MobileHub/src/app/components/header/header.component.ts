@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from 'src/app/Services/api.service';
 
 @Component({
   selector: 'app-header',
@@ -8,16 +9,25 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent  implements OnInit {
   @Input() title: string='';
-  @Input()  notificationCount:number=5;
+  @Input()  notificationCount:number=0;
+  @Input()  messageCount:number=0;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private apiService:ApiService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.apiService.getNotificationCount().subscribe(count => {
+      this.notificationCount = count;
+    });
+  }
+
+  goBack() {
+    history.back();
+  }
 
   
   onNotificationClick() {
     // Handle notification click
-    console.log('Notification icon clicked');
+    this.router.navigate(['/notifications']);
   }
 
   onMessagingClick() {

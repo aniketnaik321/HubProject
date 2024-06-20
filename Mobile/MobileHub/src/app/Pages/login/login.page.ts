@@ -4,6 +4,7 @@ import { LoadingController } from '@ionic/angular';
 import { ApiService } from 'src/app/Services/api.service';
 import { AuthService } from 'src/app/Services/auth.service';
 import { ILoginModel } from 'src/app/shared-models/IAccountModels';
+import { IDeviceToken } from 'src/app/shared-models/ProjectModels';
 
 @Component({
   selector: 'app-login',
@@ -50,7 +51,15 @@ export class LoginPage implements OnInit {
       next: (data) => {
         this.isDataLoaded = true;
         if (data.statusCode === 200) {
+          const input: IDeviceToken = {
+            deviceToken: this.apiService.getDeviceToken(),
+            userId: data.data.userId
+          }
           this.authService.SaveAuthenticationData(data.data)
+          this.apiService.updateDeviceToken(input).subscribe(t => {
+           console.log("Toekn updated");
+
+          })
           this.router.navigate(['/tabs']);
         } else {
           alert("Invalid username or password");
