@@ -40,7 +40,7 @@ export class TaskBoardComponent {
       userComment: [null],
       issueId: [null, Validators.required],
       statusId: [null, Validators.required],
-      assigneeId: [null]
+      userId: [null, Validators.required]
     });
   }
 
@@ -140,6 +140,7 @@ export class TaskBoardComponent {
     if (this.form.valid) {
       const formData = this.form.value;
       data.statusId = Number(formData.statusId.code);
+      data.userId = formData.userId.code;
       this.apiService.updateTaskStatus(data).subscribe({
         next: (data) => {
           if (data.statusCode === 200) {

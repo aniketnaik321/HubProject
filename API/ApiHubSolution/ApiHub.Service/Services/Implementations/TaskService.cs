@@ -89,23 +89,23 @@ namespace ApiHub.Service.Services.Implementations
         }
         public async Task<DtoCommonReponse> UpdateTaskStatus(DtoStatusUpdateRequest input)
         {
+            //STEP 1: Get Template
             var result= await _dbService.CallProcedure(input, AppConstants.PROC_UPDATE_STATUS);
-            var template = (await this._dbService.GetListFromProcedure<DtoNotificationTemplateResponse, DtoNotificationTemplateRequest>(new DtoNotificationTemplateRequest()
+            var messageResult = (await this._dbService.GetListFromProcedure<DtoPushNotificationResponse, DtoMovementNotificationRequest>(new DtoMovementNotificationRequest()
             {
-                TemplateCode = AppConstants.T_TASK_MOVED
-            }, Constants.AppConstants.PROC_GET_NOTIFICATION_TEMPLATE)).FirstOrDefault();
+                UserId = input.ActionUserId.Value,
+                IssueId =input.IssueId,                
+                AssigneeUserId=input.UserId.Value
 
-            var userToken = (await this._dbService.GetListFromProcedure<DtoDeviceTokenResponse, DtoDeviceTokenRequest>(new DtoDeviceTokenRequest()
-            {
-                UserId=input.UserId!.Value
-            }, Constants.AppConstants.PROC_GET_DEVICE_TOKEN)).FirstOrDefault();
+            }, Constants.AppConstants.PROC_MOVEMENT_NOTIFICATION)).FirstOrDefault();
+
 
             await  _pushNotificationService.SendPushNotificationAsync(new DtoNotificationMessage()
             {
-                Message = template.TemplateString,
-                Title = template.Title,
-                DeviceToken=userToken.DeviceTokens,
-                userId=input.UserId.ToString()
+                Message = messageResult.Message,
+                Title = messageResult.Title,
+                DeviceToken= messageResult.DeviceToken,
+                userId=input.ActionUserId.ToString()
             });
 
             return result;

@@ -38,6 +38,7 @@ export interface IProject {
   export interface IIssueRequest{
       statusId: number;
       issueId: number;
+      userId: string;
       userComment:string;
   }
 

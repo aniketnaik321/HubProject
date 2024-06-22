@@ -162,6 +162,33 @@ namespace ApiHub.Service.DTO
 
     }
 
+    public class DtoMovementNotificationRequest
+    {
+
+        [Parameter]
+        public Guid UserId { get; set; }
+      
+        [Parameter]
+        public int IssueId { get; set; }
+
+        [Parameter]
+        public Guid AssigneeUserId { get; set; }
+
+
+
+
+    }
+
+    public class DtoPushNotificationResponse
+    {
+
+        public string Title { get; set; }
+        public string Message { get; set; }
+        public Guid UserId { get; set; }
+        public string DeviceToken { get; set; }
+
+    }
+
     public class DtoDeviceTokenRequest
     {
         [Parameter]

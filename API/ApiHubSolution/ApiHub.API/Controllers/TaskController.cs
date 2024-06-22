@@ -66,7 +66,7 @@ namespace ApiHub.API.Controllers
         [HttpPost("updateStatus")]
         public async Task<IActionResult> UpdateStatus([FromBody] DtoStatusUpdateRequest data)
         {
-            data.UserId= Guid.Parse(GetUserId());
+            data.ActionUserId= Guid.Parse(GetUserId());
             return PreparePostResponse(await _taskService.UpdateTaskStatus(data));
         }
 

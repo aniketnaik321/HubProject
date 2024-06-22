@@ -24,6 +24,8 @@ namespace ApiHub.Service.Constants
         public const string PROC_GET_DEVICE_TOKEN= "PM_GetDeviceToken";
         public const string PROC_GETNOTIFICATIONS = "PM_GetNotificationList";
         public const string PROC_LOG_NOTIFICATION= "PM_LogNotification";
+        public const string PROC_MOVEMENT_NOTIFICATION = "PM_GetMovementNotificationData";
+       
 
         //Messages
         public const string SAVE_SUCCESS = "Record has been saved";

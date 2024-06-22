@@ -23,7 +23,7 @@
           <button type="button" class="btn btn-link text-muted"><i class="dripicons-checklist"></i></button>
         </div>
         <div class="btn-group mb-3 d-none d-sm-inline-block">
-          <p-button label="Add Task" (click)="ShowTaskForm(true)" icon="pi pi-plus "></p-button>
+          <p-button  (click)="ShowTaskForm(true)" icon="pi pi-plus"></p-button>
         </div>
         
       </div>
@@ -120,7 +120,7 @@
       <div class="p-field col-md-6 col-sm-12">
         <label for="endDate">Assignee</label>
         <div class="col-12">
-          <p-dropdown appendTo="body" formControlName="assigneeId" [options]="assignee" optionLabel="name"
+          <p-dropdown appendTo="body" formControlName="userId" [options]="assignee" optionLabel="name"
             placeholder="Select Assignee"></p-dropdown>
         </div>
       </div>

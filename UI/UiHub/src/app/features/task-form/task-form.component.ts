@@ -55,7 +55,7 @@ export class TaskFormComponent {
       priorityId: [null, Validators.required],
       statusId: [null, Validators.required],
       startDate: [null, Validators.required],
-      estimatedTime: [null, Validators.required],
+      estimatedTime: [0, Validators.required],
       dueDate: [null],
       assigneeUserId: [null, Validators.required],
       reporterUserId: [null, Validators.required]
@@ -183,6 +183,7 @@ export class TaskFormComponent {
       inputData.statusId = formData.statusId.code;
       inputData.assigneeUserId = formData.assigneeUserId.code;
       inputData.reporterUserId = formData.reporterUserId.code;
+      inputData.estimatedTime= Number(formData.estimatedTime);
       inputData.projectId = this.defaultProjectService.getDefaultProjectId();
       if (formData.id) {
         this.apiService.updateTask(inputData).subscribe(data => {

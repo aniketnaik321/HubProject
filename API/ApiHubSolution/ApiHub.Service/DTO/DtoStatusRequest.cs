@@ -15,8 +15,11 @@ namespace ApiHub.Service.DTO
         public int IssueId { get; set; }
 
         [Parameter]
-        [JsonIgnore]
         public Guid? UserId { get; set; }
+
+       
+        [JsonIgnore]
+        public Guid? ActionUserId { get; set; }
 
         [Parameter]
         public string? UserComment { get; set; }
