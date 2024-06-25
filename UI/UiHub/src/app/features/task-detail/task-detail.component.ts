@@ -22,6 +22,7 @@ export class TaskDetailComponent {
   statusList?: ILookupItem[];
   priorityList?: ILookupItem[];
   assignee?: ILookupItem[];
+  uploadedFile: any;
   reporters?: ILookupItem[];
   records: any[] = []; // Your recordset
 
@@ -77,17 +78,49 @@ export class TaskDetailComponent {
   }
 
   PostComment(){
-    const request: IComment={
-      userComment:this.comment,
-      issueId:this.selectedData?.id    
-    };
 
-    this.apiService.postTaskComment(request).subscribe((data: any) => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
-      this.LoadComments(this.selectedData?.id);
-      this.comment='';
-    });
 
+    const formData: FormData = new FormData();
+    formData.append('userComment', this.comment);
+    formData.append('issueId', this.selectedData!.id?.toString());
+      formData.append('file', this.uploadedFile, this.uploadedFile.name);
+   
+    this.apiService.postTaskComment(formData).subscribe(
+      (data: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
+        this.LoadComments(this.selectedData?.id);
+        this.comment = '';
+        this.uploadedFile = null;
+      },
+      (error) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to post comment' });
+      }
+    );
+
+
+
+    // const request: IComment={
+    //   userComment:this.comment,
+    //   issueId:this.selectedData?.id,
+       
+    // };
+
+   
+    //   formData.append('files', file, file.name);
+    
+
+    // this.apiService.postTaskComment(request).subscribe((data: any) => {
+    //   this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
+    //   this.LoadComments(this.selectedData?.id);
+    //   this.comment='';
+    // });
+
+  }
+
+  onUpload(event: any): void {
+    
+      this.uploadedFile=event.files[0];
+    
   }
 
 }

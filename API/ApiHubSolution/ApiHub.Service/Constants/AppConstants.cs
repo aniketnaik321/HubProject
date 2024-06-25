@@ -25,7 +25,9 @@ namespace ApiHub.Service.Constants
         public const string PROC_GETNOTIFICATIONS = "PM_GetNotificationList";
         public const string PROC_LOG_NOTIFICATION= "PM_LogNotification";
         public const string PROC_MOVEMENT_NOTIFICATION = "PM_GetMovementNotificationData";
-       
+        public const string PROC_CREATE_ISSUE_DOCUMENT = "PM_CreateIssueDocument";
+        public const string PROC_GET_ISSUE_DOCUMENTs = "PM_GetDocumentList";
+
 
         //Messages
         public const string SAVE_SUCCESS = "Record has been saved";

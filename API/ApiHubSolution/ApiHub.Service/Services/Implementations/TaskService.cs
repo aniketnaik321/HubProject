@@ -91,7 +91,8 @@ namespace ApiHub.Service.Services.Implementations
         {
             //STEP 1: Get Template
             var result= await _dbService.CallProcedure(input, AppConstants.PROC_UPDATE_STATUS);
-            var messageResult = (await this._dbService.GetListFromProcedure<DtoPushNotificationResponse, DtoMovementNotificationRequest>(new DtoMovementNotificationRequest()
+            var messageResult = (await this._dbService.GetListFromProcedure<DtoPushNotificationResponse, DtoMovementNotificationRequest>
+                (new DtoMovementNotificationRequest()
             {
                 UserId = input.ActionUserId.Value,
                 IssueId =input.IssueId,                
@@ -105,7 +106,7 @@ namespace ApiHub.Service.Services.Implementations
                 Message = messageResult.Message,
                 Title = messageResult.Title,
                 DeviceToken= messageResult.DeviceToken,
-                userId=input.ActionUserId.ToString()
+                userId=input.UserId.ToString()
             });
 
             return result;
@@ -119,12 +120,30 @@ namespace ApiHub.Service.Services.Implementations
         {
             var data = _automapper.Map<Domain.Models.Comment>(input);
             data.EntryDate = DateTime.UtcNow;
-            await _commentRepository.CreateAsync(data);
+             await _commentRepository.CreateAsync(data);
+            if(input.File!=null)
+             await _dbService.CallProcedure<DtoIssuedDocument>(new DtoIssuedDocument() { 
+            IssueId=input.IssueId.Value,
+            CommentId=data.Id,
+            EncodedFileName=input.EncodedFileName??string.Empty,
+            FileName=input.File.FileName,
+            FileSize=input.File.Length,
+            UserId=input.UserId.Value
+
+            }, AppConstants.PROC_CREATE_ISSUE_DOCUMENT);
             return new DtoCommonReponse()
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
                 Message = AppConstants.POST_SUCCESS
             };
         }
+
+        public async Task<List<DtoIssuedDocument>> GetDocumentList(int issueId)
+        {
+            return await _dbService.GetListFromProcedure<DtoIssuedDocument, DtoIssueDocumentRequest>(new DtoIssueDocumentRequest() { 
+            issueId=issueId
+            }));
+        }
+
     }
 }

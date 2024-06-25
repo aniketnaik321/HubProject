@@ -158,8 +158,16 @@ getTaskComments(data?:IPagedRequestWithoutFilters): Observable<IUserComment[]> {
     );
 }
 
-postTaskComment(data?:IComment): Observable<ICommonResponse> {
-  return this.http.post<ICommonResponse>(this.baseUrl + '/Task/PostUserComments',data)
+// postTaskComment(data?:IComment): Observable<ICommonResponse> {
+//   return this.http.post<ICommonResponse>(this.baseUrl + '/Task/PostUserComments',data)
+//     .pipe(
+//       catchError(this.handleError)
+//     );
+// }
+
+
+postTaskComment(formData: FormData): Observable<any> {
+  return this.http.post<any>(`${this.baseUrl}/Task/PostUserComments`, formData)
     .pipe(
       catchError(this.handleError)
     );

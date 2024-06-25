@@ -48,6 +48,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 
 
 
+
 @NgModule({
   declarations: [
    AnalyticsComponent,
@@ -94,7 +95,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     EditorModule,
     TagModule,
     FileUploadModule,
-    FullCalendarModule // register FullCalendar with your app
+    FullCalendarModule // register FullCalendar with your app,
+    
   ],
   providers: [MessageService,ConfirmationService,AuthGuard]
 })

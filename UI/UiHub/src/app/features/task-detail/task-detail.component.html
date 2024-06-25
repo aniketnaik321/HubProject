@@ -73,8 +73,11 @@
                         id="example-textarea" rows="3" [(ngModel)]="comment"></textarea>
                     <div class="text-end">
                         <div class="btn-group mb-2">
-                            <button type="button" class="btn btn-link btn-sm text-muted font-18"><i
-                                    class="dripicons-paperclip"></i></button>
+
+                            <p-fileUpload mode="basic"  [auto]="true" (onSelect)="onUpload($event)" chooseLabel="Choose" chooseIcon="pi pi-upload" name="demo[]"
+                                 accept="image/*,.pdf,.doc,.docx,.zip"  />
+                            <!-- <button type="button" class="btn btn-link btn-sm text-muted font-18"><i
+                                    class="dripicons-paperclip"></i></button> -->
                         </div>
                         <div class="btn-group mb-2 ms-2">
                             <button type="button" (click)="PostComment()" class="btn btn-primary btn-sm">Submit</button>

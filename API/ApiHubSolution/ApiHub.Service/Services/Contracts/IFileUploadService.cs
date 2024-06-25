@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ApiHub.Service.DTO;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ApiHub.Service.Services.Contracts
 {
     public interface IFileUploadService
     {
-        Task<string> UploadFileAsync(IFormFile file);
+        Task<DtoFileOutput> UploadFileAsync(IFormFile file);
         Task<byte[]> DownloadFileAsync(string fileName);
         Task<bool> RemoveFileAsync(string fileName);
     }

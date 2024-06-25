@@ -1,9 +1,12 @@
 ﻿using ApiHub.Service.Attributes;
+using ApiHub.Service.DTO;
 using ApiHub.Service.Services.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Client;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 [ScopedRegistration]
@@ -20,8 +23,10 @@ public class FileUploadService : IFileUploadService
         }
     }
 
-    public async Task<string> UploadFileAsync(IFormFile file)
+    public async Task<DtoFileOutput> UploadFileAsync(IFormFile file)
     {
+        string extension = GetFileExtension(file.FileName);
+        string encodedFileName=Guid.NewGuid().ToString()+"."+extension;
         if (file == null || file.Length == 0)
         {
             throw new ArgumentException("Invalid file.");
@@ -34,7 +39,10 @@ public class FileUploadService : IFileUploadService
             await file.CopyToAsync(stream);
         }
 
-        return file.FileName;
+        return new DtoFileOutput() { 
+        EncodedFileName = encodedFileName,
+        FileName=file.FileName
+        };
     }
 
     public async Task<byte[]> DownloadFileAsync(string fileName)
@@ -47,6 +55,17 @@ public class FileUploadService : IFileUploadService
         }
 
         return await File.ReadAllBytesAsync(filePath);
+    }
+
+    private static string GetFileExtension(string fileName)
+    {
+        string pattern = @"\.(\w+)$";
+        Match match = Regex.Match(fileName, pattern);
+        if (match.Success)
+        {
+            return match.Groups[1].Value;
+        }
+        return string.Empty; // Return empty string if no extension is found
     }
 
     public async Task<bool> RemoveFileAsync(string fileName)

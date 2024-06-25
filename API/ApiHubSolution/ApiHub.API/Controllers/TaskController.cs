@@ -2,6 +2,7 @@
 using ApiHub.Service.DTO;
 using ApiHub.Service.DTO.Common;
 using ApiHub.Service.Services.Contracts;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,11 @@ namespace ApiHub.API.Controllers
     public class TaskController : BaseApiController
     {
         private readonly ITaskService _taskService;
+        private readonly IFileUploadService _uploadService;
 
-        public TaskController(ITaskService taskService) {
+        public TaskController(ITaskService taskService,IFileUploadService fileUploadService) {
             this._taskService = taskService;
+            this._uploadService = fileUploadService;
         }
 
         [HttpPost("TaskList")]
@@ -77,10 +80,23 @@ namespace ApiHub.API.Controllers
         }
 
         [HttpPost("PostUserComments")]
-        public async Task<IActionResult> PostUserComments([FromBody] DtoComment data)
+        public async Task<IActionResult> PostUserComments([FromForm] DtoComment data)
         {
             data.UserId = Guid.Parse(GetUserId());
+            if (data.File != null)
+            {
+            
+                var fileDetail=    await _uploadService.UploadFileAsync(data.File);
+                data.EncodedFileName = fileDetail.EncodedFileName;
+            }
             return Ok(await _taskService.PostComments(data));
+        }
+
+
+        [HttpGet("IssueDocuments/{issueId}")]
+        public async Task<IActionResult> GetDocuments(int issueId)
+        {
+            return Ok(await this._taskService.GetLookups());
         }
     }
 }

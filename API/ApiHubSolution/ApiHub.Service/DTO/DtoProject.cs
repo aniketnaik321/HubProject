@@ -167,7 +167,7 @@ namespace ApiHub.Service.DTO
 
         [Parameter]
         public Guid UserId { get; set; }
-      
+
         [Parameter]
         public int IssueId { get; set; }
 
@@ -207,19 +207,19 @@ namespace ApiHub.Service.DTO
 
     public class DtoNotificationResponse
     {
-    
+
         public int Id { get; set; }
         public string NotificationTitle { get; set; }
         public string NotificationText { get; set; }
-       
+
         public DateTime LogTimeStamp { get; set; }
         public string Extra1 { get; set; }
         public string Extra2 { get; set; }
         public bool IsRead { get; set; }
         public DateTime? ReadDateTime { get; set; }
-    
 
-}
+
+    }
 
     public class DtoNotificationLogRequest
     {
@@ -236,6 +236,36 @@ namespace ApiHub.Service.DTO
         [Parameter]
         public string Extra2 { get; set; }
     }
+
+    public class DtoIssuedDocument
+    {
+        [Parameter]
+        public int IssueId { get; set; }
+        [Parameter]
+        public int CommentId { get; set; }
+        [Parameter]
+        public string FileName { get; set; }
+        [Parameter]
+        public string EncodedFileName { get; set; } = null; // Default value is null
+        [Parameter]
+        public long? FileSize { get; set; }
+        [Parameter]
+        public Guid UserId { get; set; }
+    }
+
+
+    public class DtoFileOutput
+    {
+        public string FileName { get; set; }
+        public string EncodedFileName { get; set; }
+
+    }
+
+    public class DtoIssueDocumentRequest { 
+    
+        public int issueId { get; set; }
+    }
+
 
 
 }

@@ -1,4 +1,6 @@
 ﻿using ApiHub.Domain.Models;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +18,16 @@ namespace ApiHub.Service.DTO.Common
 
         public int? ParentCommentId { get; set; }
 
+        public IFormFile? File { get; set; }
+
         public DateTime? EntryDate { get; set; }
 
         public Guid? UserId { get; set; }
 
         public int? IssueId { get; set; }
+
+        [JsonIgnore]
+        public string? EncodedFileName { get; set; }
        
     }
 
