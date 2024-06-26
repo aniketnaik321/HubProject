@@ -246,7 +246,7 @@ namespace ApiHub.Service.DTO
         [Parameter]
         public string FileName { get; set; }
         [Parameter]
-        public string EncodedFileName { get; set; } = null; // Default value is null
+        public string EncodeFileName { get; set; } = null; // Default value is null
         [Parameter]
         public long? FileSize { get; set; }
         [Parameter]
@@ -261,9 +261,10 @@ namespace ApiHub.Service.DTO
 
     }
 
-    public class DtoIssueDocumentRequest { 
-    
-        public int issueId { get; set; }
+    public class DtoIssueDocumentRequest {
+
+        [Parameter]
+        public int IssueId { get; set; }
     }
 
 

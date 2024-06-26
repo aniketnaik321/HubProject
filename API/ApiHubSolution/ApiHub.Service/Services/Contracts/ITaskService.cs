@@ -14,5 +14,6 @@ namespace ApiHub.Service.Services.Contracts
         Task<DtoCommonReponse> UpdateTaskStatus(DtoStatusUpdateRequest input);
         Task<List<DtoUserComment>> LoadComments(DtoPostCommentRequest input);
         Task<DtoCommonReponse> PostComments(DtoComment input);
+        Task<List<DtoIssuedDocument>> GetDocumentList(int issueId);
     }
 }

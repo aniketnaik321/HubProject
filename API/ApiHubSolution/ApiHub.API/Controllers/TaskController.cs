@@ -96,7 +96,7 @@ namespace ApiHub.API.Controllers
         [HttpGet("IssueDocuments/{issueId}")]
         public async Task<IActionResult> GetDocuments(int issueId)
         {
-            return Ok(await this._taskService.GetLookups());
+            return Ok(await this._taskService.GetDocumentList(issueId));
         }
     }
 }

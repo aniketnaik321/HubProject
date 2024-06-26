@@ -125,7 +125,7 @@ namespace ApiHub.Service.Services.Implementations
              await _dbService.CallProcedure<DtoIssuedDocument>(new DtoIssuedDocument() { 
             IssueId=input.IssueId.Value,
             CommentId=data.Id,
-            EncodedFileName=input.EncodedFileName??string.Empty,
+            EncodeFileName=input.EncodedFileName??string.Empty,
             FileName=input.File.FileName,
             FileSize=input.File.Length,
             UserId=input.UserId.Value
@@ -140,9 +140,9 @@ namespace ApiHub.Service.Services.Implementations
 
         public async Task<List<DtoIssuedDocument>> GetDocumentList(int issueId)
         {
-            return await _dbService.GetListFromProcedure<DtoIssuedDocument, DtoIssueDocumentRequest>(new DtoIssueDocumentRequest() { 
-            issueId=issueId
-            }));
+            return await _dbService.GetListFromProcedure<DtoIssuedDocument, DtoIssueDocumentRequest>(new DtoIssueDocumentRequest(){
+            IssueId=issueId
+            },AppConstants.PROC_GET_ISSUE_DOCUMENTs) ;
         }
 
     }
