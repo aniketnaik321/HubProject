@@ -45,7 +45,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { TagModule } from 'primeng/tag';
 import { FaqComponent } from './faq/faq.component';
 import { FileUploadModule } from 'primeng/fileupload';
-
+import { KnobModule } from 'primeng/knob';
 
 
 
@@ -95,6 +95,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     EditorModule,
     TagModule,
     FileUploadModule,
+    KnobModule,
     FullCalendarModule // register FullCalendar with your app,
     
   ],

@@ -19,6 +19,7 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
+  myEfficiency:number=34;
   tableData?: IIssues[];
   totalRecords: number = 0;
   userName?: string = '';
@@ -63,7 +64,7 @@ export class DashboardComponent {
       sortDirection: 1
     };
     // Call your API service for lazy loading
-    this.apiService.getTaskList(request).subscribe((data) => {
+    this.apiService.getUserTaskList(request).subscribe((data) => {
       this.tableData = data.data; // Update with the actual property in your API response
       this.totalRecords = data.totalCount; // Update with the actual property in your API response      
       this.calendarOptions.events = data.data.map(task => ({

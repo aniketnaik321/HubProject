@@ -93,3 +93,13 @@ export interface IProject {
   export interface IUser {
     // Define User properties here
   }
+
+
+  export interface IIssueDocument {
+    issueId: number;
+  commentId: number;
+  fileName: string;
+  encodeFileName: string;
+  fileSize: number;
+  fileType: string;
+  }

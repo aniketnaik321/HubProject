@@ -14,7 +14,7 @@ import { IMachineCategory } from '../shared-models/IMachineCategory';
 import { IChangePasswordModel, ILoginModel, IResetPasswordModel, IResetResetLinkRequest } from '../shared-models/IAccountModels';
 import { IMachineEvent } from '../shared-models/IMachineEvent';
 import { IWidgetCard } from '../shared-models/WidgetCard';
-import { IComment, IIssueRequest, IIssues, IProject, IStatusUpdateRequest, IUserComment } from '../shared-models/ProjectModels';
+import { IComment, IIssueDocument, IIssueRequest, IIssues, IProject, IStatusUpdateRequest, IUserComment } from '../shared-models/ProjectModels';
 
 
 @Injectable({
@@ -151,6 +151,13 @@ getTaskList(data?:IPagedRequest): Observable<IPagedData<IIssues>> {
     );
 }
 
+getUserTaskList(data?:IPagedRequest): Observable<IPagedData<IIssues>> {
+  return this.http.post<IPagedData<IIssues>>(this.baseUrl + '/Task/UserTaskList',data)
+    .pipe(
+      catchError(this.handleError)
+    );
+}
+
 getTaskComments(data?:IPagedRequestWithoutFilters): Observable<IUserComment[]> {
   return this.http.post<IUserComment[]>(this.baseUrl + '/Task/loadUserComments',data)
     .pipe(
@@ -239,6 +246,15 @@ getTaskById(id: number): Observable<IIssues> {
 
   updateUserStatus(data:IStatusUpdateRequest): Observable<ICommonResponse> {
     return this.http.post<ICommonResponse>(this.baseUrl + '/Users/UpdateUserStatus',data)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+
+  /*========Document Section ============*/
+  getIssueDocuments(issueId: string): Observable<IIssueDocument[]> {
+    return this.http.get<IIssueDocument[]>(this.baseUrl + '/Task/IssueDocuments/'+issueId)
       .pipe(
         catchError(this.handleError)
       );

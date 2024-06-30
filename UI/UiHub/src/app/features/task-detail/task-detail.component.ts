@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ILookupItem } from 'src/app/core/shared-models/ILookupItem';
 import { IPagedRequest, IPagedRequestWithoutFilters } from 'src/app/core/shared-models/PagedFilterRequest';
-import { IComment, IIssues, IProject, IUserComment } from 'src/app/core/shared-models/ProjectModels';
+import { IComment, IIssueDocument, IIssues, IProject, IUserComment } from 'src/app/core/shared-models/ProjectModels';
 
 @Component({
   selector: 'app-task-detail',
@@ -15,10 +15,11 @@ import { IComment, IIssues, IProject, IUserComment } from 'src/app/core/shared-m
 })
 export class TaskDetailComponent {
   form: FormGroup;
-  selectedData?: IIssues; 
-  comments:IUserComment[]=[];
-  id:string='';
-  comment:string='';
+  selectedData?: IIssues;
+  documentList?: IIssueDocument[] = [];
+  comments: IUserComment[] = [];
+  id: string = '';
+  comment: string = '';
   statusList?: ILookupItem[];
   priorityList?: ILookupItem[];
   assignee?: ILookupItem[];
@@ -41,10 +42,11 @@ export class TaskDetailComponent {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {     
-      const id = params.get('id')?.toString();    
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id')?.toString();
       this.LoadDetails(id!);
       this.LoadComments(Number(id));
+      this.LoadIssueDocuments(id);
     });
     this.setupLookup();
   }
@@ -55,8 +57,8 @@ export class TaskDetailComponent {
     this.apiService.getTaskLookupData().subscribe((data: any) => {
       this.statusList = data[0];
       this.priorityList = data[1];
-      this.assignee=data[2];
-      this.reporters=data[2];
+      this.assignee = data[2];
+      this.reporters = data[2];
     });
   }
 
@@ -66,25 +68,39 @@ export class TaskDetailComponent {
     });
   }
 
-  LoadComments(id: any) {
-    const request: IPagedRequestWithoutFilters={
-      keyId:id,
-      pageNumber:1,
-      pageSize:10
-    };
-    this.apiService.getTaskComments(request).subscribe((data) => {
-      this.comments=data;
+  LoadIssueDocuments(id: any) {
+    this.apiService.getIssueDocuments(id).subscribe((data) => {
+      this.documentList = data;
+
+      this.documentList = data.map(doc => ({
+        ...doc,
+        fileType: this.getFileExtension(doc.fileName)
+      }));
+
     });
   }
 
-  PostComment(){
+  getFileExtension(fileName: string): string {
+    return fileName.split('.').pop() || '';
+  }
 
+  LoadComments(id: any) {
+    const request: IPagedRequestWithoutFilters = {
+      keyId: id,
+      pageNumber: 1,
+      pageSize: 10
+    };
+    this.apiService.getTaskComments(request).subscribe((data) => {
+      this.comments = data;
+    });
+  }
 
+  PostComment() {
     const formData: FormData = new FormData();
     formData.append('userComment', this.comment);
     formData.append('issueId', this.selectedData!.id?.toString());
-      formData.append('file', this.uploadedFile, this.uploadedFile?.name??"");
-   
+    formData.append('file', this.uploadedFile, this.uploadedFile?.name ?? "");
+
     this.apiService.postTaskComment(formData).subscribe(
       (data: any) => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
@@ -102,12 +118,12 @@ export class TaskDetailComponent {
     // const request: IComment={
     //   userComment:this.comment,
     //   issueId:this.selectedData?.id,
-       
+
     // };
 
-   
+
     //   formData.append('files', file, file.name);
-    
+
 
     // this.apiService.postTaskComment(request).subscribe((data: any) => {
     //   this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
@@ -118,9 +134,9 @@ export class TaskDetailComponent {
   }
 
   onUpload(event: any): void {
-    
-      this.uploadedFile=event.files[0];
-    
+
+    this.uploadedFile = event.files[0];
+
   }
 
 }

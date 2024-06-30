@@ -63,8 +63,9 @@ export class AppComponent {
     // Show us the notification payload if the app is open on our device
     PushNotifications.addListener('pushNotificationReceived',
       (notification: PushNotification) => {
-        this.apiService.addNotification();
+        
         this.authService.showNotification(notification.title??'', notification.body??'');
+        this.apiService.addNotification();
        // alert('Push received: ' + JSON.stringify(notification));
       }
     );

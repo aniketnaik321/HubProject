@@ -40,7 +40,7 @@
         <div class="task-list-items">
           <div *ngFor="let task of getTaskById(status.code)" class="card mb-0" [dragEffect]="'linkMove'" pDraggable
             (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd(status)">
-            <div class="card-body p-1" style="cursor: move;">
+            <div class="card-body p-1 task-card" style="cursor: move;">
               <div class="row">
                 <div class="col-8">
                   <h6 class="mt-1 m-1">

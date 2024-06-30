@@ -2,3 +2,16 @@
     height: 60px;
     padding-top: 10px;
 }
+
+.task-card{
+
+    transition: 0.4s all;
+    border-radius: 10px;
+    border: 1px solid transparent;
+
+}
+
+.task-card:hover{
+border: 1px solid blue;
+box-shadow: 0 4px 8px rgba(173, 216, 230, 0.5); /* Light blue color */
+}

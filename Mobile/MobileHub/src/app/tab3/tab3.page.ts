@@ -3,6 +3,7 @@ import { IProject } from '../shared-models/ProjectModels';
 import { IPagedRequest } from '../shared-models/PagedFilterRequest';
 import { ApiService } from '../Services/api.service';
 import { LoadingController } from '@ionic/angular';
+import { AuthService } from '../Services/auth.service';
 
 @Component({
   selector: 'app-tab3',
@@ -22,7 +23,7 @@ export class Tab3Page implements OnInit {
 
 
 
-  constructor(private apiService: ApiService, private loadingCtrl: LoadingController) { }
+  constructor(private apiService: ApiService,private authService: AuthService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.loadDataLazy();
@@ -99,6 +100,7 @@ export class Tab3Page implements OnInit {
 
   add(){
     this.apiService.addNotification();
+  //  this.authService.showNotification("test","<i>test</i>")
   }
 
 }

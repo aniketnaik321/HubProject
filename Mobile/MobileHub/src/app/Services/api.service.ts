@@ -18,8 +18,10 @@ export class ApiService {
 
   deviceToken:string='';
 
-  private notificationCount = new BehaviorSubject<number>(0);
-  constructor(private http: HttpClient) {}
+  private notificationCount: BehaviorSubject<number>;
+  constructor(private http: HttpClient) {
+    this.notificationCount = new BehaviorSubject<number>(0);
+  }
    // Increment the count
    addNotification() {
     this.notificationCount.next(this.notificationCount.value + 1);
@@ -152,7 +154,7 @@ updateTaskStatus(data:IIssueRequest): Observable<ICommonResponse> {
 }
 
 getTaskList(data?:IPagedRequest): Observable<IPagedData<IIssues>> {
-  return this.http.post<IPagedData<IIssues>>(this.baseUrl + '/Task/TaskList',data)
+  return this.http.post<IPagedData<IIssues>>(this.baseUrl + '/Task/UserTaskList',data)
     .pipe(
       catchError(this.handleError)
     );

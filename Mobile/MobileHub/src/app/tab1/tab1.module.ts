@@ -15,7 +15,7 @@ import { HeaderModule } from "../components/header/header.module";
     imports: [
         CommonModule,
         FormsModule,
-        IonicModule,
+        IonicModule.forRoot({innerHTMLTemplatesEnabled: true}),
         Tab1PageRoutingModule,
         HeaderModule
     ]

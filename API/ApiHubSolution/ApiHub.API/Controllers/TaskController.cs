@@ -29,6 +29,14 @@ namespace ApiHub.API.Controllers
             return Ok(await this._taskService.GetList(input));
         }
 
+        [HttpPost("UserTaskList")]
+        public async Task<IActionResult> GetUserTask(DtoPageRequest input)
+        {
+            input.FilterKeys = "AssigneeUserID";
+            input.FilterValues = this.GetUserId();
+            return Ok(await this._taskService.GetList(input));
+        }
+
         // GET api/<ProjectController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
