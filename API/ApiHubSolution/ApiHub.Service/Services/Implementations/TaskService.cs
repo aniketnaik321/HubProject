@@ -44,7 +44,27 @@ namespace ApiHub.Service.Services.Implementations
             var project = await _projectRepository.GetByIdAsync(input.ProjectId!);
             data.IssueKey = project.ProjectTaskPrefix;
             await _taskRepository.CreateAsync(data);
-            
+
+
+            //Code block for push notification
+            var messageResult = (await this._dbService.GetListFromProcedure<DtoPushNotificationResponse, DtoMovementNotificationRequest>
+                (new DtoMovementNotificationRequest()
+                {
+                    UserId = input.AssigneeUserId.Value,
+                    IssueId = data.Id,
+                    AssigneeUserId = input.AssigneeUserId.Value
+
+                }, Constants.AppConstants.PROC_GET_TASK_ASSIGNMENT)).FirstOrDefault();
+
+
+            await _pushNotificationService.SendPushNotificationAsync(new DtoNotificationMessage()
+            {
+                Message = messageResult.Message,
+                Title = messageResult.Title,
+                DeviceToken = messageResult.DeviceToken,
+                userId = input.AssigneeUserId.ToString()!
+            });
+
             return new DtoCommonReponse()
             {
                 StatusCode = System.Net.HttpStatusCode.OK,

@@ -115,7 +115,7 @@
                             <div class="p-field">
                                 <label>Assignee</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [options]="assignee" optionLabel="name"
+                                    <p-dropdown appendTo="body" [(ngModel)]="assigneeId" [options]="assignee" optionLabel="name"
                                         placeholder="Select Assignee"></p-dropdown>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                             <div class="p-field">
                                 <label>Status</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [options]="statusList" optionLabel="name"
+                                    <p-dropdown appendTo="body" [(ngModel)]="statusId" [options]="statusList" optionLabel="name"
                                         placeholder="Select Status"></p-dropdown>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                             <div class="p-field">
                                 <label>Priority</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [options]="priorityList" optionLabel="name"
+                                    <p-dropdown appendTo="body" [(ngModel)]="priorityId" [options]="priorityList" optionLabel="name"
                                         placeholder="Select Status"></p-dropdown>
                                 </div>
                             </div>

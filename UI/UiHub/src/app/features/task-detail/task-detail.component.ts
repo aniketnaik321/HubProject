@@ -27,6 +27,9 @@ export class TaskDetailComponent {
   reporters?: ILookupItem[];
   records: any[] = []; // Your recordset
 
+  assigneeId: any;
+  statusId: any;
+  priorityId: any;
   // The dynamic columns to be displayed in the PrimeNG table
   columns: any[] = [];
   constructor(
@@ -42,29 +45,41 @@ export class TaskDetailComponent {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id')?.toString();
-      this.LoadDetails(id!);
-      this.LoadComments(Number(id));
-      this.LoadIssueDocuments(id);
+    this.setupLookup().then(t => {
+      this.route.paramMap.subscribe(params => {
+        const id = params.get('id')?.toString();
+        this.LoadDetails(id!);
+        this.LoadComments(Number(id));
+        this.LoadIssueDocuments(id);
+      });
     });
-    this.setupLookup();
   }
 
 
-  setupLookup(): void {
-    // Call your API service for lazy loading
-    this.apiService.getTaskLookupData().subscribe((data: any) => {
-      this.statusList = data[0];
-      this.priorityList = data[1];
-      this.assignee = data[2];
-      this.reporters = data[2];
+  setupLookup(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.apiService.getTaskLookupData().subscribe(
+        (data: any) => {
+          this.statusList = data[0];
+          this.priorityList = data[1];
+          this.assignee = data[2];
+          this.reporters = data[2];
+          resolve(1);  // Resolving with a number, you can change it to whatever you need
+        },
+        (error: any) => {
+          reject(error);  // Rejecting the promise in case of an error
+        }
+      );
     });
   }
+
 
   LoadDetails(id: any) {
     this.apiService.getTaskById(id).subscribe((data) => {
       this.selectedData = data;
+      this.assigneeId = this.assignee?.find(t => t.code.toLocaleLowerCase() === this.selectedData?.assigneeUserId?.toLocaleLowerCase());
+      this.statusId=this.statusList?.find(t => Number(t.code) === this.selectedData?.statusId);
+      this.priorityId=this.priorityList?.find(t => Number(t.code) === this.selectedData?.priorityId);
     });
   }
 

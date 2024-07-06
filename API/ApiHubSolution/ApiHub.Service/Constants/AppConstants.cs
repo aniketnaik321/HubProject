@@ -27,6 +27,8 @@ namespace ApiHub.Service.Constants
         public const string PROC_MOVEMENT_NOTIFICATION = "PM_GetMovementNotificationData";
         public const string PROC_CREATE_ISSUE_DOCUMENT = "PM_CreateIssueDocument";
         public const string PROC_GET_ISSUE_DOCUMENTs = "PM_GetDocumentList";
+        public const string PROC_GET_TASK_ASSIGNMENT = "PM_GetTaskAssignmentNotificationData";
+        
 
 
         //Messages
