@@ -1,0 +1,7 @@
+{
+  "name": "stopwatch",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

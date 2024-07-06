@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Countdown Timer
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-label>Set Time Limit (in seconds)</ion-label>
+    <ion-select [(ngModel)]="timeLimit" (ionChange)="resetTimer()">
+      <ion-select-option *ngFor="let time of timeOptions" [value]="time.value">{{ time.displayText }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <div class="timer">
+   {{minuteDisplay}}:{{ secondsDisplay }}
+  </div>
+  <div class="buttons">
+    <ion-button class="timer-button" (click)="startTimer()" color="success" [disabled]="running">Start</ion-button>
+    <ion-button class="timer-button" (click)="stopTimer()" color="danger" >Stop</ion-button>
+    <ion-button class="timer-button" (click)="resetTimer()" color="warning">Reset</ion-button>
+  </div>
+</ion-content>

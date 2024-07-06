@@ -1,0 +1,45 @@
+.timer {
+    font-size: 48px;
+    text-align: center;
+    margin-top: 20%;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  ion-button {
+    margin: 0 10px;
+  }
+  
+  ion-item {
+    margin-top: 20px;
+  }
+
+
+  .timer {
+    font-size: 3em; /* Makes the timer text larger */
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .timer-button {
+    --border-radius: 50px; /* Makes the button rounded */
+    --padding-start: 20px; /* Adjusts the padding to make the button bigger */
+    --padding-end: 20px; /* Adjusts the padding to make the button bigger */
+    --padding-top: 10px; /* Adjusts the padding to make the button bigger */
+    --padding-bottom: 10px; /* Adjusts the padding to make the button bigger */
+    font-size: 1.5em; /* Makes the button text bigger */
+    color: whitesmoke;
+  }
+  
+  
+  
