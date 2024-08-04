@@ -5,7 +5,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FeatureRoutes } from './features.routing';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
-
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
@@ -29,7 +28,6 @@ import { AuthGuard } from '../core/guards/auth.guard';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FullCalendarModule } from '@fullcalendar/angular';
-
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { UsersComponent } from './users/users.component';
@@ -46,7 +44,12 @@ import { TagModule } from 'primeng/tag';
 import { FaqComponent } from './faq/faq.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { KnobModule } from 'primeng/knob';
-
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ChipsModule } from 'primeng/chips';
+import { ListboxModule } from 'primeng/listbox';
 
 
 @NgModule({
@@ -96,8 +99,13 @@ import { KnobModule } from 'primeng/knob';
     TagModule,
     FileUploadModule,
     KnobModule,
-    FullCalendarModule // register FullCalendar with your app,
-    
+    FullCalendarModule, // register FullCalendar with your app,
+    AvatarGroupModule,
+    AvatarModule,
+    MultiSelectModule,
+    OverlayPanelModule,
+    ChipsModule,
+    ListboxModule
   ],
   providers: [MessageService,ConfirmationService,AuthGuard]
 })

@@ -32,6 +32,15 @@ namespace ApiHub.Service.Services.Implementations
             input.CreatedOn = DateTime.UtcNow;
             var user = _automapper.Map<Domain.Models.Project>(input);
             await _projectRepository.CreateAsync(user);
+
+            foreach (var item in input.UsersList ?? Array.Empty<string>())
+            {
+               await _dbService.CallProcedure(new DtoAddProjectMember()
+                {
+                    ProjectId = input.Id.Value,
+                    UserId = Guid.Parse(item)
+                }, AppConstants.PROC_ADD_PROJECT_MEMBERS);
+            }
             return new DtoCommonReponse()
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
@@ -43,6 +52,15 @@ namespace ApiHub.Service.Services.Implementations
         {
             var project = _automapper.Map<Domain.Models.Project>(input);
             await _projectRepository.UpdateAsync(project);
+            foreach (var item in input.UsersList ?? Array.Empty<string>())
+            {
+                await _dbService.CallProcedure(new DtoAddProjectMember()
+                {
+                    ProjectId = input.Id.Value,
+                    UserId = Guid.Parse(item)
+                }, AppConstants.PROC_ADD_PROJECT_MEMBERS);
+            }
+
             return new DtoCommonReponse()
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
@@ -66,13 +84,36 @@ namespace ApiHub.Service.Services.Implementations
         }
 
         public async Task<DtoProject> Get(object id)
-        {          
-            return  _automapper.Map<DtoProject>(await _projectRepository.GetByIdAsync(id));
+        {
+            var members = await this.GetProjectMembers(id.ToString());
+            var result= _automapper.Map<DtoProject>(await _projectRepository.GetByIdAsync(id));
+
+            result.UsersList = members.Select(T => T.UserId.ToString().ToUpper()).ToArray();
+
+            return result;
         }
 
         public async Task<List<List<DtoLookup>>> GetLookups()
         {
             return await _dbService.GetDataLookupResults(AppConstants.LOOKUP_PROJECTS);
         }
+
+        public async Task<List<DtoProjectMembers>> GetProjectMembers(string projectId)
+        {
+            return await _dbService.GetListFromProcedure<DtoProjectMembers, DtoProjectMemberRequest>(new DtoProjectMemberRequest()
+            {
+                ProjectId = Guid.Parse(projectId)
+            }, AppConstants.PROC_GET_PROJECT_MEMBERS); ;
+        }
+
+        public async Task<DtoCommonReponse> AddProjectMember(DtoAddProjectMember input)
+        {
+            return await _dbService.CallProcedure(new DtoAddProjectMember()
+            {
+                ProjectId = input.ProjectId,
+                UserId=input.UserId
+            }, AppConstants.PROC_ADD_PROJECT_MEMBERS);
+        }
+
     }
 }

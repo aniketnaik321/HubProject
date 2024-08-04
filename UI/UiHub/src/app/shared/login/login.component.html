@@ -57,8 +57,9 @@
                             <a href="javascript:void()" 
                                 class="text-muted float-end disabled"><small>Forgot your password?</small></a>
                             <label for="password" class="form-label">Password</label>
-                            <input class="form-control" type="password" formControlName="password" required=""
-                                id="password" placeholder="Enter your password">
+                            <!-- <input class="form-control" type="password" formControlName="password" required=""
+                                id="password" placeholder="Enter your password"> -->
+                                <p-password styleClass="width-100" [feedback]="false" formControlName="password" [toggleMask]="true" />
                         </div>
                         <div class="mb-3">
                             <div class="form-check">

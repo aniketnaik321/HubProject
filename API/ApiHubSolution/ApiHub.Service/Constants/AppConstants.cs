@@ -28,7 +28,9 @@ namespace ApiHub.Service.Constants
         public const string PROC_CREATE_ISSUE_DOCUMENT = "PM_CreateIssueDocument";
         public const string PROC_GET_ISSUE_DOCUMENTs = "PM_GetDocumentList";
         public const string PROC_GET_TASK_ASSIGNMENT = "PM_GetTaskAssignmentNotificationData";
-        
+        public const string PROC_GET_PROJECT_MEMBERS = "PM_GetMembersByProjectId";
+        public const string PROC_ADD_PROJECT_MEMBERS = "PM_AddProjectMember";
+
 
 
         //Messages

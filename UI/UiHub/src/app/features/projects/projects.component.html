@@ -130,12 +130,27 @@
                     formControlName="description"> </textarea>
             </div>
 
+
+            <div class="p-field">
+                <label for="endDate">Members</label>
+                <div class="col-md-5 col-sm-12">
+                    <p-multiSelect 
+                    [options]="usersList" 
+                    formControlName="usersList"
+                    placeholder="Select Members"
+                    optionLabel="name"
+                    optionValue="code" 
+                    display="chip" 
+                    [showClear]="true" />
+                </div>
+            </div>
+
             <div class="p-field">
                 <label>Task Prefix
                     <span class="pi pi-info-circle text-info small px-1"
                         pTooltip='"Two Characters" to Prefix all the tasks to be added in this project.'> </span>
                 </label>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-5 col-sm-12">
                     <input pInputText class="p-inputtext-sm" maxlength="2" type="text"
                         formControlName="projectTaskPrefix"
                         [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('projectTaskPrefix')}">
@@ -147,7 +162,7 @@
 
             <div class="p-field">
                 <label for="startDate">Start Date</label>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-5 col-sm-12">
                     <p-calendar appendTo="body" class='p-inputtext-sm w-lg-25 w-xs-100' formControlName="startDate"
                         [showTime]="true" [showIcon]="true"></p-calendar>
                 </div>
@@ -155,11 +170,15 @@
 
             <div class="p-field">
                 <label for="endDate">Estimated Completion Date</label>
-                <div class="col-md-4 col-sm-12">
+                <div class="col-md-5 col-sm-12">
                     <p-calendar appendTo="body" styleClass="w-100" class='p-inputtext-sm' formControlName="endDate"
                         [showTime]="true" [showIcon]="true"></p-calendar>
                 </div>
             </div>
+
+            
+
+          
 
             <div class="p-template-footer float-end inline-block">
                 <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md"
@@ -170,5 +189,5 @@
 </p-dialog>
 
 
-<p-toast></p-toast>
+<p-toast position="top-center"></p-toast>
 <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>

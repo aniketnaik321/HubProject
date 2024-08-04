@@ -6,9 +6,10 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { DefaultProjectService } from 'src/app/core/services/default-project.service';
 import { ILookupItem } from 'src/app/core/shared-models/ILookupItem';
 import { IPagedRequest } from 'src/app/core/shared-models/PagedFilterRequest';
-import { IIssueRequest, IIssues } from 'src/app/core/shared-models/ProjectModels';
+import { IIssueRequest, IIssues, IProjectMembers, IUser } from 'src/app/core/shared-models/ProjectModels';
 import Swal from 'sweetalert2';
 import { TaskFormComponent } from '../task-form/task-form.component';
+import { MultiSelect } from 'primeng/multiselect';
 
 @Component({
   selector: 'app-task-board',
@@ -18,6 +19,7 @@ import { TaskFormComponent } from '../task-form/task-form.component';
 export class TaskBoardComponent {
 
   sharedData: any = { dialogDisplay: false }
+  isTableView: boolean = false;
   statusList?: ILookupItem[];
   issueCommentsDialogDisplay: boolean = false;
   tableData?: IIssues[];
@@ -27,7 +29,38 @@ export class TaskBoardComponent {
   form: FormGroup;
 
   @ViewChild("taskform")
-  taskform!: TaskFormComponent 
+  taskform!: TaskFormComponent
+
+
+  projectMembers: IProjectMembers[] = [
+    {
+      userId: '39a82875-96c6-480f-b8ac-033af689e504',
+      userName: 'aniket.naik4321@yopmail.com',
+      fullName: 'AniketN',
+      picturePath: null,
+      emailId: 'aniket.naik4321@yopmail.com'
+    }
+  ];
+
+  selectedUsers: IProjectMembers[] = [];
+
+  showDropdown = false;
+  @ViewChild('multiSelect') multiSelect!: MultiSelect;
+
+  toggleMemberFilterDropdown() {
+    // this.showDropdown = !this.showDropdown;
+
+    if (this.multiSelect.overlayVisible) {
+      this.multiSelect.hide();
+    } else {
+      this.multiSelect.show();
+    }
+  }
+
+  getUserImage(user: IProjectMembers): string {
+    return user.picturePath ? user.picturePath : 'assets/images/user_placeholder.png';
+  }
+
 
   constructor(
     private fb: FormBuilder,
@@ -44,6 +77,19 @@ export class TaskBoardComponent {
     });
   }
 
+  ToggleActiveView() {
+    this.isTableView = !this.isTableView;
+  }
+
+  GetInitials(fullName :string){
+   return this.apiService.getInitials(fullName);
+  }
+
+  GetInitialsColorCode(fullName :string){
+    var initials= this.apiService.getInitials(fullName);
+   return this.apiService.getColorCode(initials);
+   }
+
   ShowTaskForm(inp: boolean): void {
     this.taskform.form.patchValue({
       id: null
@@ -51,8 +97,8 @@ export class TaskBoardComponent {
     this.sharedData.dialogDisplay = true;
   }
 
-  ShowEditForm(selectedData:any): void {
-    this.sharedData.dialogDisplay=true;
+  ShowEditForm(selectedData: any): void {
+    this.sharedData.dialogDisplay = true;
     this.taskform.ShowEditForm(selectedData);
   }
 
@@ -62,6 +108,14 @@ export class TaskBoardComponent {
       this.statusList = data[0];
       this.assignee = data[2];
       this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
+      this.LoadProjectMembers();
+    });
+  }
+
+  LoadProjectMembers(): void {
+    // Call your API service for lazy loading
+    this.apiService.getProjectMembers(this.defaultProjectService.getDefaultProjectId()).subscribe((data: any) => {
+      this.projectMembers = data;
     });
   }
 
@@ -79,7 +133,9 @@ export class TaskBoardComponent {
     this.setupLookup();
     this.defaultProjectService.dropdownData$.subscribe((data) => {
       this.loadDataLazy(data);
+      this.LoadProjectMembers();
     });
+    
   }
 
   getTaskById(statusId: any): any {
@@ -113,9 +169,7 @@ export class TaskBoardComponent {
   }
 
   dragEnd(status: any) {
-    //alert(JSON.stringify(status));
-    //if(this.draggedRecord)
-    // this.draggedRecord.statusId=status.code;
+    
   }
 
   loadDataLazy(projectId: string) {
@@ -186,6 +240,23 @@ export class TaskBoardComponent {
       }
     });
   }
+
+
+  showStatusUpdateBox(): void {
+    this.issueCommentsDialogDisplay = true;
+
+  }
+
+  filterByMembers(user:IUser): void {
+    this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'This is for test' });
+  }
+
+  onScroll() {
+    if (this.tableData!.length < 100) {
+      this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
+    }
+  }
+
 }
 
 

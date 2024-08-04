@@ -3,6 +3,7 @@
 @import "primeicons/primeicons.css";
 
 $scroll-bar: #727cf594;
+$primary-color: #727cf594;
 
 :root {
     --ct-link-color: #727cf5;
@@ -25077,4 +25078,86 @@ chevrondownicon{
     width: 150px!important;
   }
 
+  .width-100{
+    width: 100%!important;
+    input{
+      width: 100%!important;
+    }
+  }
+
+/* styles.css */
+.p-toast {
+    box-shadow: none; /* Remove default shadow */
+  }
   
+  .p-toast .p-toast-top-right {
+    width: 300px; /* Adjust width */
+  }
+  
+  .p-toast .p-toast-message {
+    background-color: #333; /* Sober dark background color */
+    border: 1px solid #444; /* Dark border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Custom shadow */
+    color: #f1f1f1; /* Light text color */
+    padding: 8px; /* Reduced padding */
+  }
+  
+  .p-toast .p-toast-message .p-toast-summary {
+    font-weight: bold; /* Make summary bold */
+    color: #ffffff; /* Light text color for summary */
+  }
+  
+  .p-toast .p-toast-message .p-toast-detail {
+    font-size: 14px; /* Change detail font size */
+    color: #cccccc; /* Slightly lighter text color for details */
+  }
+  
+  .p-toast .p-toast-message .p-toast-icon {
+    margin-right: 10px; /* Adjust icon margin */
+    color: #ffffff; /* Light icon color */
+  }
+  
+  .p-toast .p-toast-close-icon {
+    color: #ffffff; /* Light close icon color */
+  }
+  
+  .p-toast .p-toast-message-success {
+    border-left: 5px solid #28a745; /* Success border color */
+  }
+  
+  .p-toast .p-toast-message-error {
+    border-left: 5px solid #dc3545; /* Error border color */
+  }
+  
+  .p-toast .p-toast-message-info {
+    border-left: 5px solid #17a2b8; /* Info border color */
+  }
+  
+  .p-toast .p-toast-message-warn {
+    border-left: 5px solid #ffc107; /* Warn border color */
+  }
+  
+
+  .p-avatar-group .p-avatar {
+     border: 0px solid $primary-color;  
+}
+
+
+.highlight-member {  
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out; /* Smooth scaling transition */
+  
+    &:hover {
+      transform: scale(1.3); /* Scale up the circle on hover */
+      border-color: #f00; /* Change border color on hover for highlighting */
+    }
+    &.selected{
+      .p-avatar{
+      border: 3px solid $primary-color!important;
+      }
+    }
+  }
+
+  .p-overlayPanel-content{
+    padding: 3px!important;
+  }

@@ -12,6 +12,7 @@ namespace ApiHub.Service.Services.Contracts
    
     public interface IProjectService :IGenericService<DtoProject>
     {
-       
+        Task<List<DtoProjectMembers>> GetProjectMembers(string projectId);
+        Task<DtoCommonReponse> AddProjectMember(DtoAddProjectMember input);
     }
 }

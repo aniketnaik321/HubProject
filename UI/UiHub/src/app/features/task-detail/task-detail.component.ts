@@ -114,7 +114,11 @@ export class TaskDetailComponent {
     const formData: FormData = new FormData();
     formData.append('userComment', this.comment);
     formData.append('issueId', this.selectedData!.id?.toString());
-    formData.append('file', this.uploadedFile, this.uploadedFile?.name ?? "");
+    if(this.uploadedFile)
+    formData.append('file', this.uploadedFile??null, this.uploadedFile?.name ?? null);
+  else{
+    formData.append('file', new Blob());
+  }
 
     this.apiService.postTaskComment(formData).subscribe(
       (data: any) => {

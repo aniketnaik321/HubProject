@@ -6,7 +6,7 @@ namespace ApiHub.Service.DTO
 {
     public partial class DtoProject
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
 
         public string ProjectName { get; set; } = null!;
 
@@ -25,6 +25,8 @@ namespace ApiHub.Service.DTO
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public string[]? UsersList { get; set; }
 
         public virtual ICollection<DtoIssues> Issues { get; set; } = new List<DtoIssues>();
     }
@@ -265,6 +267,23 @@ namespace ApiHub.Service.DTO
 
         [Parameter]
         public int IssueId { get; set; }
+    }
+
+    public class DtoProjectMemberRequest
+    {
+
+        [Parameter]
+        public Guid ProjectId { get; set; }
+    }
+
+    public class DtoAddProjectMember
+    {
+
+        [Parameter]
+        public Guid UserId { get; set; }
+
+        [Parameter]
+        public Guid ProjectId { get; set; }
     }
 
 

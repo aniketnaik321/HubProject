@@ -141,7 +141,7 @@ namespace ApiHub.Service.Services.Implementations
             var data = _automapper.Map<Domain.Models.Comment>(input);
             data.EntryDate = DateTime.UtcNow;
              await _commentRepository.CreateAsync(data);
-            if(input.File!=null)
+            if(input.File!=null && input.File.Length>0)
              await _dbService.CallProcedure<DtoIssuedDocument>(new DtoIssuedDocument() { 
             IssueId=input.IssueId.Value,
             CommentId=data.Id,
@@ -165,5 +165,15 @@ namespace ApiHub.Service.Services.Implementations
             },AppConstants.PROC_GET_ISSUE_DOCUMENTs) ;
         }
 
-    }
+
+        #region Background Jobs
+
+        public async Task MoveTaskToInProgress()
+        {
+            await _dbService.CallProcedure<DtoCommonReponse>(Constants.AppConstants.PROC_ADDMACHINE_EVENT);
+        }
+
+            #endregion
+
+        }
 }

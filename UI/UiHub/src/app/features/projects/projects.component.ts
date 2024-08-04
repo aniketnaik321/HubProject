@@ -26,6 +26,7 @@ export class ProjectsComponent {
   totalRecords: number = 0;
   pageSize: number = 10;
   dataTypeIdOptions?: ILookupItem[];
+  usersList?: ILookupItem[];
 
   constructor(
     private fb: FormBuilder,
@@ -40,13 +41,15 @@ export class ProjectsComponent {
       projectTaskPrefix:['', [Validators.required]],
       description: [''],            
       startDate:'',
-      endDate:''
+      endDate:'',
+      usersList:[[]]
     });
   }
 
   ngOnInit(): void {
-   // this.setupLookup();
-   this.loadDataLazy();
+    this.setupLookup();
+    this.loadDataLazy();
+
   }
 
   loadDataLazy(event?: TableLazyLoadEvent) {
@@ -80,6 +83,7 @@ export class ProjectsComponent {
     // Call your API service for lazy loading
     this.apiService.getProjectLookupData().subscribe((data: any) => {
       this.dataTypeIdOptions = data[0];
+      this.usersList=data[1];
     });
   }
   
@@ -118,6 +122,7 @@ export class ProjectsComponent {
        projectTaskPrefix:this.selecteddata.projectTaskPrefix,
        startDate: new Date(data.startDate!),
         endDate: new Date(data.endDate!),
+        usersList:this.selecteddata.usersList
       });
       this.dialogDisplay = true;
     });

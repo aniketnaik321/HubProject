@@ -64,5 +64,21 @@ namespace ApiHub.API.Controllers
             // Assuming PreparePostResponse is a method that prepares the response based on the result from _taskService.Remove()
             return PreparePostResponse(result);
         }
+
+        // GET api/<ProjectController>/5
+        [HttpGet("projectMembers/{id}")]
+        public async Task<IActionResult> GetProjectMembers(string id)
+        {
+            return Ok(await this._projectService.GetProjectMembers(id));
+        }
+
+        [HttpPost("AddProjectMember")]
+        public async Task<IActionResult> AddProjectMember(DtoAddProjectMember input)
+        {
+            var result=await this._projectService.AddProjectMember(input);
+            // Assuming PreparePostResponse is a method that prepares the response based on the result from _taskService.Remove()
+            return PreparePostResponse(result);
+           
+        }
     }
 }

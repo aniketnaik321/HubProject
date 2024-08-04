@@ -11,6 +11,7 @@ export interface IProject {
     endDate?: Date;
     issues?: IIssues[];
     completionStatus?:number;
+    usersList?:string[];
   }
   
   // DtoIssues.interface.ts
@@ -103,3 +104,12 @@ export interface IProject {
   fileSize: number;
   fileType: string;
   }
+
+  // dto-project-members.model.ts
+export interface IProjectMembers {
+  userId: string; // Guid is typically represented as a string in TypeScript
+  userName: string;
+  fullName: string;
+  picturePath: string | null;
+  emailId: string;
+}

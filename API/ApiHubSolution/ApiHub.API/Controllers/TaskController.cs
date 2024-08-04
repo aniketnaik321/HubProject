@@ -91,13 +91,12 @@ namespace ApiHub.API.Controllers
         public async Task<IActionResult> PostUserComments([FromForm] DtoComment data)
         {
             data.UserId = Guid.Parse(GetUserId());
-            if (data.File != null)
-            {
-            
+            if (data.File != null && data.File.Length>0)
+            {            
                 var fileDetail=    await _uploadService.UploadFileAsync(data.File);
                 data.EncodedFileName = fileDetail.EncodedFileName;
             }
-            return Ok(await _taskService.PostComments(data));
+            return PreparePostResponse(await _taskService.PostComments(data));
         }
 
 

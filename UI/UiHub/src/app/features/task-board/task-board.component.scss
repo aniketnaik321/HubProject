@@ -1,3 +1,6 @@
+
+
+
 .header-row{
     height: 60px;
     padding-top: 10px;
@@ -15,3 +18,23 @@
 border: 1px solid blue;
 box-shadow: 0 4px 8px rgba(173, 216, 230, 0.5); /* Light blue color */
 }
+
+.active-view-button{
+    background-color: grey;
+    color: white;
+}
+
+
+
+::ng-deep .p-avatar-group p-avatar {
+    margin-right: 12px; /* Adjust the value to increase/decrease the spacing */
+  }
+  
+  ::ng-deep .p-avatar-group p-avatar:last-child {
+    margin-right: 0; /* Remove margin from the last avatar */
+  }
+
+  /* user-dropdown.component.css */
+:host ::ng-deep .p-multiselect {
+    width: 100%;
+  }

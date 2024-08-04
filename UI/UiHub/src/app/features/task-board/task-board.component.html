@@ -1,31 +1,57 @@
 <div class="row">
-  <!-- start page title -->
-  <!-- <div class="row">
-    <div class="col-12">
-      <div class="page-title-box">
-        <h4 class="page-title">Task Board</h4>
-      </div>
-    </div>
-  </div> -->
-  <!-- end page title -->
-
-  <div class="row header-row pe-0" >
-    <div class="col-sm-9">
+  <div class="row header-row pe-0">
+    <div class="col-sm-6 col-xs-1">
       <h5>Task Board</h5>
     </div>
-  
-    <div class="col-sm-3 pe-0">      
+
+
+
+    <div class="col-sm-3">
+      <p-avatarGroup class="float-end my-auto">
+        <!-- <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" tooltipPosition="top"
+      pTooltip="Aniket Naik" shape="circle" (click)="filterByMembers()" class="highlight-member" />
+
+    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+
+    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/asiyajavayant.png" shape="circle" />
+    <p-avatar label="+2" (click)="toggleMemberFilterDropdown()" shape="circle" [style]="{ 'background-color': '#9c27b0', color: '#ffffff' }" /> -->
+
+
+        <ng-container *ngFor="let user of projectMembers; let i = index">
+          <p-avatar [image]="getUserImage(user)" tooltipPosition="top" [label]="GetInitials(user.fullName)"
+            [pTooltip]="user.fullName"
+            [style]="{ 'background-color': GetInitialsColorCode(user.fullName), color: '#ffffff' }" shape="circle"
+            (click)="filterByMembers(user)" class="highlight-member selected" *ngIf="i < 4"></p-avatar>
+        </ng-container>
+        <p-avatar label="+{{projectMembers.length - 2}}" (click)="op.toggle($event)" shape="circle"
+          [style]="{ 'background-color': '#9c27b0', color: '#ffffff', cursor:'pointer' }"
+          *ngIf="projectMembers.length > 2"></p-avatar>
+      </p-avatarGroup>
+      <!-- <p-multiSelect #multiSelect *ngIf="showDropdown" appendTo="body" [options]="projectMembers"
+        [(ngModel)]="selectedUsers" optionLabel="fullName" placeholder="Select Users">
+      </p-multiSelect> -->
+    </div>
+
+    <div class="col-sm-3 col-xs-12">
+
+
+
       <div class="text-sm-end">
         <div class="btn-group mb-3 ms-2 d-none d-sm-inline-block">
-          <button type="button" class="btn btn-secondary"><i class="dripicons-view-apps"></i></button>
+          <button type="button" class="btn btn-default active-view-button" (click)="ToggleActiveView()"
+            [ngClass]="{'active-view-button': !isTableView}"><i class="dripicons-view-apps"></i></button>
+        </div>
+        <div class="btn-group mb-3 d-none d-sm-inline-block me-2">
+          <button type="button" class="btn btn-default" (click)="ToggleActiveView()"
+            [ngClass]="{'active-view-button': isTableView}"><i class="dripicons-checklist"></i></button>
         </div>
         <div class="btn-group mb-3 d-none d-sm-inline-block">
-          <button type="button" class="btn btn-link text-muted"><i class="dripicons-checklist"></i></button>
+          <p-button label="Add Task" styleClass="rounded-3 btn-md" (click)="ShowTaskForm(true)"
+            icon="pi pi-plus"></p-button>
         </div>
-        <div class="btn-group mb-3 d-none d-sm-inline-block">
-          <p-button label="Add Task" styleClass="rounded-3 btn-md"  (click)="ShowTaskForm(true)" icon="pi pi-plus"></p-button>
-        </div>
-        
+
       </div>
     </div><!-- end col-->
 
@@ -34,7 +60,8 @@
   <!-- end row-->
 
   <div class="col-12">
-    <div class="board">
+
+    <div *ngIf="!isTableView" class="board">
       <div *ngFor="let status of statusList" class="tasks" pDroppable (onDrop)="drop(status)">
         <h5 class="mt-0 task-header text-uppercase">{{ status.name }} ({{ getTaskByStatusIdCount(status.code) }})</h5>
         <div class="task-list-items">
@@ -53,7 +80,8 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <span class="badge float-end" [style.background-color]="task.priorityTagColorCode">{{ task.priorityName }}</span>
+                  <span class="badge float-end" [style.background-color]="task.priorityTagColorCode">{{
+                    task.priorityName }}</span>
                   <span class="text-nowrap mb-2 d-inline-block">
                     <i class="mdi mdi-comment-multiple-outline text-muted ps-1 pe-1"></i>
                     <b>{{ task.commentCount }}</b> Comments
@@ -66,7 +94,8 @@
 
                   <!-- <img [src]="task.assigneeUserId" alt="user-img" class="avatar-xs rounded-circle me-1"> -->
                   <span class="account-user-avatar">
-                    <div data-initialssmall="AN"> <span class="align-middle">{{ task.assigneeUserName }}</span></div>
+                    <div [attr.data-initialssmall]="GetInitials(task.assigneeUserName)"> <span class="align-middle">{{
+                        task.assigneeUserName }}</span></div>
                   </span>
 
                 </div>
@@ -76,13 +105,13 @@
                       aria-expanded="false">
                       <i class="mdi mdi-dots-vertical font-18"></i>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                       <!-- item-->
-                       <a href="javascript:void(0);" class="dropdown-item text-primary"><i class="mdi mdi-clock me-1 text-primary"></i>Add Time Log</a>
+                    <div class="dropdown-menu dropdown-menu-end">                     
                       <!-- item-->
-                      <a href="javascript:void(0);" (click)="ShowEditForm(task)" class="dropdown-item"><i class="mdi mdi-pencil me-1"></i>Edit</a>
+                      <a href="javascript:void(0);" (click)="ShowEditForm(task)" class="dropdown-item"><i
+                          class="mdi mdi-pencil me-1"></i>Edit</a>
                       <!-- item-->
-                      <a href="javascript:void(0);" (click)="confirmDelete(task.id)" class="dropdown-item"><i class="mdi mdi-delete me-1"></i>Delete</a>
+                      <a href="javascript:void(0);" (click)="confirmDelete(task.id)" class="dropdown-item"><i
+                          class="mdi mdi-delete me-1"></i>Delete</a>
                     </div>
                   </div>
                 </div>
@@ -94,6 +123,64 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="isTableView" class="table">
+      <div>
+        <p-table [value]="tableData!" scrollHeight="70vh" [virtualScroll]="true" [rowHover]="true" [scrollable]="true"
+          [virtualScrollItemSize]="46">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Summary</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Assignee</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-task>
+            <tr>
+              <td>{{task.id}}</td>
+              <td>{{task.summary}}</td>
+              <td>{{task.description}}</td>
+              <td [style.color]="task.priorityTagColorCode">{{task.priorityName}}</td>
+              <td [style.color]="task.statusTagColorCode">
+                <p-button label="{{task.statusName}}" size="small" icon="pi pi-file-edit"
+                  (click)="showStatusUpdateBox()" [rounded]="true" iconPos="right" [text]="true" severity="secondary" />
+
+              </td>
+              <td>{{task.dueDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+              <td>{{task.assigneeUserName}}</td>
+              <td>
+
+                <div class="dropdown float-end">
+                  <a href="#" class="dropdown-toggle text-muted arrow-none" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="mdi mdi-dots-vertical font-18"></i>
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-end">
+                    <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item text-primary"><i
+                        class="mdi mdi-clock me-1 text-primary"></i>Add Time Log</a>
+                    <!-- item-->
+                    <a href="javascript:void(0);" (click)="ShowEditForm(task)" class="dropdown-item"><i
+                        class="mdi mdi-pencil me-1"></i>Edit</a>
+                    <!-- item-->
+                    <a href="javascript:void(0);" (click)="confirmDelete(task.id)" class="dropdown-item"><i
+                        class="mdi mdi-delete me-1"></i>Delete</a>
+                  </div>
+                </div>
+
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+    </div>
+
 
 
   </div> <!-- end .board-->
@@ -140,3 +227,48 @@
     </div>
   </form>
 </p-dialog>
+
+<p-overlayPanel #op class="p-0">
+  <div class="flex flex-column gap-3 w-25rem">
+    <!-- <div>
+      <span class="font-medium text-900 block mb-2">Invite Member</span>
+      <div class="d-flex">
+        <input pInputText type="text" class="me-1" />
+        <p-button label="Invite" styleClass="rounded-3 btn-sm" icon="pi pi-users" [rounded]="true" />
+      </div>
+    </div> -->
+    <div class="mt-2">
+      <span class="fw-bold block mb-2 mt-2">Team Members</span>
+      <ul class="list-none p-0 m-0 flex flex-column gap-3">
+        <!-- <li *ngFor="let member of projectMembers" class="flex align-items-center gap-2">
+          <img [src]="member.picturePath" style="width: 32px" />
+          <div>
+            <span class="font-medium">{{ member.fullName }}</span>
+            <div class="text-sm text-secondary">{{ member.emailId }}</div>
+          </div>
+          <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
+             <span>{{ member.role }}</span> 
+             <span>Admin</span>
+            <i class="pi pi-angle-down"></i>
+          </div>
+        </li> -->
+
+
+        <p-listbox [options]="projectMembers" optionLabel="name" [checkbox]="true"  [filter]="true"  [listStyle]="{ 'max-height': '250px' }"
+          [style]="{ width: '15rem', padding:0, margin:0, border:0 }" [listStyle]="{'max-height': '220px'}">
+          <ng-template let-member pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <img src="https://primefaces.org/cdn/primeng/images/demo/flag/flag_placeholder.png"
+                [class]="'flag flag-' + member.fullName" style="width: 18px" />
+              <div>{{ member.fullName }}</div>
+            </div>
+          </ng-template>
+        </p-listbox>
+
+
+
+
+      </ul>
+    </div>
+  </div>
+</p-overlayPanel>

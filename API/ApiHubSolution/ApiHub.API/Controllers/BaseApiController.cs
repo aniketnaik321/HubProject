@@ -50,7 +50,7 @@ namespace ApiHub.API.Controllers
                 var jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
                 // Extract the user ID from the decoded token
-                string data = jwtToken?.Claims?.FirstOrDefault(c => c.Type == "nameid")?.Value;
+                string data = jwtToken?.Claims?.FirstOrDefault(c => c.Type == "nameid")?.Value!;
 
                 return data;
             }

@@ -20,4 +20,5 @@ export class DefaultProjectService {
   getDefaultProjectId(): string {
     return localStorage.getItem("DefaultProjectId") ?? '';
   }
+
 }

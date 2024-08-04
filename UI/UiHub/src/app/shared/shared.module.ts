@@ -14,6 +14,7 @@ import { MenuModule } from 'primeng/menu';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
+import { PasswordModule } from 'primeng/password';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { DropdownModule } from 'primeng/dropdown';
     SkeletonModule,
     MenuModule,
     MessagesModule,
-    DropdownModule
+    DropdownModule,
+    PasswordModule
   ],
   exports: [
     HeaderComponent,
