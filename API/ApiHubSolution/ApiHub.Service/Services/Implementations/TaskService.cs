@@ -170,7 +170,11 @@ namespace ApiHub.Service.Services.Implementations
 
         public async Task MoveTaskToInProgress()
         {
-            await _dbService.CallProcedure<DtoCommonReponse>(Constants.AppConstants.PROC_ADDMACHINE_EVENT);
+            //Code to get list of all users whose task is pending, to notify.
+
+            await _dbService.CallProcedure<DtoCommonReponse>(Constants.AppConstants.PROC_BG_MOVETAKSINPROGRESS);
+
+
         }
 
             #endregion

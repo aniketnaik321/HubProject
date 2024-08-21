@@ -74,8 +74,9 @@
                     <div class="text-end">
                         <div class="btn-group mb-2">
 
-                            <p-fileUpload mode="basic"  [auto]="true" (onSelect)="onUpload($event)" styleClass="p-1 btn btn-default" chooseLabel="" chooseIcon="pi pi-paperclip" name="demo[]"
-                                 accept="image/*,.pdf,.doc,.docx,.zip"  />
+                            <p-fileUpload mode="basic" [auto]="true" (onSelect)="onUpload($event)"
+                                styleClass="p-1 btn btn-default" chooseLabel="" chooseIcon="pi pi-paperclip"
+                                name="demo[]" accept="image/*,.pdf,.doc,.docx,.zip" />
                             <!-- <button type="button" class="btn btn-link btn-sm text-muted font-18"><i
                                     class="dripicons-paperclip"></i></button> -->
                         </div>
@@ -115,8 +116,8 @@
                             <div class="p-field">
                                 <label>Assignee</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [(ngModel)]="assigneeId" [options]="assignee" optionLabel="name"
-                                        placeholder="Select Assignee"></p-dropdown>
+                                    <p-dropdown appendTo="body" [(ngModel)]="assigneeId" [options]="assignee"
+                                        optionLabel="name" placeholder="Select Assignee"></p-dropdown>
                                 </div>
                             </div>
                         </div>
@@ -124,8 +125,8 @@
                             <div class="p-field">
                                 <label>Status</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [(ngModel)]="statusId" [options]="statusList" optionLabel="name"
-                                        placeholder="Select Status"></p-dropdown>
+                                    <p-dropdown appendTo="body" [(ngModel)]="statusId" [options]="statusList"
+                                        optionLabel="name" placeholder="Select Status"></p-dropdown>
                                 </div>
                             </div>
                         </div>
@@ -133,8 +134,8 @@
                             <div class="p-field">
                                 <label>Priority</label>
                                 <div class="col-12">
-                                    <p-dropdown appendTo="body" [(ngModel)]="priorityId" [options]="priorityList" optionLabel="name"
-                                        placeholder="Select Status"></p-dropdown>
+                                    <p-dropdown appendTo="body" [(ngModel)]="priorityId" [options]="priorityList"
+                                        optionLabel="name" placeholder="Select Status"></p-dropdown>
                                 </div>
                             </div>
                         </div>
@@ -144,35 +145,35 @@
             </div>
             <!-- end card-->
 
-            <div class="card">
+            <div class="card" *ngIf="documentList && documentList.length>0">
                 <div class="card-body">
                     <h5 class="card-title mb-3">Files</h5>
 
-                   <!-- your-component.component.html -->
-<div *ngFor="let file of documentList" class="card mb-1 shadow-none border">
-    <div class="p-2">
-      <div class="row align-items-center">
-        <div class="col-auto">
-          <div class="avatar-sm">
-            <span class="avatar-title rounded">
-              {{file.fileType}}
-            </span>
-          </div>
-        </div>
-        <div class="col ps-0">
-          <a href="javascript:void(0);" class="text-muted fw-bold">{{ file.fileName }}</a>
-          <p class="mb-0">{{ file.fileSize }}</p>
-        </div>
-        <div class="col-auto">
-          <!-- Button -->
-          <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted">
-            <i class="dripicons-download"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+                    <!-- your-component.component.html -->
+                    <div *ngFor="let file of documentList" class="card mb-1 shadow-none border">
+                        <div class="p-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title rounded">
+                                            {{file.fileType}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col ps-0">
+                                    <a href="javascript:void(0);" class="text-muted fw-bold">{{ file.fileName }}</a>
+                                    <p class="mb-0">{{ file.fileSize }}</p>
+                                </div>
+                                <div class="col-auto">
+                                    <!-- Button -->
+                                    <a href="javascript:void(0);" class="btn btn-link btn-lg text-muted">
+                                        <i class="dripicons-download"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
             </div>
