@@ -113,3 +113,9 @@ export interface IProjectMembers {
   picturePath: string | null;
   emailId: string;
 }
+
+export interface IUserRoles
+{
+  id:string,
+  RoleTitle:string
+}

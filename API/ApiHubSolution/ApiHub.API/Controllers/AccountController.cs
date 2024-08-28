@@ -58,16 +58,19 @@ namespace ApiHub.API.Controllers
       
         
         [HttpPost("register")]
-        public async Task<IActionResult> AddUser([FromBody] DtoRegisterUserModel userObj)
+        public async Task<IActionResult> AddUser([FromBody] DtoRegisterUserModel data)
         {
-            if (userObj == null)
+            if (data == null)
                 return BadRequest();
-            var passMessage = PasswordHasher.CheckPasswordStrength(userObj.Password!);
-            if (!string.IsNullOrEmpty(passMessage))
-                return BadRequest(new { Message = passMessage.ToString() });
+            
+            data.Password = PasswordHasher.GeneratePassword();
+            data.PasswordPlainText = data.Password;
+           // var passMessage = PasswordHasher.CheckPasswordStrength(data.Password!);
+          //  if (!string.IsNullOrEmpty(passMessage))
+             //   return BadRequest(new { Message = passMessage.ToString() });
 
-            userObj.Password = PasswordHasher.HashPassword(userObj.Password!);
-            return PreparePostResponse(await _authorizationService.CreateUser(userObj))!;
+            data.Password = PasswordHasher.HashPassword(data.Password!);
+            return PreparePostResponse(await _authorizationService.CreateUser(data))!;
 
         }
 
@@ -100,6 +103,13 @@ namespace ApiHub.API.Controllers
         {
             input.UserId = this.GetUserId();
             return PreparePostResponse(await _authorizationService.ChangePassword(input));
+        }
+
+        [Authorize]
+        [HttpPost("SendPasswordResetLink/{userId}")]
+        public async Task<IActionResult> SendPasswordResetLink([FromRoute] string userId)
+        {            
+            return PreparePostResponse(await _usersService.SendPasswordResetEmail(userId));
         }
     }
 

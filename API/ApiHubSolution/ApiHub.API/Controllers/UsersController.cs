@@ -46,6 +46,13 @@ namespace ApiHub.API.Controllers
 
         }
 
+        [HttpGet("Lookup")]
+        public async Task<IActionResult> GetLookup()
+        {
+            return Ok(await this._userService.GetLookups());
+        }
+
+
         [HttpPost("SendPushNotification")]
         public void PostNotification([FromBody] DtoNotificationMessage input)
         {

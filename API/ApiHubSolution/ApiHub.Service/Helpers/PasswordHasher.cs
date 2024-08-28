@@ -63,5 +63,22 @@ namespace ApiHub.Service.Helpers
             return sb.ToString();
         }
 
+        public static string GeneratePassword()
+        {
+            const int passwordLength = 8;
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+=-{}[]:;<>,.?";
+
+            StringBuilder passwordBuilder = new StringBuilder();
+            Random random = new Random();
+
+            for (int i = 0; i < passwordLength; i++)
+            {
+                int index = random.Next(validChars.Length);
+                passwordBuilder.Append(validChars[index]);
+            }
+
+            return passwordBuilder.ToString();
+        }
+
     }
 }

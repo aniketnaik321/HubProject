@@ -31,6 +31,7 @@ namespace ApiHub.Service.Constants
         public const string PROC_GET_PROJECT_MEMBERS = "PM_GetMembersByProjectId";
         public const string PROC_ADD_PROJECT_MEMBERS = "PM_AddProjectMember";
         public const string PROC_BG_MOVETAKSINPROGRESS = "PM_BackgroundJobMoveTaskToInProgress";
+        public const string PROC_SEND_PASSWORD_RESET_EMAIL = "SendPasswordResetEmail";
 
 
 

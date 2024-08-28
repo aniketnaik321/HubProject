@@ -293,6 +293,20 @@ export class ApiService {
       );
   }
 
+  getUsersLookupData(): Observable<ILookupList> {
+    return this.http.get<ILookupList>(this.baseUrl + '/Users/lookup')
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  SendPasswordResetLink(data: string): Observable<ICommonResponse> {
+    return this.http.post<ICommonResponse>(this.baseUrl + '/Account/SendPasswordResetLink/'+data, null)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
 
   /*========Document Section ============*/
   getIssueDocuments(issueId: string): Observable<IIssueDocument[]> {

@@ -20,12 +20,17 @@ label{
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    gap: 0.1rem;
 }
 
 .form-grid .p-field {
     display: flex;
     flex-direction: column;
+    margin: 0!important;
+}
+
+.p-field{
+    margin-bottom: 1px!important;
 }
 
 .p-template-footer {

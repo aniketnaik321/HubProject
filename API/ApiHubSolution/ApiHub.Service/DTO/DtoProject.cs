@@ -286,6 +286,14 @@ namespace ApiHub.Service.DTO
         public Guid ProjectId { get; set; }
     }
 
+    public class DtoSendPasswordResetLinkRequest
+    {
+
+        [Parameter]
+        public Guid UserId { get; set; }
+       
+    }
+
 
 
 }

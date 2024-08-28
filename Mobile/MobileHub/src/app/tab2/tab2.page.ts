@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IIssues } from '../shared-models/ProjectModels';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -8,48 +10,79 @@ import { Component, OnInit } from '@angular/core';
 export class Tab2Page implements OnInit {
 
   tasks = [
+    // Your API data here
     {
-      title: 'In the morning',
-      date: '10 May 2019',
-      color: '#4CAF50',
-      subtasks: ['Take medicine on time', 'Wash yesterday\'s clothes'],
+      "id": 86,
+      "issueKey": "TO",
+      "summary": "Form to add new Task",
+      "description": "Implement Task planner mobile application...",
+      "statusName": "To Do",
+      "statusTagColorCode": "#6C757D",
+      "dueDate": new Date("2024-08-25T06:16:23.308"),
+      "assigneeUserName": "AniketN"
     },
     {
-      title: 'After work',
-      date: '10 May 2019',
-      color: '#FF9800',
-      subtasks: ['Go to the bank', 'Register in the wave release service', 'See a movie'],
+      "id": 85,
+      "issueKey": "GP",
+      "summary": "UI Design",
+      "description": "Google Map Crawler",
+      "statusName": "In Progress",
+      "statusTagColorCode": "#5E8A61",
+      "dueDate": new Date("2024-08-22T21:22:34.165"),
+      "assigneeUserName": "AniketN"
     },
-    {
-      title: 'Going to bed',
-      date: '10 May 2019',
-      color: '#3F51B5',
-      subtasks: ['Call mom', 'Read a design journal'],
-    },
-    // Add more tasks as needed
+    // More data...
   ];
+  
+  filteredTasks :IIssues[] = [];
+  selectedStatus = 'all';
 
-  constructor() {}
+  constructor(private actionSheetController: ActionSheetController) {}
 
   ngOnInit() {
-    this.addMoreTasks();
+    this.filteredTasks = this.tasks; // Initially show all tasks
   }
 
-  addMoreTasks() {
-    // Simulate adding more tasks
-    for (let i = 0; i < 10; i++) {
-      this.tasks.push({
-        title: `Task ${this.tasks.length + 1}`,
-        date: '10 May 2019',
-        color: this.getRandomColor(),
-        subtasks: ['Subtask 1', 'Subtask 2', 'Subtask 3'],
-      });
+  async openFilterMenu() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Filter Tasks',
+      buttons: [
+        {
+          text: 'All',
+          handler: () => {
+            this.selectedStatus = 'all';
+            this.filterTasks();
+          }
+        },
+        {
+          text: 'To Do',
+          handler: () => {
+            this.selectedStatus = 'To Do';
+            this.filterTasks();
+          }
+        },
+        {
+          text: 'In Progress',
+          handler: () => {
+            this.selectedStatus = 'In Progress';
+            this.filterTasks();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  filterTasks() {
+    if (this.selectedStatus === 'all') {
+      this.filteredTasks = this.tasks;
+    } else {
+      this.filteredTasks = this.tasks.filter(task => task.statusName === this.selectedStatus);
     }
-  }
-
-  getRandomColor() {
-    const colors = ['#4CAF50', '#FF9800', '#3F51B5'];
-    return colors[Math.floor(Math.random() * colors.length)];
   }
 
 }

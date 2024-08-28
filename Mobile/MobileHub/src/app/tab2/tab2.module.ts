@@ -10,6 +10,8 @@ import { Tab2Page } from './tab2.page';
 import { HeaderModule } from "../components/header/header.module";
 
 
+
+
 @NgModule({
     declarations: [Tab2Page],
     imports: [

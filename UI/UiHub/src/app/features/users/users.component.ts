@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmEventType, ConfirmationService, LazyLoadEvent, MenuItem, MessageService } from 'primeng/api';
 import { TableLazyLoadEvent } from 'primeng/table';
@@ -9,6 +9,7 @@ import { IPagedData } from 'src/app/core/shared-models/IPagedData';
 import { IPagedRequest } from 'src/app/core/shared-models/PagedFilterRequest';
 import Swal from 'sweetalert2';
 import { IStatusUpdateRequest } from 'src/app/core/shared-models/ProjectModels';
+import { Menu } from 'primeng/menu';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -19,6 +20,7 @@ export class UsersComponent {
   tableData?: IUserService[];
   selectedUsers?: IUserService;
   request?: IPagedRequest;
+  rolesList?: ILookupItem[];
   dialogDisplay: boolean = false;
   form: FormGroup;
   totalRecords: number = 0;
@@ -26,6 +28,9 @@ export class UsersComponent {
   dataTypeIdOptions?: ILookupItem[];
   items: MenuItem[] | undefined;
   photoUrl: string | ArrayBuffer | null = null;
+  selectedItem: any; // Variable to hold the selected item data
+
+  @ViewChild('menu') menu: Menu | undefined; 
 
   constructor(
     private fb: FormBuilder,
@@ -37,35 +42,48 @@ export class UsersComponent {
       UserId: [0],
       UserName: ['', [Validators.required]],
       FullName: [''],
-      EmailId: [null],      
-      Photo: [null]
+      EmailId: [null],
+      Photo: [null],
+      RoleList: [[{ RoleId: 2, RoleTitle: 'Member' }], [Validators.required]]
     });
 
     this.items = [
       {
-          label: 'Options',
-          items: [
-              {
-                  label: 'Edit',
-                  icon: 'pi pi-pencil',
-                  command: (data:any) => {
-                      this.ShowEditForm(data);
-                  }
-              },
-              {
-                  label: 'Delete',
-                  icon: 'pi pi-trash',
-                  command: (data:any) => {
-                      this.confirmDelete(data.id);
-                  }
-              }
-          ]
+        label: 'Options',
+        items: [
+          {
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: (data: any) => {
+              this.ShowEditForm(data);
+            }
+          },
+          {
+            label: 'Password Reset Email',
+            icon: 'pi pi-envelope',
+            command: (data: any) => {
+              this.ConfirmSendingLink(this.selectedItem);
+            }
+          },
+          {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            command: (data: any) => {
+              this.confirmDelete(data.id);
+            }
+          }
+        ]
       }
-  ];
-
-
-
+    ];
   }
+
+
+
+  onMenuButtonClick(event: Event, item: any) {
+    this.selectedItem = item;  // Set the selected item data
+    this.menu?.toggle(event);  // Use ViewChild reference to toggle the menu
+  }
+
 
   ngOnInit(): void {
     this.setupLookup();
@@ -107,41 +125,49 @@ export class UsersComponent {
     });
   }
 
-  setupLookup(): void {
-    // Call your API service for lazy loading
-    // this.apiService.getLookupData().subscribe((data: any) => {
-    //   this.dataTypeIdOptions = data[0];
-    // });
+  setupLookup(): Promise<number> {
+    return new Promise((resolve, reject) => {
+      this.apiService.getUsersLookupData().subscribe(
+        (data: any) => {
+          this.rolesList = data[1];
+
+          resolve(1);  // Resolving with a number, you can change it to whatever you need
+        },
+        (error: any) => {
+          reject(error);  // Rejecting the promise in case of an error
+        }
+      );
+    });
   }
 
-   getInitials(fullName: string): string {
+  getInitials(fullName: string): string {
     if (!fullName) {
       return '';
     }
-  
+
     const words = fullName.split(' ');
-  
+
     if (words.length === 1) {
       // If there's only one word, return the first two characters
       return words[0].substring(0, 2).toUpperCase();
     }
-  
+
     const initials = words
       .map(word => word.charAt(0).toUpperCase())
       .join('');
-  
+
     return initials;
   }
 
   getSeverity(status: boolean) {
     switch (status) {
-        case true:
-            return 'success';        
-        case false:
-            return 'danger';
+      case true:
+        return 'success';
+      case false:
+        return 'danger';
     }
-}
- 
+  }
+
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
@@ -170,17 +196,47 @@ export class UsersComponent {
 
   ShowEditForm(selectedData: any): void {
     this.apiService.getUserById(selectedData.UserId).subscribe((data) => {
-      this.selectedUsers= data;
+      this.selectedUsers = data;
       // Set the form values using patchValue
       this.form.patchValue({
         userId: this.selectedUsers?.userId,
         userName: this.selectedUsers?.name,
         fullName: this.selectedUsers?.fullName,
-        emailId: this.selectedUsers?.emailId,      
+        emailId: this.selectedUsers?.emailId,
       });
       this.dialogDisplay = true;
     });
   }
+
+  SendPasswordResetLink(data: any): void {
+    this.apiService.SendPasswordResetLink(data.id).subscribe(data => {
+      //this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: data.message,
+        footer: ''
+      });
+     
+    });
+  }
+
+  ConfirmSendingLink(data: any): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Password reset email will be sent to '+data.emailId,
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#727cf5',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, send!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+       this.SendPasswordResetLink(data);
+      }
+    });
+  }
+
 
   loadUsers(): void {
     this.apiService.getUsers(this.request).subscribe((data) => {
@@ -192,8 +248,20 @@ export class UsersComponent {
     const Users: IUserService = this.form.value;
     if (this.form.valid) {
       // Your form is valid, you can submit the data
-      const formData = this.form.value;
-      this.apiService.createUser(Users).subscribe(data => {
+      let formData: IUserService = { ...Users };
+      if (Users) {
+
+        formData.Roles = this.rolesList?.filter(role =>
+          Users.RoleList?.some(userRole => userRole === role.code)
+        )
+          .map(role => ({
+            id: role.code, // Assuming `role.code` corresponds to `RoleId`
+            RoleTitle: role.name, // Assuming `role.title` corresponds to `RoleTitle`
+          }))
+          ?? [];
+      }
+
+      this.apiService.createUser(formData).subscribe(data => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: data.message });
 
         this.loadUsers();
@@ -234,10 +302,10 @@ export class UsersComponent {
   }
 
 
-  updateDelete(userId: string,status:boolean): void {
+  updateDelete(userId: string, status: boolean): void {
     Swal.fire({
       title: 'Are you sure?',
-      text: `User will be ${(status)?'Activated':'De-activated'}, are you sure?!`,
+      text: `User will be ${(status) ? 'Activated' : 'De-activated'}, are you sure?!`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#727cf5',
@@ -245,9 +313,9 @@ export class UsersComponent {
       confirmButtonText: 'Yes, change status!'
     }).then((result) => {
       if (result.isConfirmed) {
-        const data:IStatusUpdateRequest={
-          status:status,
-          userId:userId
+        const data: IStatusUpdateRequest = {
+          status: status,
+          userId: userId
         }
         this.apiService.updateUserStatus(data).subscribe(T => {
           if (T.statusCode === 200) {

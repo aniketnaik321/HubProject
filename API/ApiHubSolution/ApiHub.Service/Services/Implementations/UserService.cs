@@ -67,9 +67,9 @@ namespace ApiHub.Service.Services.Implementations
             return await _dbService.GetPaginatedResultset<DtoUser>(request, AppConstants.PROC_USERSLIST);
         }
 
-        public Task<List<List<DtoLookup>>> GetLookups()
+        public async Task<List<List<DtoLookup>>> GetLookups()
         {
-            throw new NotImplementedException();
+            return await _dbService.GetDataLookupResults(AppConstants.LOOKUP_USERS);
         }
 
         public async Task<DtoUser> GetUserById(long id)
@@ -86,6 +86,16 @@ namespace ApiHub.Service.Services.Implementations
         public async Task<DtoCommonReponse> UpdateDeivceToken(DtoUserDeviceToken input)
         {
             return await _dbService.CallProcedure<DtoUserDeviceToken>(input,AppConstants.PROC_UPDATE_DEVICE_TOKEN);            
+        }
+
+        public async Task<DtoCommonReponse> SendPasswordResetEmail(string userId) {
+
+            var inp = new DtoSendPasswordResetLinkRequest() {
+                UserId = Guid.Parse(userId),
+            };
+
+            return await _dbService.CallProcedure<DtoSendPasswordResetLinkRequest>(inp, AppConstants.PROC_SEND_PASSWORD_RESET_EMAIL);
+        
         }
 
     }

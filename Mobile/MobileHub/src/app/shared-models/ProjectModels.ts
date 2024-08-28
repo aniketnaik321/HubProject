@@ -33,7 +33,8 @@ export interface IProject {
     assigneeUserId?: string;
     reporterUserId?: string;
     assigneeUserName?:string;
-    comments: Comment[];
+    statusTagColorCode?:string;
+    comments?: Comment[];
   }
 
   export interface IIssueRequest{

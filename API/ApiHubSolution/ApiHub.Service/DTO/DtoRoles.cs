@@ -8,7 +8,7 @@ namespace ApiHub.Service.DTO
 {
     public class DtoRoles
     {
-        public int RoleId { get; set; }
+        public int Id { get; set; }
 
         public string? RoleTitle { get; set; }
 

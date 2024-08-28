@@ -43,7 +43,7 @@
                                         [severity]="getSeverity(item.isActive)"></p-tag></td>
                                 <td class="text-nowrap">
                                     <div class="dropdown text-center">
-                                        <p-button icon="pi pi-ellipsis-v" styleClass="pointer" (click)="menu.toggle($event)" label=""
+                                        <p-button icon="pi pi-ellipsis-v" styleClass="pointer" (click)="onMenuButtonClick($event,item)" label=""
                                             [text]="true" [plain]="true"></p-button>
                                     </div>
                                 </td>
@@ -91,6 +91,25 @@
                     Value type is required.
                 </div>
             </div>
+
+            <div class="p-field">
+                <label for="Role">Roles</label>
+                <div>
+                    <p-multiSelect 
+                    [options]="rolesList" 
+                    formControlName="RoleList"
+                    placeholder="Select Roles"
+                    optionLabel="name"
+                    optionValue="code" 
+                    display="chip" 
+                    [showClear]="true" />
+                </div>
+                <div class="text-danger" *ngIf="isControlInvalid('RoleList')">
+                    Role is required.
+                </div>
+            </div>
+
+            <div class="p-field"></div>
             <div class="p-field">
                 <label for="photo">Photo</label>
                 <p-fileUpload name="photo[]" url="./upload" (onUpload)="onUpload($event)" accept="image/*" [auto]="true"></p-fileUpload>

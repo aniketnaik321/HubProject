@@ -45,6 +45,10 @@ namespace ApiHub.Service.DTO
         [Parameter("PasswordHash")]
         public string? Password { get; set; }
 
+        [Parameter("PasswordPlainText")]
+        [JsonIgnore]
+        public string? PasswordPlainText { get; set; }
+
         [Parameter]
         public string? FullName { get; set; }
         public DtoRoles[] Roles { get; set; }
