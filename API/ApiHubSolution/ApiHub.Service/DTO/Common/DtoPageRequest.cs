@@ -27,6 +27,9 @@ namespace ApiHub.Service.DTO.Common
         [JsonIgnore]
         public string? UserId { get; set; }
 
+        public List<string>? filterKeySet { get; set; }
+        public List<string>? filterValueSet { get; set; }
+
         public int? SortDirection { set
             {
                 if (value == 1)

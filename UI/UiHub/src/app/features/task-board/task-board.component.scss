@@ -1,40 +1,46 @@
-
-
-
-.header-row{
-    height: 60px;
-    padding-top: 10px;
+.header-row {
+  height: 60px;
+  padding-top: 10px;
 }
 
-.task-card{
+.task-card {
 
-    transition: 0.4s all;
-    border-radius: 10px;
-    border: 1px solid transparent;
+  transition: 0.4s all;
+  border-radius: 10px;
+  border: 1px solid transparent;
 
 }
 
-.task-card:hover{
-border: 1px solid blue;
-box-shadow: 0 4px 8px rgba(173, 216, 230, 0.5); /* Light blue color */
+.task-card:hover {
+  border: 1px solid blue;
+  box-shadow: 0 4px 8px rgba(173, 216, 230, 0.5);
+  /* Light blue color */
 }
 
-.active-view-button{
-    background-color: grey;
-    color: white;
+.active-view-button {
+  background-color: grey;
+  color: white;
 }
 
 
 
 ::ng-deep .p-avatar-group p-avatar {
-    margin-right: 12px; /* Adjust the value to increase/decrease the spacing */
-  }
-  
-  ::ng-deep .p-avatar-group p-avatar:last-child {
-    margin-right: 0; /* Remove margin from the last avatar */
-  }
+  margin-right: 12px;
+  /* Adjust the value to increase/decrease the spacing */
+}
 
-  /* user-dropdown.component.css */
+::ng-deep .p-avatar-group p-avatar:last-child {
+  margin-right: 0;
+  /* Remove margin from the last avatar */
+}
+
+/* user-dropdown.component.css */
 :host ::ng-deep .p-multiselect {
-    width: 100%;
+  width: 100%;
+}
+
+:host ::ng-deep .member-filter {
+  .overlay-panel-content {
+    padding: 3px !important;
   }
+}

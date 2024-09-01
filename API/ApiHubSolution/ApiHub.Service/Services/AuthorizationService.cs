@@ -107,7 +107,7 @@ namespace ApiHub.Service.Services
         {
             user.UserName = user.EmailId;
             user.Id = Guid.NewGuid();
-            var users = _automapper.Map<User>(user);
+            //var users = _automapper.Map<User>(user);
             //await _userRepository.CreateAsync(users);
             //return new DtoCommonReponse()
             //{

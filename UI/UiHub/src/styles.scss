@@ -25161,3 +25161,7 @@ chevrondownicon{
   .p-overlayPanel-content{
     padding: 3px!important;
   }
+
+  .p-overlaypanel .p-overlaypanel-content, .p-listbox .p-listbox-header {
+    padding: 0.3rem;
+}

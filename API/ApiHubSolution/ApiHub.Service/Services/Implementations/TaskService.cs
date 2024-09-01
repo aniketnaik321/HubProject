@@ -171,12 +171,23 @@ namespace ApiHub.Service.Services.Implementations
         public async Task MoveTaskToInProgress()
         {
             //Code to get list of all users whose task is pending, to notify.
+            var data = await _dbService.CallProcedure<DtoIssueDetailsForJob>(Constants.AppConstants.PROC_BG_MOVETAKSINPROGRESS);
+            List<DtoNotificationMessage> messages=new List<DtoNotificationMessage>();
 
-            await _dbService.CallProcedure<DtoCommonReponse>(Constants.AppConstants.PROC_BG_MOVETAKSINPROGRESS);
+            foreach (var item in data) {
+                messages.Add(new DtoNotificationMessage()
+                {
+                    DeviceToken=item.DeviceToken,
+                    Message=item.NotificationMessage,
+                    Title=item.NotificationTitle,
+                    userId=item.AssigneeUserID,
+                });
+            }
 
+            if(messages.Count>0)
+                await _pushNotificationService.SendPushNotificationAsync(messages);
 
         }
-
             #endregion
 
         }

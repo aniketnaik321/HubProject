@@ -3,6 +3,8 @@ export interface IPagedRequest {
     pageSize: number;
     filterKeys: string;
     filterValues: string;
+    filterKeySet?: string[];
+    filterValueSet?: string[];
     orderByKey: string;
     sortDirection: number;
   }

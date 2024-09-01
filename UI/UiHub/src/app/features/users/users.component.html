@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card bg-white shadow">
-                <div class="card-body p-2">
+                <div class="card-body p-0">
                     <p-table [paginator]="true" [value]="tableData!" [customSort]="true" [rows]="pageSize"
                         [totalRecords]="totalRecords" [lazy]="true" (onLazyLoad)="loadDataLazy($event)"
                         [rowHover]="true" [tableStyle]="{'min-width': '60rem'}" styleClass="p-datatable-sm">
@@ -22,6 +22,8 @@
                                 <th pSortableColumn="name" style="width:2%"></th>
                                 <th pSortableColumn="category" style="width:20%">Full Name <p-sortIcon
                                         field="category"></p-sortIcon></th>
+                                        <th pSortableColumn="roles" style="width:20%">Roles <p-sortIcon
+                                            field="roles"></p-sortIcon></th>
                                 <th pSortableColumn="category" style="width:20%">Email Address<p-sortIcon
                                         field="category"></p-sortIcon></th>
                                 <th pSortableColumn="isActive" style="width:20%">Status<p-sortIcon
@@ -38,6 +40,7 @@
                                 <td>                                    
                                    <a href="javascript:void()">{{item.fullName}}</a> 
                                 </td>
+                                <td>Admin, Member</td>
                                 <td>{{item.emailId}}</td>
                                 <td><p-tag  styleClass="pointer" (click)="updateDelete(item.id,!item.isActive)" [value]="(item.isActive)?'Active':'In-Active'"
                                         [severity]="getSeverity(item.isActive)"></p-tag></td>

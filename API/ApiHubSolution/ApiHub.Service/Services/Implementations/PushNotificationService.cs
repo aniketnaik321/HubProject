@@ -62,6 +62,49 @@ namespace ApiHub.Service.Services.Implementations
           //  Console.WriteLine("Successfully sent message: " + response);
         }
 
+
+        public async Task SendPushNotificationAsync(List<DtoNotificationMessage> input)
+        {
+            List<Message> messages = new List<Message>();
+            
+
+            foreach (var item in input) {
+
+                messages.Add(new Message()
+                {
+                    Token = item.DeviceToken,
+                    Notification = new Notification()
+                    {
+                        Title = item.Title,
+                        Body = item.Message,
+                        ImageUrl = "https://picsum.photos/200/100"
+                    },
+                  
+                });
+
+            }
+
+            var resp = await FirebaseMessaging.DefaultInstance.SendEachAsync(messages);
+
+            //string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
+            foreach (var item in input)
+            {
+                await _dbService.CallProcedure<DtoNotificationLogRequest>(new DtoNotificationLogRequest()
+                {
+                    DeviceToken = item.DeviceToken,
+                    UserId = item.userId,
+                    NotificationText = item.Message,
+                    NotificationTitle = item.Title
+                }, AppConstants.PROC_LOG_NOTIFICATION);
+
+            }
+                //Log the notification
+             
+
+            //  Console.WriteLine("Successfully sent message: " + response);
+        }
+
+
         public async Task<DtoPagedResponse<DtoNotificationResponse>> GetNotificationList(DtoPageRequest request)
         {
             return await _dbService.GetPaginatedResultset<DtoNotificationResponse>(request, AppConstants.PROC_GETNOTIFICATIONS);

@@ -11,6 +11,7 @@ namespace ApiHub.Service.Services.Contracts
     public interface IPushNotificationService
     {
         Task SendPushNotificationAsync(DtoNotificationMessage input);
+        Task SendPushNotificationAsync(List<DtoNotificationMessage> input);
         Task<DtoPagedResponse<DtoNotificationResponse>> GetNotificationList(DtoPageRequest request);
     }
 }

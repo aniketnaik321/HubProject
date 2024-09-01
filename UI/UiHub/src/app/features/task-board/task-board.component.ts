@@ -26,6 +26,8 @@ export class TaskBoardComponent {
   totalRecords: number = 0;
   draggedRecord: IIssues | undefined | null;
   assignee?: ILookupItem[];
+  selectedMembers:string[]=[];
+
   form: FormGroup;
 
   @ViewChild("taskform")
@@ -38,7 +40,8 @@ export class TaskBoardComponent {
       userName: 'aniket.naik4321@yopmail.com',
       fullName: 'AniketN',
       picturePath: null,
-      emailId: 'aniket.naik4321@yopmail.com'
+      emailId: 'aniket.naik4321@yopmail.com',
+      isSelected: false
     }
   ];
 
@@ -158,7 +161,8 @@ export class TaskBoardComponent {
       // Use patchValue to update the form values
       this.form.patchValue({
         issueId: this.draggedRecord.id,
-        statusId: this.statusList?.find(T => T.code === record.code)
+        statusId: this.statusList?.find(T => T.code === record.code),
+        userId: this.assignee?.find(T => T.code === this.draggedRecord?.assigneeUserId?.toUpperCase())
         // Add other fields if needed
       });
 
@@ -173,11 +177,20 @@ export class TaskBoardComponent {
   }
 
   loadDataLazy(projectId: string) {
+    let filterKeySetTemp:string[]=["ProjectId","AssigneeUserId"]
+    let filterValueSetTemp:string[]=[projectId];
+
+    if(this.selectedMembers.length>0){
+      filterValueSetTemp.push(this.selectedMembers.join('|'));
+    }
+
     let request: IPagedRequest = {
       pageNumber: 1,
-      pageSize: 100,
-      filterKeys: "ProjectId",//event.filters, // Implement this based on your filtering logic
-      filterValues: projectId,
+      pageSize: 10000,
+      filterKeys: filterKeySetTemp.join(','),//event.filters, // Implement this based on your filtering logic
+      filterKeySet:filterKeySetTemp,
+      filterValueSet:filterValueSetTemp,
+      filterValues: filterValueSetTemp.join(','),
       orderByKey: 'createdDate',
       sortDirection: 1
     };
@@ -247,8 +260,10 @@ export class TaskBoardComponent {
 
   }
 
-  filterByMembers(user:IUser): void {
-    this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'This is for test' });
+  filterByMembers(user:IProjectMembers): void {
+    user.isSelected=!user.isSelected;
+    this.selectedMembers=this.projectMembers.filter(T=>T.isSelected===true).map(m=>m.userId);
+    this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());    
   }
 
   onScroll() {

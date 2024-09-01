@@ -244,7 +244,7 @@ export class TaskFormComponent {
       const diffInHours = diffInMs / (1000 * 60 * 60);
 
       this.form.patchValue({
-        estimatedTime: (diffInHours>0)?diffInHours.toFixed(2):0
+        estimatedTime: (diffInHours>0)?diffInHours.toFixed(0):0
       });
     }
   }

@@ -25,12 +25,13 @@ export class UsersComponent {
   form: FormGroup;
   totalRecords: number = 0;
   pageSize: number = 10;
+  totalPages: number = 0;
   dataTypeIdOptions?: ILookupItem[];
   items: MenuItem[] | undefined;
   photoUrl: string | ArrayBuffer | null = null;
   selectedItem: any; // Variable to hold the selected item data
 
-  @ViewChild('menu') menu: Menu | undefined; 
+  @ViewChild('menu') menu: Menu | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -122,6 +123,7 @@ export class UsersComponent {
     this.apiService.getUsers(request).subscribe((data) => {
       this.tableData = data.data; // Update with the actual property in your API response
       this.totalRecords = data.totalCount; // Update with the actual property in your API response
+      this.totalPages = data.totalCount / this.pageSize;
     });
   }
 
@@ -217,14 +219,14 @@ export class UsersComponent {
         text: data.message,
         footer: ''
       });
-     
+
     });
   }
 
   ConfirmSendingLink(data: any): void {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Password reset email will be sent to '+data.emailId,
+      text: 'Password reset email will be sent to ' + data.emailId,
       icon: 'info',
       showCancelButton: true,
       confirmButtonColor: '#727cf5',
@@ -232,7 +234,7 @@ export class UsersComponent {
       confirmButtonText: 'Yes, send!'
     }).then((result) => {
       if (result.isConfirmed) {
-       this.SendPasswordResetLink(data);
+        this.SendPasswordResetLink(data);
       }
     });
   }

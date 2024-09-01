@@ -294,6 +294,20 @@ namespace ApiHub.Service.DTO
        
     }
 
+    public class DtoIssueDetailsForJob
+    {
+        public int IssueId { get; set; }          
+        public int StatusId { get; set; }         
+        public DateTime StartDate { get; set; }   
+        public string AssigneeUserID { get; set; }
+        public string DeviceToken { get; set; }
+
+        public string NotificationMessage { get; set; }
+        public string NotificationTitle { get; set; }
+
+    }
+
+
 
 
 }

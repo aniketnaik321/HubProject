@@ -52,6 +52,23 @@ namespace ApiHub.Service.DTO
         [Parameter]
         public string? FullName { get; set; }
         public DtoRoles[] Roles { get; set; }
+
+        [Parameter]
+        public string UserRoles
+        {
+            get
+            {
+                // Convert Roles array to a comma-separated string of RoleIds
+                return Roles != null && Roles.Length > 0
+                    ? string.Join(",", Roles.Select(r => r.Id.ToString()))
+                    : string.Empty;  // Return an empty string if Roles is null or empty
+            }
+            // Optional: You can keep the set accessor if needed for other operations
+            set
+            {
+                UserRoles = value;
+            }
+        }
     }
 
 }

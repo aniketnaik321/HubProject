@@ -112,6 +112,7 @@ export interface IProjectMembers {
   fullName: string;
   picturePath: string | null;
   emailId: string;
+  isSelected:boolean;
 }
 
 export interface IUserRoles
