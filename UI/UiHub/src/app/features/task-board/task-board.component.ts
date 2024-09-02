@@ -10,6 +10,8 @@ import { IIssueRequest, IIssues, IProjectMembers, IUser } from 'src/app/core/sha
 import Swal from 'sweetalert2';
 import { TaskFormComponent } from '../task-form/task-form.component';
 import { MultiSelect } from 'primeng/multiselect';
+import moment from 'moment';
+import 'moment-timezone';
 
 @Component({
   selector: 'app-task-board',
@@ -132,13 +134,27 @@ export class TaskBoardComponent {
     this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
   }
 
+  timer:any;
+
   ngOnInit() {
     this.setupLookup();
     this.defaultProjectService.dropdownData$.subscribe((data) => {
       this.loadDataLazy(data);
       this.LoadProjectMembers();
     });
+
+      // Set up the timer to call processIssues every second
+      this.timer = setInterval(() => {
+      this.processIssues(this.tableData??[]);
+      }, 1000); // 1000 milliseconds = 1 second
     
+  }
+
+  ngOnDestroy(): void {
+    // Clear the timer when the component is destroyed
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   getTaskById(statusId: any): any {
@@ -271,6 +287,54 @@ export class TaskBoardComponent {
       this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
     }
   }
+
+
+// Helper function to format time differences as "Xh Ym Zs"
+formatTimeDifference(duration: moment.Duration): string {
+  const hours = duration.hours() ? `${duration.hours()}h ` : '';
+  const minutes = duration.minutes() ? `${duration.minutes()}m ` : '';
+  const seconds = duration.seconds() ? `${duration.seconds()}s` : '';
+  return `${hours}${minutes}${seconds}`.trim();
+}
+
+// Main function to process issues
+processIssues(issues: IIssues[]): void {
+  const userTimeZone = moment.tz.guess(); // Gets the user's local time zone
+  const currentDate = moment.utc();
+
+  issues.forEach(issue => {
+    if(issue.statusName?.toLocaleLowerCase()!=='in progress') return;
+    // Reset existing fields
+    issue.IsOverdue = false;
+    issue.OverdueTime = '';
+    issue.StartedSinceTime = '';
+    
+    // Calculate overdue time if due date is present and has passed
+    if (issue.dueDate) {
+      const dueDate = moment.utc(issue.dueDate); // Convert from UTC to local time
+      if (currentDate.isAfter(dueDate)) {
+        issue.IsOverdue = true;
+        const duration = moment.duration(currentDate.diff(dueDate));
+        issue.OverdueTime = this.formatTimeDifference(duration);
+      }
+    }
+
+    // Calculate started since time if start date is present
+    if (issue.startDate) {
+    //  const startDate = moment.utc(issue.startDate).tz(userTimeZone); // Convert from UTC to local time
+
+    const startDate = moment.utc(issue.startDate); // Convert from UTC to local time
+    
+      console.log('Start Date: '+startDate.format());
+      console.log('Current Date'+currentDate.format());
+      const duration = moment.duration(currentDate.diff(startDate));
+      console.log('Hours Diff :'+duration.asHours());
+      issue.StartedSinceTime = this.formatTimeDifference(duration);
+    }
+  });
+}
+
+
 
 }
 

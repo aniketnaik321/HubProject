@@ -21,12 +21,14 @@
     <div class="col-sm-3 col-xs-12">
       <div class="text-sm-end">
         <div class="btn-group mb-3 ms-2 d-none d-sm-inline-block">
-          <button type="button" class="btn btn-default active-view-button" (click)="ToggleActiveView()"
-            [ngClass]="{'active-view-button': !isTableView}"><i class="dripicons-view-apps"></i></button>
+          <button type="button" tooltipPosition="top" [pTooltip]="'Board View'"
+            class="btn px-2 py-1 btn-default active-view-button" (click)="ToggleActiveView()"
+            [ngClass]="{'active-view-button': !isTableView}"><i class="pi pi-th-large"></i></button>
         </div>
         <div class="btn-group mb-3 d-none d-sm-inline-block me-2">
-          <button type="button" class="btn btn-default" (click)="ToggleActiveView()"
-            [ngClass]="{'active-view-button': isTableView}"><i class="dripicons-checklist"></i></button>
+          <button type="button" tooltipPosition="top" [pTooltip]="'Table View'" class="btn px-2 py-1 btn-default"
+            (click)="ToggleActiveView()" [ngClass]="{'active-view-button': isTableView}"><i
+              class="pi pi-table"></i></button>
         </div>
         <div class="btn-group mb-3 d-none d-sm-inline-block">
           <p-button label="Add Task" styleClass="rounded-3 btn-md" (click)="ShowTaskForm(true)"
@@ -49,37 +51,38 @@
           <div *ngFor="let task of getTaskById(status.code)" class="card mb-0" [dragEffect]="'linkMove'" pDraggable
             (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd(status)">
             <div class="card-body p-1 task-card" style="cursor: move;">
+
               <div class="row">
-                <div class="col-8">
-                  <h6 class="mt-1 m-1">
-                    <a routerLink="/hrlite/taskdetail/{{task.id}}" class="text-title">{{ task.summary }}</a>
-                  </h6>
-                </div>
                 <div class="col-4">
-                  <small class="float-end text-muted text-nowrap">{{ task.statusName }}</small>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12">
-                  <span class="badge float-end" [style.background-color]="task.priorityTagColorCode">{{
+                  <span class="badge" [style.background-color]="task.priorityTagColorCode">{{
                     task.priorityName }}</span>
-                  <span class="text-nowrap mb-2 d-inline-block">
-                    <i class="mdi mdi-comment-multiple-outline text-muted ps-1 pe-1"></i>
-                    <b>{{ task.commentCount }}</b> Comments
-                  </span>
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-10">
-                  <!-- <img [src]="task.assigneeUserId" alt="user-img" class="avatar-xs rounded-circle me-1"> -->
-                  <span class="account-user-avatar">
-                    <div [attr.data-initialssmall]="GetInitials(task.assigneeUserName)"> <span
-                        class="align-middle">{{task.assigneeUserName }}</span></div>
-                  </span>
-
+                <div class="col-7 pt-1">
+                  @if(task.statusName ==='In Progress') {
+                  
+                    
+                    @if(task.IsOverdue){
+                      <span class="badge badge-outline-danger float-end">
+                        <i class="mdi mdi-clock-outline text-default pe-1"></i>
+                        Overdue
+                     <i class="fw-bold"> ({{task.OverdueTime}})</i>
+                    </span>
+                    }
+                    @else{
+                      
+                      <span class="badge badge-outline-success float-end">
+                        <i class="mdi mdi-clock-outline text-default pe-1"></i>
+                        On-track
+                      <i class="fw-bold"> ({{task.StartedSinceTime}})</i>
+                      </span>
+                    }
+                  
+                  }@else{
+                  <small class="float-end text-muted text-nowrap">{{ task.statusName }}</small>
+                  }
                 </div>
-                <div class="col-md-2">
+
+                <div class="col-1 py-0">
                   <div class="dropdown float-end">
                     <a href="#" class="dropdown-toggle text-muted arrow-none" data-bs-toggle="dropdown"
                       aria-expanded="false">
@@ -95,6 +98,50 @@
                     </div>
                   </div>
                 </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col-8">
+                  <h6  style="margin: 0;">
+                    <a routerLink="/hrlite/taskdetail/{{task.id}}" class="text-title">{{ task.summary }}</a>
+                  </h6>
+
+
+
+                </div>
+
+
+              </div>
+              <div class="row mb-1 mt-1">
+                <div class="col-10">
+                  <i class="small text-muted clamped-text" [innerHTML]="task.description"></i>
+                </div>
+              </div>
+
+              <div class="row border-top">
+                <div class="col-md-8 pt-1">
+                  <!-- <img [src]="task.assigneeUserId" alt="user-img" class="avatar-xs rounded-circle me-1"> -->
+                  <span class="account-user-avatar">
+                    <div [attr.data-initialssmall]="GetInitials(task.assigneeUserName)"> <span
+                        class="align-middle">{{task.assigneeUserName }}</span>
+                    </div>
+                  </span>
+
+                </div>
+
+                <div class="col-md-4 pt-2">
+
+                  <span class="text-nowrap mb-2 d-inline-block">
+                    <i class="mdi mdi-comment-multiple-outline text-muted ps-1 pe-1"></i>
+                    <b>{{ task.commentCount }}</b>
+                    <i class="mdi mdi-paperclip text-muted ps-2 pe-1"></i>
+                    <b>{{ task.commentCount }}</b>
+
+                  </span>
+                </div>
+
+
               </div>
 
             </div>
@@ -206,22 +253,17 @@
 </p-dialog>
 
 <p-overlayPanel #op class="p-0 member-filter" styleClass="member-filter">
-  <div class="flex flex-column gap-3 w-25rem">    
+  <div class="flex flex-column gap-3 w-25rem">
     <div class="mt-2">
       <span class="fw-bold block mb-2 mt-2">Team Members</span>
       <ul class="list-none p-0 m-0 flex flex-column gap-3">
-        <p-listbox [options]="projectMembers" optionLabel="name" [filter]="true"
-          [listStyle]="{ 'max-height': '250px' }" [style]="{ width: '15rem', padding:0, margin:0, border:0 }"
-          [listStyle]="{'max-height': '220px'}">
+        <p-listbox [options]="projectMembers" optionLabel="name" [filter]="true" [listStyle]="{ 'max-height': '250px' }"
+          [style]="{ width: '15rem', padding:0, margin:0, border:0 }" [listStyle]="{'max-height': '220px'}">
           <ng-template let-member pTemplate="item">
-            <div class="flex align-items-center gap-1">              
+            <div class="flex align-items-center gap-1">
               <div>
-                <p-checkbox 
-                [(ngModel)]="member.isSelected"
-                [label]="member.fullName" 
-                name="memberchk" 
-                [binary]="true"
-               />
+                <p-checkbox [(ngModel)]="member.isSelected" [label]="member.fullName" name="memberchk"
+                  [binary]="true" />
               </div>
             </div>
           </ng-template>

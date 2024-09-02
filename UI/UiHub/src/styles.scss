@@ -25165,3 +25165,14 @@ chevrondownicon{
   .p-overlaypanel .p-overlaypanel-content, .p-listbox .p-listbox-header {
     padding: 0.3rem;
 }
+
+
+.clamped-text {
+    display: -webkit-box;        /* Defines a flex container box, allowing for multi-line flex container */
+    -webkit-box-orient: vertical; /* Sets the orientation of the flex container as vertical */
+    -webkit-line-clamp: 2;       /* Limits the text to 2 lines before truncating */
+    overflow: hidden;            /* Hides any overflowing content */
+    text-overflow: ellipsis;     /* Adds ellipsis (…) at the end of the text */
+    max-height: 3em;             /* Optionally set a maximum height to limit text height */
+    line-height: 1.5em;          /* Set the line height for the text */
+  }

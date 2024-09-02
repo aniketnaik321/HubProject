@@ -30,6 +30,9 @@ export interface IProject {
     commentCount?:number;
     startDate?: Date;
     dueDate?: Date;
+    IsOverdue: boolean;
+    OverdueTime?: string;
+    StartedSinceTime?:string;
     assigneeUserId?: string;
     reporterUserId?: string;
     assigneeUserName?:string;

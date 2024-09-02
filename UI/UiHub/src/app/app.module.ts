@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { SharedModule } from './shared/shared.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { SkeletonModule } from 'primeng/skeleton';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MessagesModule } from 'primeng/messages';
@@ -20,40 +20,34 @@ import { ChatWindowComponent } from './shared/chat-window/chat-window.component'
 import { FormsModule } from '@angular/forms';
 
 
-@NgModule({
-  declarations: [
-    AppComponent,    
-    ChatWindowComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    HttpClientModule,
-    SkeletonModule,
-    BrowserAnimationsModule,
-    MessagesModule,
-    RippleModule,
-    NgxSpinnerModule,
-    FormsModule
-  ],
-  exports: [   
-    MessagesModule
-  ],
-  providers: [    
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true,
-    },
-AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpRequestInterceptor,
-      multi: true,
-    },
-    ChatService
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        ChatWindowComponent
+    ],
+    exports: [
+        MessagesModule
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        SkeletonModule,
+        BrowserAnimationsModule,
+        MessagesModule,
+        RippleModule,
+        NgxSpinnerModule,
+        FormsModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
+            multi: true,
+        },
+        AuthGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpRequestInterceptor,
+            multi: true,
+        },
+        ChatService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

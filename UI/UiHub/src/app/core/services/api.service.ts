@@ -16,7 +16,8 @@ import { IMachineEvent } from '../shared-models/IMachineEvent';
 import { IWidgetCard } from '../shared-models/WidgetCard';
 
 import { IComment, IIssueDocument, IIssueRequest, IIssues, IProject, IProjectMembers, IStatusUpdateRequest, IUserComment } from '../shared-models/ProjectModels';
-import * as md5 from 'md5';
+import md5 from 'md5';
+//import * as md5 from 'md5';
 
 
 @Injectable({

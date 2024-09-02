@@ -164,8 +164,8 @@ export class TaskFormComponent {
         priorityId: this.priorityList?.find(x => Number(x.code) === data.priorityId),
         statusId: this.statusList?.find(x => Number(x.code) === data.statusId),
         estimatedTime: data.estimatedTime,
-        startDate: new Date(data.startDate!),
-        dueDate: new Date(data.dueDate!),
+        startDate: new Date(data.startDate+'Z'!),
+        dueDate: new Date(data.dueDate+'Z'!),
         assigneeUserId: this.assignee?.find(x => x.code.toLocaleUpperCase() === data.assigneeUserId?.toLocaleUpperCase()),
         reporterUserId: this.reporters?.find(x => x.code.toLocaleUpperCase() === data.reporterUserId?.toLocaleUpperCase()),
       });
