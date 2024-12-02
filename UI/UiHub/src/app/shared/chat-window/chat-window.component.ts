@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ChatService } from 'src/app/core/services/chat.service';
+import { IChatMessage, IUserChats } from 'src/app/core/shared-models/ProjectModels';
 
 @Component({
   selector: 'app-chat-window',
@@ -8,15 +9,23 @@ import { ChatService } from 'src/app/core/services/chat.service';
   styleUrls: ['./chat-window.component.scss']
 })
 export class ChatWindowComponent {
-  messages: string[] = [];
+  messages: IChatMessage[] = [];
   newMessage: string = '';
+  selectedUserId: string = '';
+  selectedChat?:IUserChats;
 
-  constructor(private chatService: ChatService, private authService: AuthService) {}
+  constructor(private chatService: ChatService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.chatService.startConnection();
     this.chatService.addChatListener((message: string) => {
-      this.messages.push(message);
+      this.messages.push({
+        Id: '0',
+        message: message,
+        senderName: 'Aniket',
+        picturePath: ''
+
+      });
     });
   }
 
@@ -26,4 +35,15 @@ export class ChatWindowComponent {
       this.newMessage = '';
     }
   }
+
+  loadSelectedUserChat(): void {
+
+  }
+
+  selectChat(data:any){
+
+
+  }
+
+
 }

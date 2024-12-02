@@ -49,7 +49,7 @@ namespace ApiHub.API.Controllers
         }
 
         // PUT api/<ProjectController>/5
-        [HttpPut]
+        [HttpPut] //changed to post temporary, as getting "Method not allowed exception"
         public async Task<IActionResult> Put([FromBody] DtoProject project)
         {
             return PreparePostResponse(await _projectService.Update(project, project.Id));
@@ -77,8 +77,7 @@ namespace ApiHub.API.Controllers
         {
             var result=await this._projectService.AddProjectMember(input);
             // Assuming PreparePostResponse is a method that prepares the response based on the result from _taskService.Remove()
-            return PreparePostResponse(result);
-           
+            return PreparePostResponse(result);           
         }
     }
 }

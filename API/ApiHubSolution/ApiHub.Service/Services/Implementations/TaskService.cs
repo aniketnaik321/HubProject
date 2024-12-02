@@ -3,9 +3,11 @@ using ApiHub.Service.Attributes;
 using ApiHub.Service.Constants;
 using ApiHub.Service.DTO;
 using ApiHub.Service.DTO.Common;
+using ApiHub.Service.Hubs;
 using ApiHub.Service.Repository.Contracts;
 using ApiHub.Service.Services.Contracts;
 using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiHub.Service.Services.Implementations
@@ -19,6 +21,7 @@ namespace ApiHub.Service.Services.Implementations
         private readonly IMapper _automapper;
         private readonly IDbService _dbService;
         private readonly IPushNotificationService _pushNotificationService;
+        private readonly IHubContext<NotificationServiceHub> _hubContext;
 
         public TaskService(
             ITaskRepository taskRepository,
@@ -26,7 +29,8 @@ namespace ApiHub.Service.Services.Implementations
             IDbService dbService,
             ICommentRepository commentRepository,
             IProjectRepository projectRepository,
-            IPushNotificationService pushNotificationService
+            IPushNotificationService pushNotificationService,
+            IHubContext<NotificationServiceHub> hubContext
             )
         {            
             _taskRepository = taskRepository;
@@ -35,6 +39,7 @@ namespace ApiHub.Service.Services.Implementations
             _commentRepository = commentRepository;
             _projectRepository = projectRepository;
             _pushNotificationService = pushNotificationService;
+            _hubContext = hubContext;
         }
 
         public async Task<DtoCommonReponse> Create(DtoIssues input)
@@ -121,7 +126,8 @@ namespace ApiHub.Service.Services.Implementations
             }, Constants.AppConstants.PROC_MOVEMENT_NOTIFICATION)).FirstOrDefault();
 
 
-            await  _pushNotificationService.SendPushNotificationAsync(new DtoNotificationMessage()
+            // STEP 2: Send Push Notification to Mobile
+            await _pushNotificationService.SendPushNotificationAsync(new DtoNotificationMessage()
             {
                 Message = messageResult.Message,
                 Title = messageResult.Title,
@@ -129,6 +135,12 @@ namespace ApiHub.Service.Services.Implementations
                 userId=input.UserId.ToString()
             });
 
+            // STEP 3: Send Notification via SignalR to Web Clients
+            await _hubContext.Clients.User(input.UserId.ToString()).SendAsync("ReceiveMessage", new
+            {
+                Title = messageResult.Title,
+                Message = messageResult.Message
+            });
             return result;
 
         }

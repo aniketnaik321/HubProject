@@ -1,6 +1,7 @@
 ﻿
 using ApiHub.Domain.Models;
 using ApiHub.Service.Attributes;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace ApiHub.Service.DTO
 {
@@ -25,6 +26,9 @@ namespace ApiHub.Service.DTO
         public DateTime? StartDate { get; set; }
 
         public DateTime? EndDate { get; set; }
+
+        public bool IsAutomationEnabled { get; set; } = true;
+        public bool IsRemindersEnabled { get; set; } = true;
 
         public string[]? UsersList { get; set; }
 
@@ -263,7 +267,8 @@ namespace ApiHub.Service.DTO
 
     }
 
-    public class DtoIssueDocumentRequest {
+    public class DtoIssueDocumentRequest
+    {
 
         [Parameter]
         public int IssueId { get; set; }
@@ -291,14 +296,14 @@ namespace ApiHub.Service.DTO
 
         [Parameter]
         public Guid UserId { get; set; }
-       
+
     }
 
     public class DtoIssueDetailsForJob
     {
-        public int IssueId { get; set; }          
-        public int StatusId { get; set; }         
-        public DateTime StartDate { get; set; }   
+        public int IssueId { get; set; }
+        public int StatusId { get; set; }
+        public DateTime StartDate { get; set; }
         public string AssigneeUserID { get; set; }
         public string DeviceToken { get; set; }
 
@@ -308,6 +313,112 @@ namespace ApiHub.Service.DTO
     }
 
 
+    public class DtoSignalRUserMapping
+    {
 
+        [Parameter]
+        public string UserId { get; set; }
+
+        [Parameter]
+        public string ConnectionId { get; set; }
+
+        [Parameter]
+        public string ConnectionType { get; set; }
+
+        [Parameter]
+        public bool IsDelete { get; set; } = true;
+
+    }
+
+
+    public class DtoChatListRequest
+    {
+
+        [Parameter]
+        public string UserId { get; set; }
+
+    }
+
+    public class DtoLoadMessagesRequest
+    {
+
+        [Parameter]
+        public Guid SenderUserId { get; set; }
+
+        [Parameter]
+        public Guid ReceiverUserId { get; set; }
+
+    }
+
+
+    public class DtoChatListResponse
+    {
+
+        [Parameter]
+        public string UserId { get; set; }
+
+    }
+
+    public class DtoConnectionIdRequest
+    {
+
+        [Parameter]
+        public string userId
+        {
+            get; set;
+        }
+    }
+
+    public class DtoChatUserResponse
+    {
+
+        public string UserId { get; set; }
+
+        public string ConnectionId { get; set; }
+
+        public string FullName { get; set; }
+
+        public string PicturePath { get; set; }
+
+    }
+
+
+    public class DtoChatMessageResponse
+    {
+        public string Id { get; set; }
+
+        public int MessageCount { get; set; }
+
+        public string Message { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+
+        public DateTime LastMessageDate { get; set; }
+        public string SenderUserId { get; set; }
+        public string ReceiverUserId { get; set; }
+
+        public string SenderName { get; set; }
+        public string ReceiverName { get; set; }
+
+        public string SenderImage{ get; set; }
+        public string ReceiverImage{ get; set; }
+        public bool IsRemovedFromSender { get; set; }
+        public bool IsRemovedFromReceiver { get; set; }
+        public bool IsRead { get; set; }
+        public bool IsReceived { get; set; }
+    }
+
+    public class DtoAddChatMessage
+    {
+        [Parameter]
+        public string Message { get; set; }
+
+        [Parameter]
+        public Guid SenderId { get; set; }
+
+        [Parameter]
+        public Guid ReceiverId { get; set; }
+    }
 
 }

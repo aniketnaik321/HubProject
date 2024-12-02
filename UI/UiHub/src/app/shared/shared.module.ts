@@ -15,6 +15,11 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { PasswordModule } from 'primeng/password';
+import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
+import { ListboxModule } from 'primeng/listbox';
+import { CardModule } from 'primeng/card';
+
 
 
 @NgModule({
@@ -35,7 +40,11 @@ import { PasswordModule } from 'primeng/password';
     MenuModule,
     MessagesModule,
     DropdownModule,
-    PasswordModule
+    PasswordModule,
+    TabViewModule,
+    InputTextModule,
+    ListboxModule,
+    CardModule
   ],
   exports: [
     HeaderComponent,

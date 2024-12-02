@@ -1,0 +1,71 @@
+<div class="container mt-5">
+    <!-- Buttons for Transactions -->
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <button pButton type="button" 
+                icon="pi pi-plus" 
+                label="Add Daily Milk Production" 
+                class="p-button-lg p-button-success w-100 mb-3" 
+                style="height: 60px;" 
+                (click)="addMilkProduction()">
+        </button>
+      </div>
+      <div class="col-md-4">
+        <button pButton type="button" 
+                icon="pi pi-shopping-cart" 
+                label="Add Daily Dairy Product Sale" 
+                class="p-button-lg p-button-info w-100 mb-3" 
+                style="height: 60px;" 
+                (click)="addDairySale()">
+        </button>
+      </div>
+      <div class="col-md-4">
+        <button pButton type="button" 
+                icon="pi pi-heart" 
+                label="Add Health Record" 
+                class="p-button-lg p-button-warning w-100 mb-3" 
+                style="height: 60px;" 
+                (click)="addHealthRecord()">
+        </button>
+      </div>
+    </div>
+  
+    <!-- Transactions List -->
+    <div *ngFor="let transaction of transactions" class="row mb-1">
+      <div class="col-md-12">
+        <p-card>
+          <ng-template pTemplate="title">
+            {{ transaction.title }}
+          </ng-template>
+          <ng-template pTemplate="subtitle">
+            {{ transaction.date | date }}
+          </ng-template>
+          <ng-template pTemplate="content">
+            <p>{{ transaction.description }}</p>
+            <p><strong>Amount:</strong> {{ transaction.amount }} {{ transaction.unit }}</p>
+          </ng-template>
+          
+        </p-card>
+      </div>
+    </div>
+  </div>
+
+
+   <!-- PrimeNG Dialog for Transaction Entry -->
+   <p-dialog header="Add {{ selectedTransactionType }}" [style]="{ width: '30vw' }" [(visible)]="displayDialog" [modal]="true" [responsive]="true">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="transactionDate">Date</label>
+        <p-calendar id="transactionDate" appendTo="body" [(ngModel)]="transactionDate" dateFormat="mm/dd/yy"></p-calendar>
+      </div>
+      <div class="p-field">
+        <label for="transactionValue">Value</label>
+        <input id="transactionValue" type="number" pInputText [(ngModel)]="transactionValue" />
+      </div>
+    </div>
+    <p-footer>
+      <button pButton type="button" class="mx-2" label="Save" (click)="saveTransaction()"></button>
+      <button pButton type="button" label="Cancel" (click)="resetForm()"></button>
+    </p-footer>
+  </p-dialog>
+  

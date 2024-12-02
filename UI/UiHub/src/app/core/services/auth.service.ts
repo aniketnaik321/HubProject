@@ -10,7 +10,10 @@ export class AuthService {
     return true;
   }
 
-  constructor(private defaultProjectService : DefaultProjectService) { }
+  isFirstLogin: number = 0;
+
+
+  constructor(private defaultProjectService: DefaultProjectService) { }
 
   SaveAuthenticationData(data: IUserModel): void {
     //save authentication data in local storage.
@@ -40,6 +43,23 @@ export class AuthService {
     }
 
     return null;
+  }
+
+  SetIsLoggedInFirstTime(): void {
+    localStorage.setItem('isFirstLogin', "1");
+
+
+  }
+
+  GetIsLoggedInFirstTime(): boolean {
+    if (localStorage.getItem('isFirstLogin')=='1') {
+      localStorage.setItem('isFirstLogin', "0");
+
+      return true;
+    } else {
+      return false;
+    }
+
   }
 
   SignOutUser() {

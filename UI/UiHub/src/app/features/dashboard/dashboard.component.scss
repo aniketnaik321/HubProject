@@ -14,3 +14,74 @@
     padding: 3px 10px!important;
     font-size: 12px;
 }
+
+.dialog-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .avatar {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .message {
+    text-align: left;
+  }
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+   
+  }
+  
+  em {
+    display: block;
+    margin-top: 10px;
+    font-style: italic;
+    
+  }
+
+
+  
+  ::ng-deep .p-dialog,.welcome-content-card,.p-dialog-content{
+    
+    border-radius: 15px;
+  
+    padding: 20px;
+  }
+
+  .p-dialog-header {
+     display: block;
+     align-items: left; 
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.useful-tips {
+    margin-top: 20px;
+    color: #495057; /* You can change this to fit your theme */
+  }
+  
+  .useful-tips h4 {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .useful-tips ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .useful-tips ul li {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  apx-chart {
+    max-width: 100px;
+    margin: 0 auto;
+  }

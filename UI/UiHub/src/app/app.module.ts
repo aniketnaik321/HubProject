@@ -19,6 +19,11 @@ import { ChatService } from './core/services/chat.service';
 import { ChatWindowComponent } from './shared/chat-window/chat-window.component';
 import { FormsModule } from '@angular/forms';
 
+import { TabViewModule } from 'primeng/tabview';
+import { InputTextModule } from 'primeng/inputtext';
+import { ListboxModule } from 'primeng/listbox';
+import { CardModule } from 'primeng/card';
+
 
 @NgModule({ declarations: [
         AppComponent,
@@ -35,6 +40,10 @@ import { FormsModule } from '@angular/forms';
         MessagesModule,
         RippleModule,
         NgxSpinnerModule,
+        TabViewModule,
+        InputTextModule,
+        ListboxModule,
+        CardModule,
         FormsModule], providers: [
         {
             provide: HTTP_INTERCEPTORS,

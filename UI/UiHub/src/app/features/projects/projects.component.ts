@@ -42,6 +42,8 @@ export class ProjectsComponent {
       description: [''],            
       startDate:'',
       endDate:'',
+      isAutomationEnabled:[true,[Validators.required]],
+      isRemindersEnabled:[true,[Validators.required]],
       usersList:[[]]
     });
   }
@@ -145,8 +147,7 @@ export class ProjectsComponent {
           this.loadDataLazy();
           this.dialogDisplay = false;
         });
-      }
-      
+      }     
 
     } else {
       this.markFormGroupTouched(this.form);

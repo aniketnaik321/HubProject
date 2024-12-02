@@ -1,0 +1,93 @@
+<div class="container">   
+  
+    <p-tabView >
+      <!-- Cattle Details Tab -->
+      <p-tabPanel header="Cattle Details">
+        <h3>Cattle Details</h3>
+        <form>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label for="name">Name</label>
+              <input pInputText id="name" [(ngModel)]="selectedCattle.name!" name="name" />
+            </div>
+            <div class="p-field">
+              <label for="breed">Breed</label>
+              <input pInputText id="breed" [(ngModel)]="selectedCattle.breed!" name="breed" />
+            </div>
+            <div class="p-field">
+              <label for="age">Age</label>
+              <input pInputText id="age" [(ngModel)]="selectedCattle.age!" name="age" />
+            </div>
+            <div class="p-field">
+              <label for="healthStatus">Health Status</label>
+              <input pInputText id="healthStatus" [(ngModel)]="selectedCattle.healthStatus!" name="healthStatus" />
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+  
+      <!-- Health Records Tab -->
+      <p-tabPanel header="Health Records">
+        <h3>Cattle Health Records</h3>
+        <form>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label for="condition">Condition</label>
+              <input pInputText id="condition" [(ngModel)]="selectedCattle.healthRecord.condition!" name="condition" />
+            </div>
+            <div class="p-field">
+              <label for="treatment">Treatment</label>
+              <input pInputText id="treatment" [(ngModel)]="selectedCattle.healthRecord.treatment!" name="treatment" />
+            </div>
+            <div class="p-field">
+              <label for="vet">Veterinarian</label>
+              <input pInputText id="vet" [(ngModel)]="selectedCattle.healthRecord.vet!" name="vet" />
+            </div>
+            <div class="p-field">
+              <label for="date">Date</label>
+              <p-calendar id="date" [(ngModel)]="selectedCattle.healthRecord.date!" name="date"></p-calendar>
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+  
+      <!-- Breeding Details Tab -->
+      <p-tabPanel header="Breeding Details">
+        <h3>Breeding Details</h3>
+        <form>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label for="dateBred">Date Bred</label>
+              <p-calendar id="dateBred" [(ngModel)]="selectedCattle.breedingRecord.dateBred!" name="dateBred"></p-calendar>
+            </div>
+            <div class="p-field">
+              <label for="expectedCalving">Expected Calving Date</label>
+              <p-calendar id="expectedCalving" [(ngModel)]="selectedCattle.breedingRecord.expectedCalving!" name="expectedCalving"></p-calendar>
+            </div>
+            <div class="p-field">
+              <label for="sire">Sire</label>
+              <input pInputText id="sire" [(ngModel)]="selectedCattle.breedingRecord.sire!" name="sire" />
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+  
+      <!-- Milk Production Tab -->
+      <p-tabPanel header="Milk Production">
+        <h3>Milk Production</h3>
+        <form>
+          <div class="p-fluid">
+            <div class="p-field">
+              <label for="milkProduced">Milk Produced (kg)</label>
+              <input pInputText id="milkProduced" [(ngModel)]="selectedCattle.milkProduction.milkProduced!" name="milkProduced" />
+            </div>
+            <div class="p-field">
+              <label for="productionDate">Date</label>
+              <p-calendar id="productionDate" [(ngModel)]="selectedCattle.milkProduction.productionDate!" name="productionDate"></p-calendar>
+            </div>
+          </div>
+        </form>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  

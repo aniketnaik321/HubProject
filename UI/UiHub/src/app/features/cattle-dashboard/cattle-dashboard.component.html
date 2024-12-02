@@ -1,0 +1,178 @@
+<div class="container mt-0">
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <form class="d-flex">
+                    <a href="javascript: void(0);" class="btn btn-primary ms-2">
+                        <i class="mdi mdi-autorenew"></i> Refresh
+                    </a>                   
+                </form>
+            </div>
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+      <!-- Total Cattles Card -->
+      <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-header bg-transparent"><h4>Total Cattles</h4></div>
+          <div class="card-body">
+            <h5 class="card-title">{{ totalCattles }}</h5>
+            <p class="card-text">The total number of cattle on the farm.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Milking Cattles Card -->
+      <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-header bg-transparent"><h4>Milking Cattles </h4></div>
+          <div class="card-body">
+            <h5 class="card-title">{{ milkingCattles }}</h5>
+            <p class="card-text">The number of cattle currently producing milk.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Dry Cattles Card -->
+      <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-header bg-transparent"><h4>Dry Cattles</h4></div>
+          <div class="card-body">
+            <h5 class="card-title">{{ dryCattles }}</h5>
+            <p class="card-text">The number of cattle currently not milking.</p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Average Milk per Cow Card -->
+      <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+          <div class="card-header bg-transparent"><h4>Average Milk per Cow</h4></div>
+          <div class="card-body">
+            <h5 class="card-title">{{ avgMilkPerCow }} kg</h5>
+            <p class="card-text">The average milk yield per cow per day.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+        <!-- Table Section -->
+        <div class="col-md-6">
+          <h4>Last 5 Days Milk Production</h4>
+          <p-table [value]="milkProductionData" class="p-datatable-striped">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Date</th>
+                <th>Cow ID</th>
+                <th>Nickname</th>
+                <th>Milk Production (kg)</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData>
+              <tr>
+                <td>{{ rowData.date }}</td>
+                <td>{{ rowData.cowId }}</td>
+                <td>{{ rowData.nickname }}</td>
+                <td>{{ rowData.milkProduced }} kg</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+    
+        <!-- Chart Section -->
+        <div class="col-md-6">
+          <h4>Milk Production Over Last 5 Days</h4>
+          <apx-chart
+            [series]="milkProductionSeries"
+            [chart]="chartOptions.chart"
+            [xaxis]="chartOptions.xaxis"
+            [stroke]="chartOptions.stroke"
+            [dataLabels]="chartOptions.dataLabels"
+            [title]="chartOptions.title">
+          </apx-chart>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Existing Milk Production Table and Chart... -->
+    
+        <!-- Filled Table Section for Monthly Sales -->
+        <div class="row mt-5">
+          <div class="col-md-6">
+            <h4>Monthly Sales Data</h4>
+            <p-table [value]="monthlySalesData" class="p-datatable-striped">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Month</th>
+                  <th>Sales (Product Sold)</th>
+                  <th>Revenue (₹)</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{ rowData.month }}</td>
+                  <td>{{ rowData.sales }}</td>
+                  <td>{{ rowData.revenue | currency:"₹ " : false : '2.0-0' }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+    
+          <!-- Monthly Sales Chart Section -->
+          <div class="col-md-6">
+            <h4>Monthly Sales Overview</h4>
+            <apx-chart
+              [series]="monthlySalesSeries"
+              [chart]="monthlySalesChartOptions.chart"
+              [xaxis]="monthlySalesChartOptions.xaxis"
+             
+              [dataLabels]="monthlySalesChartOptions.dataLabels"
+              [title]="monthlySalesChartOptions.title">
+            </apx-chart>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <!-- Existing sections for milk production, sales, and their charts -->
+    
+        <!-- Diseased/Sick Cows Table Section -->
+        <div class="row mt-5">
+          <div class="col-md-4">
+            <h4>Sick or Diseased Cows</h4>
+            <p-table [value]="sickCowsData" class="p-datatable-striped">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Cow ID</th>
+                  <th>Nickname</th>
+                  <th>Status</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData>
+                <tr>
+                  <td>{{ rowData.cowId }}</td>
+                  <td>{{ rowData.nickname }}</td>
+                  <td>
+                    <span [ngClass]="{'text-danger': rowData.status === 'Sick'}">
+                      {{ rowData.status }}
+                    </span>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+
+
+  </div>
+  

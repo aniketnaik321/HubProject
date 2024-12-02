@@ -1,0 +1,19 @@
+/* Reduce the padding inside the cards */
+::ng-deep .p-card {
+    padding: 10px; /* Adjust this value to your preference */
+  }
+  
+  /* Reduce the margin between cards */
+  ::ng-deep .row.mb-3 {
+    margin-bottom: 10px; /* Adjust this value to your preference */
+  }
+  
+  /* Optional: Reduce title and subtitle margins */
+  ::ng-deep .p-card-title {
+    margin-bottom: 5px; /* Adjust this value to your preference */
+  }
+  
+  ::ng-deep .p-card-subtitle {
+    margin-bottom: 5px; /* Adjust this value to your preference */
+  }
+  

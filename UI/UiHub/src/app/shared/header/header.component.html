@@ -32,7 +32,7 @@
             <!-- <li class="side-nav-title side-nav-item">Navigation</li> -->
 
             <li class="side-nav-item">
-                <a [routerLink]="['/hrlite/dashboard']" routerLinkActive="menu-active" aria-expanded="false" aria-controls="sidebarDashboards"
+                <a [routerLink]="['/hrlite/ctdashboard']" routerLinkActive="menu-active" aria-expanded="false" aria-controls="sidebarDashboards"
                     class="side-nav-link">
                     <i class="fa fa-dashboard"></i>
                     <span> Dashboard</span>
@@ -45,13 +45,24 @@
                     <i class="fa fa-regular fa-gears"></i>
                     <span> Task Board </span>
                 </a>
+                   <!-- <a [routerLink]="['/hrlite/ctmaster']" href="#" routerLinkActive="menu-active" class="side-nav-link">
+                    <i class="fa fa-regular fa-gears"></i>
+                    <span> Master </span>
+                </a> -->
             </li>
 
             <li class="side-nav-item">
-                <a [routerLink]="['/hrlite/analytics']" routerLinkActive="menu-active" class="side-nav-link">
-                    <i class="fa fa-book"></i>
-                    <span>Analytics </span>
+
+
+                <a [routerLink]="['/hrlite/ctmaster']" href="#" routerLinkActive="menu-active" class="side-nav-link">
+                    <i class="fa fa-regular fa-gears"></i>
+                    <span> Task Board </span>
                 </a>
+<!-- 
+                <a [routerLink]="['/hrlite/cttransaction']" routerLinkActive="menu-active" class="side-nav-link">
+                    <i class="fa fa-book"></i>
+                    <span>Transaction </span>
+                </a> -->
             </li>
 
             <li class="side-nav-item">

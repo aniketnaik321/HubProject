@@ -69,8 +69,12 @@
                 <div class="card-body">
                     <h4 class="mt-0 mb-3">Comments ({{comments[0]?.commentCount??0}})</h4>
 
+                    <!-- <p-editor  [(ngModel)]="comment" id="example-textarea" [mention]="projectMembers"  [style]="{ height: '70px' }" [mention]="projectMembers"  [mentionConfig]="{triggerChar:'@',labelKey:'fullName', disableSearch:false ,mentionSelect:formatMention, allowSpace:true}"  ></p-editor> -->
+
+
+                  
                     <textarea class="form-control form-control-light mb-2" placeholder="Write message"
-                        id="example-textarea" rows="3" [(ngModel)]="comment"></textarea>
+                        id="example-textarea" rows="3" [mention]="projectMembers"  [mentionConfig]="{triggerChar:'@',labelKey:'fullName', disableSearch:false ,mentionSelect:formatMention}" [(ngModel)]="comment"></textarea>
                     <div class="text-end">
                         <div class="btn-group mb-2">
 
@@ -92,10 +96,13 @@
                         <div data-initialssmall="AN"></div>
                         <div class="w-100 overflow-hidden">
                             <h5 class="mt-0">{{ comment.fullName }} <span
-                                    class="small text-muted ps-2 fw-light">{{comment.entryDate+'Z' | date :
-                                    'medium'}}</span></h5>
+                                    class="small text-muted ps-2 fw-light" tooltipPosition="top" pTooltip="{{comment.entryDate+'Z' | date :'medium'}}">
+                                    
+                                   {{ showHumanizeDate(comment.entryDate+'Z')}}
+                                
+                                </span></h5>
 
-                            <p>{{ comment.userComment }}</p>
+                            <p [innerHTML]="comment.userComment"></p>
                             <!-- You can add more details as needed -->
                         </div>
                     </div>

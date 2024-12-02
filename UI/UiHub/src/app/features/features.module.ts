@@ -50,6 +50,22 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { ChipsModule } from 'primeng/chips';
 import { ListboxModule } from 'primeng/listbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { MentionModule } from 'angular-mentions';
+import { NgxEditorModule } from "ngx-editor";
+import { CardModule } from 'primeng/card';
+
+
+import {
+  provideCharts,
+  withDefaultRegisterables,
+  } from 'ng2-charts';
+import { CattleDetailsComponent } from './cattle-details/cattle-details.component';
+import { CattleDashboardComponent } from './cattle-dashboard/cattle-dashboard.component';
+import { CattleMasterComponent } from './cattle-master/cattle-master.component';
+import { CattleTransactionComponent } from './cattle-transaction/cattle-transaction.component';
 
 
 @NgModule({
@@ -66,8 +82,11 @@ import { ListboxModule } from 'primeng/listbox';
    WorkLogFormComponent,
    TaskDetailComponent,
    ProfileComponent,
-   FaqComponent
-   
+   FaqComponent,
+   CattleDetailsComponent,
+   CattleDashboardComponent,
+   CattleMasterComponent,
+   CattleTransactionComponent
   ],
   imports: [
     CommonModule,
@@ -105,8 +124,14 @@ import { ListboxModule } from 'primeng/listbox';
     MultiSelectModule,
     OverlayPanelModule,
     ChipsModule,
-    ListboxModule
+    ListboxModule,
+    InputSwitchModule,
+    InputGroupModule,
+    InputGroupAddonModule,
+    MentionModule,
+    NgxEditorModule,
+    CardModule    
   ],
-  providers: [MessageService,ConfirmationService,AuthGuard]
+  providers: [MessageService,ConfirmationService,AuthGuard,provideCharts(withDefaultRegisterables())]
 })
 export class FeaturesModule { }

@@ -28,7 +28,7 @@ export class TaskBoardComponent {
   totalRecords: number = 0;
   draggedRecord: IIssues | undefined | null;
   assignee?: ILookupItem[];
-  selectedMembers:string[]=[];
+  selectedMembers: string[] = [];
 
   form: FormGroup;
 
@@ -36,17 +36,7 @@ export class TaskBoardComponent {
   taskform!: TaskFormComponent
 
 
-  projectMembers: IProjectMembers[] = [
-    {
-      userId: '39a82875-96c6-480f-b8ac-033af689e504',
-      userName: 'aniket.naik4321@yopmail.com',
-      fullName: 'AniketN',
-      picturePath: null,
-      emailId: 'aniket.naik4321@yopmail.com',
-      isSelected: false
-    }
-  ];
-
+  projectMembers: IProjectMembers[] = [];
   selectedUsers: IProjectMembers[] = [];
 
   showDropdown = false;
@@ -86,14 +76,14 @@ export class TaskBoardComponent {
     this.isTableView = !this.isTableView;
   }
 
-  GetInitials(fullName :string){
-   return this.apiService.getInitials(fullName);
+  GetInitials(fullName: string) {
+    return this.apiService.getInitials(fullName);
   }
 
-  GetInitialsColorCode(fullName :string){
-    var initials= this.apiService.getInitials(fullName);
-   return this.apiService.getColorCode(initials);
-   }
+  GetInitialsColorCode(fullName: string) {
+    var initials = this.apiService.getInitials(fullName);
+    return this.apiService.getColorCode(initials);
+  }
 
   ShowTaskForm(inp: boolean): void {
     this.taskform.form.patchValue({
@@ -134,7 +124,7 @@ export class TaskBoardComponent {
     this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
   }
 
-  timer:any;
+  timer: any;
 
   ngOnInit() {
     this.setupLookup();
@@ -143,11 +133,11 @@ export class TaskBoardComponent {
       this.LoadProjectMembers();
     });
 
-      // Set up the timer to call processIssues every second
-      this.timer = setInterval(() => {
-      this.processIssues(this.tableData??[]);
-      }, 1000); // 1000 milliseconds = 1 second
-    
+    // Set up the timer to call processIssues every second
+    this.timer = setInterval(() => {
+      this.processIssues(this.tableData ?? []);
+    }, 1000); // 1000 milliseconds = 1 second
+
   }
 
   ngOnDestroy(): void {
@@ -189,14 +179,14 @@ export class TaskBoardComponent {
   }
 
   dragEnd(status: any) {
-    
+
   }
 
   loadDataLazy(projectId: string) {
-    let filterKeySetTemp:string[]=["ProjectId","AssigneeUserId"]
-    let filterValueSetTemp:string[]=[projectId];
+    let filterKeySetTemp: string[] = ["ProjectId", "AssigneeUserId"]
+    let filterValueSetTemp: string[] = [projectId];
 
-    if(this.selectedMembers.length>0){
+    if (this.selectedMembers.length > 0) {
       filterValueSetTemp.push(this.selectedMembers.join('|'));
     }
 
@@ -204,8 +194,8 @@ export class TaskBoardComponent {
       pageNumber: 1,
       pageSize: 10000,
       filterKeys: filterKeySetTemp.join(','),//event.filters, // Implement this based on your filtering logic
-      filterKeySet:filterKeySetTemp,
-      filterValueSet:filterValueSetTemp,
+      filterKeySet: filterKeySetTemp,
+      filterValueSet: filterValueSetTemp,
       filterValues: filterValueSetTemp.join(','),
       orderByKey: 'createdDate',
       sortDirection: 1
@@ -276,10 +266,10 @@ export class TaskBoardComponent {
 
   }
 
-  filterByMembers(user:IProjectMembers): void {
-    user.isSelected=!user.isSelected;
-    this.selectedMembers=this.projectMembers.filter(T=>T.isSelected===true).map(m=>m.userId);
-    this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());    
+  filterByMembers(user: IProjectMembers): void {
+    user.isSelected = !user.isSelected;
+    this.selectedMembers = this.projectMembers.filter(T => T.isSelected === true).map(m => m.userId);
+    this.loadDataLazy(this.defaultProjectService.getDefaultProjectId());
   }
 
   onScroll() {
@@ -289,50 +279,54 @@ export class TaskBoardComponent {
   }
 
 
-// Helper function to format time differences as "Xh Ym Zs"
-formatTimeDifference(duration: moment.Duration): string {
-  const hours = duration.hours() ? `${duration.hours()}h ` : '';
-  const minutes = duration.minutes() ? `${duration.minutes()}m ` : '';
-  const seconds = duration.seconds() ? `${duration.seconds()}s` : '';
-  return `${hours}${minutes}${seconds}`.trim();
-}
+  // Helper function to format time differences as "Xh Ym Zs"
+  formatTimeDifference(duration: moment.Duration): string {
+    //const days = duration.days() ? `${duration.days()}d ` : '';
+    const hours = duration.hours() ? `${duration.asHours().toFixed(0)}h ` : '';
+    const minutes = duration.minutes() ? `${duration.minutes()}m ` : '';
+    const seconds = duration.seconds() ? `${duration.seconds()}s` : '';
+    return `${hours}${minutes}${seconds}`.trim();
+    //return duration.format("h [hrs], m [min]");;
+  }
 
-// Main function to process issues
-processIssues(issues: IIssues[]): void {
-  const userTimeZone = moment.tz.guess(); // Gets the user's local time zone
-  const currentDate = moment.utc();
+  // Main function to process issues
+  processIssues(issues: IIssues[]): void {
+    const userTimeZone = moment.tz.guess(); // Gets the user's local time zone
+    const currentDate = moment.utc();
 
-  issues.forEach(issue => {
-    if(issue.statusName?.toLocaleLowerCase()!=='in progress') return;
-    // Reset existing fields
-    issue.IsOverdue = false;
-    issue.OverdueTime = '';
-    issue.StartedSinceTime = '';
-    
-    // Calculate overdue time if due date is present and has passed
-    if (issue.dueDate) {
-      const dueDate = moment.utc(issue.dueDate); // Convert from UTC to local time
-      if (currentDate.isAfter(dueDate)) {
-        issue.IsOverdue = true;
-        const duration = moment.duration(currentDate.diff(dueDate));
-        issue.OverdueTime = this.formatTimeDifference(duration);
+    issues.forEach(issue => {
+      if (issue.statusName?.toLocaleLowerCase() === 'in progress' || issue.statusName?.toLocaleLowerCase() === 'to do') {
+      // Reset existing fields
+      issue.IsOverdue = false;
+      issue.OverdueTime = '';
+      issue.StartedSinceTime = '';
+
+      // Calculate overdue time if due date is present and has passed
+      if (issue.dueDate) {
+        const dueDate = moment.utc(issue.dueDate); // Convert from UTC to local time
+        if (currentDate.isAfter(dueDate)) {
+          issue.IsOverdue = true;
+          const duration = moment.duration(currentDate.diff(dueDate));
+          issue.OverdueTime = this.formatTimeDifference(duration);
+        }
+      }
+
+      // Calculate started since time if start date is present
+      if (issue.startDate) {
+        //  const startDate = moment.utc(issue.startDate).tz(userTimeZone); // Convert from UTC to local time
+
+        const startDate = moment.utc(issue.startDate); // Convert from UTC to local time
+        const endDate = moment.utc(issue.dueDate); // Convert from UTC to local time
+        const duration = moment.duration(currentDate.diff(startDate));
+        const endingInDuration = moment.duration(endDate.diff(currentDate));
+        const startingInDuration = moment.duration(startDate.diff(currentDate));
+        issue.StartedSinceTime = this.formatTimeDifference(duration);
+        issue.EndingIn = this.formatTimeDifference(endingInDuration);
+        issue.StartingIn = this.formatTimeDifference(startingInDuration);
       }
     }
-
-    // Calculate started since time if start date is present
-    if (issue.startDate) {
-    //  const startDate = moment.utc(issue.startDate).tz(userTimeZone); // Convert from UTC to local time
-
-    const startDate = moment.utc(issue.startDate); // Convert from UTC to local time
-    
-      console.log('Start Date: '+startDate.format());
-      console.log('Current Date'+currentDate.format());
-      const duration = moment.duration(currentDate.diff(startDate));
-      console.log('Hours Diff :'+duration.asHours());
-      issue.StartedSinceTime = this.formatTimeDifference(duration);
-    }
-  });
-}
+    });
+  }
 
 
 

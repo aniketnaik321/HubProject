@@ -26,6 +26,11 @@ namespace ApiHub.Service.Services
             _connectionString = configuration.GetConnectionString("HRLiteDB")!;
         }
 
+        public string GetConnectionString() { 
+        
+            return _connectionString;
+        }
+
         public async Task<DtoPagedResponse<TOutput>> GetPaginatedResultset<TOutput>(DtoPageRequest input, string procedureName)
         {
             using (IDbConnection dbConnection = new SqlConnection(_connectionString))
@@ -74,7 +79,14 @@ namespace ApiHub.Service.Services
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TOutput">Output type</typeparam>
+        /// <typeparam name="TInput">Input type</typeparam>
+        /// <param name="input"></param>
+        /// <param name="procedureName"></param>
+        /// <returns></returns>
         public async Task<List<TOutput>> GetListFromProcedure<TOutput,TInput>(TInput input, string procedureName)
         {
             using (IDbConnection dbConnection = new SqlConnection(_connectionString))
@@ -231,6 +243,11 @@ namespace ApiHub.Service.Services
                 }
                 return resultList;
             }
+        }
+
+        public Task<DtoChatUserResponse> GetConnectionIdFromUserId(DtoConnectionIdRequest input)
+        {
+            throw new NotImplementedException();
         }
     }
     }

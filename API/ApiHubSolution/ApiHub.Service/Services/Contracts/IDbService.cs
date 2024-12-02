@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ApiHub.Service.DTO.DtoConnectionIdRequest;
 
 namespace ApiHub.Service.Services.Contracts
 {
@@ -15,6 +16,9 @@ namespace ApiHub.Service.Services.Contracts
         Task<IEnumerable<T>> CallProcedure<T>(string procedureName);
         Task<List<List<DtoLookup>>> GetDataLookupResults(string lookupId, string procedureName="DataLookup");        
         Task<List<TOutput>> GetListFromProcedure<TOutput, TInput>(TInput input, string procedureName);
+
         Task<List<Dictionary<string, string>>> GetMachineEventsWithAttributes(long machineId);
+       
+        string GetConnectionString();
     }
 }

@@ -25,6 +25,9 @@ public partial class Project
 
     public bool IsDeleted { get; set; }
 
+    public bool IsAutomationEnabled { get; set; }=true;
+    public bool IsRemindersEnabled { get; set; } = true;
+
     public DateTime? DeletedOn { get; set; }
 
     public Guid? DeletedBy { get; set; }

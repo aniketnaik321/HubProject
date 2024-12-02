@@ -9,26 +9,30 @@
     </div>
     <!-- end page title -->
 
-    <div class="row mb-2">
+    <div class="row mb-2">    
         <div class="col-sm-4">
-            <p-button label="Add Project" (click)="ShowForm()" icon="pi pi-plus"></p-button>
-        </div>
+            <p-inputGroup>
+                <input pInputText class="p-inputtext-sm" placeholder="Title, description " />
+                <p-inputGroupAddon class="bg-transparent">
+                    <i class="pi pi-search"></i>
+                </p-inputGroupAddon>                
+            </p-inputGroup>
+        </div>    
         <div class="col-sm-8">
-            <div class="text-sm-end">
-                <div class="btn-group mb-3">
+            <div class="float-end px-2">
+                <p-button label="New Project" styleClass="rounded-3 btn-md float-end" (click)="ShowForm()" icon="pi pi-plus"></p-button>
+            </div>
+
+            <div class="float-end me-3">
+                <div class="btn-group my-1">
                     <button type="button" class="btn btn-primary">All</button>
                 </div>
-                <div class="btn-group mb-3 ms-1">
+                <div class="btn-group my-1">
                     <button type="button" class="btn btn-light">Ongoing</button>
                     <button type="button" class="btn btn-light">Finished</button>
-                </div>
-                <div class="btn-group mb-3 ms-2 d-none d-sm-inline-block">
-                    <button type="button" class="btn btn-secondary"><i class="dripicons-view-apps"></i></button>
-                </div>
-                <div class="btn-group mb-3 d-none d-sm-inline-block">
-                    <button type="button" class="btn btn-link text-muted"><i class="dripicons-checklist"></i></button>
-                </div>
+                </div>               
             </div>
+           
         </div><!-- end col-->
     </div>
     <!-- end row-->
@@ -107,7 +111,7 @@
 
 
 <!-- In your Angular component's HTML (e.g., machine-attribute-dialog.component.html) -->
-<p-dialog [breakpoints]="{ '960px': '80vw' }" [style]="{ width: '70vw' }" [(visible)]="dialogDisplay"
+<p-dialog [breakpoints]="{ '960px': '80vw' }" [style]="{ width: '60vw' }" [(visible)]="dialogDisplay"
     [responsive]="true" [modal]="true" [maximizable]="true">
 
     <ng-template pTemplate="header">
@@ -130,57 +134,85 @@
                     formControlName="description"> </textarea>
             </div>
 
-
-            <div class="p-field">
-                <label for="endDate">Members</label>
-                <div class="col-md-5 col-sm-12">
-                    <p-multiSelect 
-                    [options]="usersList" 
-                    formControlName="usersList"
-                    placeholder="Select Members"
-                    optionLabel="name"
-                    optionValue="code" 
-                    display="chip" 
-                    [showClear]="true" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="p-field">
+                        <label for="endDate">Members</label>
+                        <div>
+                            <p-multiSelect [options]="usersList" formControlName="usersList"
+                                placeholder="Select Members" optionLabel="name" optionValue="code" display="chip"
+                                [showClear]="true" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-field">
+                        <label>Task Prefix
+                            <span class="pi pi-info-circle text-info small px-1"
+                                pTooltip='"Two Characters" to Prefix all the tasks to be added in this project.'>
+                            </span>
+                        </label>
+                        <div>
+                            <input pInputText class="p-inputtext-sm" maxlength="2" type="text"
+                                formControlName="projectTaskPrefix"
+                                [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('projectTaskPrefix')}">
+                        </div>
+                        <div class="text-danger" *ngIf="isControlInvalid('projectTaskPrefix')">
+                            Task Prefix is required.
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="p-field">
-                <label>Task Prefix
-                    <span class="pi pi-info-circle text-info small px-1"
-                        pTooltip='"Two Characters" to Prefix all the tasks to be added in this project.'> </span>
-                </label>
-                <div class="col-md-5 col-sm-12">
-                    <input pInputText class="p-inputtext-sm" maxlength="2" type="text"
-                        formControlName="projectTaskPrefix"
-                        [ngClass]="{'ng-invalid ng-dirty': isControlInvalid('projectTaskPrefix')}">
-                </div>
-                <div class="text-danger" *ngIf="isControlInvalid('projectTaskPrefix')">
-                    Task Prefix is required.
-                </div>
-            </div>
+            <div class="row">
+                <div class="col-md-6">
 
-            <div class="p-field">
-                <label for="startDate">Start Date</label>
-                <div class="col-md-5 col-sm-12">
-                    <p-calendar appendTo="body" class='p-inputtext-sm w-lg-25 w-xs-100' formControlName="startDate"
-                        [showTime]="true" [showIcon]="true"></p-calendar>
+                    <div class="p-field">
+                        <label for="startDate">Start Date</label>
+                        <div>
+                            <p-calendar appendTo="body" class='p-inputtext-sm w-lg-25 w-xs-100'
+                                formControlName="startDate" [showTime]="true" [showIcon]="true"></p-calendar>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="p-field">
-                <label for="endDate">Estimated Completion Date</label>
-                <div class="col-md-5 col-sm-12">
-                    <p-calendar appendTo="body" styleClass="w-100" class='p-inputtext-sm' formControlName="endDate"
-                        [showTime]="true" [showIcon]="true"></p-calendar>
+                <div class="col-md-6">
+                    <div class="p-field">
+                        <label for="endDate">Estimated Completion Date</label>
+                        <div>
+                            <p-calendar appendTo="body" styleClass="w-100" class='p-inputtext-sm'
+                                formControlName="endDate" [showTime]="true" [showIcon]="true"></p-calendar>
+                        </div>
+                    </div>
                 </div>
             </div>
 
 
-            <div class="p-template-footer float-end inline-block">
-                <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md"
-                    [text]="true" [raised]="true" severity="secondary"></p-button>
+            <div class="row">
+                <div class="col-md-3">
+
+
+                    <div class="p-field">
+                        <label for="project">Enable Automations?</label>
+                        <div>
+                            <p-inputSwitch formControlName="isAutomationEnabled" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-field">
+                        <label for="project">Enable Reminders?</label>
+                        <div>
+                            <p-inputSwitch formControlName="isRemindersEnabled" />
+                        </div>
+                    </div>
+                </div>
             </div>
+        
+
+        <div class="p-template-footer float-end inline-block">
+            <p-button [type]="'submit'" icon="pi pi-save" label="Save" styleClass="rounded-3 btn-success btn-md"
+                [text]="true" [raised]="true" severity="secondary"></p-button>
+        </div>
         </div>
     </form>
 </p-dialog>

@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import moment from 'moment';
+import { Editor, Toolbar } from 'ngx-editor';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { DefaultProjectService } from 'src/app/core/services/default-project.service';
 import { ILookupItem } from 'src/app/core/shared-models/ILookupItem';
 import { IPagedRequest, IPagedRequestWithoutFilters } from 'src/app/core/shared-models/PagedFilterRequest';
-import { IComment, IIssueDocument, IIssues, IProject, IUserComment } from 'src/app/core/shared-models/ProjectModels';
+import { IComment, IIssueDocument, IIssues, IProject, IProjectMembers, IUserComment } from 'src/app/core/shared-models/ProjectModels';
 
 @Component({
   selector: 'app-task-detail',
@@ -27,6 +30,22 @@ export class TaskDetailComponent {
   reporters?: ILookupItem[];
   records: any[] = []; // Your recordset
 
+  projectMembers: IProjectMembers[] = [];
+
+  editor?: Editor;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
+
+
+
   assigneeId: any;
   statusId: any;
   priorityId: any;
@@ -39,7 +58,8 @@ export class TaskDetailComponent {
     private confirmationService: ConfirmationService,
     private route: ActivatedRoute,
     private NavRoute: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private defaultProjectService: DefaultProjectService
   ) {
     this.form = this.fb.group({});
   }
@@ -51,6 +71,7 @@ export class TaskDetailComponent {
         this.LoadDetails(id!);
         this.LoadComments(Number(id));
         this.LoadIssueDocuments(id);
+        this.LoadProjectMembers();
       });
     });
   }
@@ -73,13 +94,37 @@ export class TaskDetailComponent {
     });
   }
 
+  showHumanizeDate(input?: any): string {
+
+    // Convert input date to a moment object
+    const inputMoment = moment(input);
+
+    // Get the difference between now and the input date
+    const now = moment();
+
+    // Use humanize to convert the duration to a human-readable string
+    return inputMoment.from(now); // example output: "a few seconds ago"
+  }
+
+  formatMention(event: any):any{
+   // alert("this is for test");
+    return  `${event.fullName}`;
+  }
+
+  LoadProjectMembers(): void {
+    // Call your API service for lazy loading
+    this.apiService.getProjectMembers(this.defaultProjectService.getDefaultProjectId()).subscribe((data: any) => {
+      this.projectMembers = data;
+    });
+  }
+
 
   LoadDetails(id: any) {
     this.apiService.getTaskById(id).subscribe((data) => {
       this.selectedData = data;
       this.assigneeId = this.assignee?.find(t => t.code.toLocaleLowerCase() === this.selectedData?.assigneeUserId?.toLocaleLowerCase());
-      this.statusId=this.statusList?.find(t => Number(t.code) === this.selectedData?.statusId);
-      this.priorityId=this.priorityList?.find(t => Number(t.code) === this.selectedData?.priorityId);
+      this.statusId = this.statusList?.find(t => Number(t.code) === this.selectedData?.statusId);
+      this.priorityId = this.priorityList?.find(t => Number(t.code) === this.selectedData?.priorityId);
     });
   }
 
@@ -114,11 +159,11 @@ export class TaskDetailComponent {
     const formData: FormData = new FormData();
     formData.append('userComment', this.comment);
     formData.append('issueId', this.selectedData!.id?.toString());
-    if(this.uploadedFile)
-    formData.append('file', this.uploadedFile??null, this.uploadedFile?.name ?? null);
-  else{
-    formData.append('file', new Blob());
-  }
+    if (this.uploadedFile)
+      formData.append('file', this.uploadedFile ?? null, this.uploadedFile?.name ?? null);
+    else {
+      formData.append('file', new Blob());
+    }
 
     this.apiService.postTaskComment(formData).subscribe(
       (data: any) => {
@@ -158,4 +203,44 @@ export class TaskDetailComponent {
 
   }
 
+
+  quillModules = {
+    mention: {
+      allowedChars: /^[A-Za-z\s]*$/,
+      mentionDenotationChars: ['@'],
+     
+      onSelect: (item: any, insertItem: any) => {
+        insertItem(item);
+      },
+    },
+    keyboard: {
+      bindings: {
+        enter: {
+          key: 13, // Enter key
+          handler: (range: any, context: any) => {
+            // Check if the mention dropdown is active
+            const mentionList = document.querySelector('.ql-mention-list');
+            alert('test');
+           // if (mentionList && mentionList.style.display === 'block') {
+              // If active, simulate selection
+             // const activeItem = mentionList.querySelector('.ql-mention-list-item.active');
+             // if (activeItem) {
+             //   activeItem.click();
+                return false; // Prevent the default behavior (new line)
+          //    }
+         //   }
+            // Default behavior if mention list is not active
+            return true;
+          },
+        },
+      },
+    },
+  };
+
+  onContentChanged(event: any) {
+    console.log('Editor content changed:', event);
+  }
 }
+
+
+

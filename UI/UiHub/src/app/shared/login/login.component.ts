@@ -74,8 +74,9 @@ export class LoginComponent {
            
             this.messageService.add({ severity: 'success', summary: '', detail: data.message });
             this.formType = 0;
+            this.authService.SetIsLoggedInFirstTime();
             this.authService.SaveAuthenticationData(data.data)
-            this.router.navigate(['hrlite/dashboard']);
+            this.router.navigate(['hrlite/ctdashboard']);
           } else {
             this.messageService.add({ severity: 'error', summary: '', detail: data.message });
           }
@@ -96,8 +97,6 @@ export class LoginComponent {
     if (this.resetPasswordForm.valid) {
       // Your form is valid, you can submit the data
       const formData = this.resetPasswordForm.value;
-
-
       this.apiService.ResetPassword(data).subscribe({
         next: (data) => {
           this.isDataLoaded = true;
@@ -109,7 +108,6 @@ export class LoginComponent {
         error: (data: any) => {
           this.isDataLoaded = true;
           this.messageService.add({ severity: 'error', summary: data.error.message, detail: '' });
-
         }
       });
     }

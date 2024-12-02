@@ -1,15 +1,170 @@
 <!-- chat-window.component.html -->
+
 <div class="chat-window">
+  <div class="p-card">
+    <div class="p-inputgroup">
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-search"></i>
+      </span>
+      <input type="text" pInputText placeholder="People, groups & messages..." />
+    </div>
+  
+    <div class="chat-list" style="overflow-y: scroll;overflow-x: hidden; height: 26rem;">
+
+     
+        <!-- Chat List -->
+        <!-- <div class="chat-list">
+          <div *ngFor="let chat of selectedChat?.messages" class="chat-item" (click)="selectChat(chat)" [class.active]="chat === selectedChat">
+            <div class="avatar">
+              <img [src]="chat.picturePath" [alt]="chat.senderName" />
+            </div>
+            <div class="chat-details">
+              <div class="chat-header">
+                <span class="name">{{ chat.senderName }}</span>
+                <span class="time">{{ chat.time }}</span>
+              </div>
+              <div class="message">{{ chat.message }}</div>
+            </div>
+            <span class="badge" *ngIf="selectedChat?.unread">{{ selectedChat?.unread }}</span>
+          </div>
+        </div> -->
+
+
+
+      <!-- Chat Item 1 -->
+      <div class="chat-item">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Brandon Smith</span>
+            <span class="time">4:30am</span>
+          </div>
+          <div class="message">How are you today?</div>
+        </div>
+        <span class="badge">3</span>
+      </div>
+  
+      <!-- Chat Item 2 -->
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+      <div class="chat-item ">
+        <div class="avatar">
+          <img src="assets/images/users/avatar-2.jpg" class="me-2 rounded-circle" height="48" alt="Brandon Smith">
+        </div>
+        <div class="chat-details">
+          <div class="chat-header">
+            <span class="name">Shreyu N</span>
+            <span class="time">5:30am</span>
+          </div>
+          <div class="message">Hey! a reminder for tomorrow's meeting...</div>
+        </div>
+      </div>
+  
+      <!-- Repeat for other chat items -->
+    
+  </div>
+  </div>
+
+
+
+
+<!-- 
+  <div class="actual-chat-window" *ngIf="selectedChat">
+    <div class="chat-header">
+      <div class="avatar">
+        <img [src]="selectedChat.picturePath" [alt]="selectedChat.senderName" />
+      </div>
+      <div class="chat-info">
+        <h3>{{ selectedChat.senderName }}</h3>
+        <p>Last seen at {{ selectedChat.lastSeen }}</p>
+      </div>
+    </div>
+
+    <div class="messages">
+      <div *ngFor="let message of messages" class="message-item" [class.self]="message.senderName === 'You'">
+        <div class="message-content">
+          <span class="sender">{{ message.senderName }}</span>
+          <span class="time">{{ message.time }}</span>
+          <p class="text">{{ message.message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<div style="display: none;">
     <div class="chat-header">
       Send us a message
     </div>
     <div class="chat-body">
-      <!-- Chat content goes here -->
+     
       <div *ngFor="let message of messages">{{ message }}</div>
     </div>
     <div class="chat-footer">
       <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" placeholder="Type a message...">
       <p-button icon="pi pi-send" (click)="sendMessage()"></p-button>
     </div>
-  </div>
+  </div> -->
+
   

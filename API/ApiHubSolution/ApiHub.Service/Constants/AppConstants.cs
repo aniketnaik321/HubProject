@@ -11,7 +11,8 @@ namespace ApiHub.Service.Constants
         public const string PROC_USERSLIST = "GetUsersList";
         public const string PROC_GETPROJECTS = "PM_GetProjectList";
         public const string PROC_GETTASKS = "PM_GetTaskList";
-        public const string PROC_ADDMACHINE_EVENT = "AddMachineEvent";
+        public const string PROC_MANAGE_SIGNALR_CONNECTION = "PM_ManageSignalRConnection";
+        public const string PROC_ADD_CHAT_CONNECTION = "PM_AddSignalRConnectionData";
         public const string PROC_PASSWORD_RESET_REQUEST = "SendPasswordResetRequestEmail";
         public const string PROC_PASSWORD_RESET= "ResetUserPassword";
         public const string PROC_UPDATE_PASSWORD = "UpdatePassword";
@@ -32,6 +33,10 @@ namespace ApiHub.Service.Constants
         public const string PROC_ADD_PROJECT_MEMBERS = "PM_AddProjectMember";
         public const string PROC_BG_MOVETAKSINPROGRESS = "PM_BackgroundJobMoveTaskToInProgress";
         public const string PROC_SEND_PASSWORD_RESET_EMAIL = "SendPasswordResetEmail";
+        public const string PROC_GET_CHATLIST = "PM_ChatList";
+        public const string PROC_GET_USERFROMCONNECTIONID = "PM_GetChatConnectionIdFromUserId";
+        public const string PROC_ADD_CHATMESSAGE = "PM_InsertChatMessage";
+        public const string PROC_GET_MESSAGES= "PM_LoadChatMessages";
 
 
 

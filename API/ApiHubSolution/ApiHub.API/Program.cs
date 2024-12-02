@@ -4,6 +4,7 @@ using ApiHub.API.Hubs;
 using ApiHub.API.Middleware;
 using ApiHub.Domain.Models;
 using ApiHub.Service;
+using ApiHub.Service.Hubs;
 using ApiHub.Service.MappingProfiles;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -37,6 +39,31 @@ builder.Services.AddAuthentication(x =>
         ValidateIssuer = false,
         ClockSkew = TimeSpan.Zero
     };
+
+
+
+    x.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            // Check if the request path is for SignalR
+            var path = context.HttpContext.Request.Path;
+
+            // Only add token if the request is for the SignalR Hub (e.g., /chathub)
+            if (path.StartsWithSegments("/chathub"))
+            {
+                // Look for the token in the Authorization header
+                var authHeader = context.HttpContext.Request.Headers["Authorization"].ToString();
+                if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Token = authHeader.Substring("Bearer ".Length).Trim();
+                }
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
 });
 
 builder.Services.AddControllers();
@@ -133,6 +160,7 @@ app.UseCors("AllowSpecificOrigin");
 
 app.UseRouting();
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<NotificationServiceHub>("/notificationservicehub");
 app.UseAuthorization();
 
 //app.UseMiddleware<AuthorizationMiddleware>();

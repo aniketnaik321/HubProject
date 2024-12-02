@@ -46,7 +46,10 @@
 
     <div *ngIf="!isTableView" class="board">
       <div *ngFor="let status of statusList" class="tasks" pDroppable (onDrop)="drop(status)">
-        <h5 class="mt-0 task-header text-uppercase">{{ status.name }} ({{ getTaskByStatusIdCount(status.code) }})</h5>
+        <h5 class="mt-0 task-header text-uppercase">{{ status.name }} ({{ getTaskByStatusIdCount(status.code) }})
+          <i class="float-end pi pi-filter pt-0 pe-3 small" (click)="filterpanel.toggle($event)" style="cursor: pointer;"></i>        
+        </h5>
+        
         <div class="task-list-items">
           <div *ngFor="let task of getTaskById(status.code)" class="card mb-0" [dragEffect]="'linkMove'" pDraggable
             (onDragStart)="dragStart(task)" (onDragEnd)="dragEnd(status)">
@@ -73,11 +76,17 @@
                       <span class="badge badge-outline-success float-end">
                         <i class="mdi mdi-clock-outline text-default pe-1"></i>
                         On-track
-                      <i class="fw-bold"> ({{task.StartedSinceTime}})</i>
+                      <i class="fw-bold">(ending in: {{task.EndingIn}})</i>
                       </span>
                     }
                   
-                  }@else{
+                  }@else if(task.statusName === 'To Do'){
+                    <span class="badge badge-outline-primary float-end">
+                      <i class="mdi mdi-clock-outline text-default pe-1"></i>
+                      Starting in
+                   <i class="fw-bold"> ({{task.StartingIn}})</i>
+                  </span>
+                  }@else{              
                   <small class="float-end text-muted text-nowrap">{{ task.statusName }}</small>
                   }
                 </div>
@@ -106,11 +115,7 @@
                   <h6  style="margin: 0;">
                     <a routerLink="/hrlite/taskdetail/{{task.id}}" class="text-title">{{ task.summary }}</a>
                   </h6>
-
-
-
                 </div>
-
 
               </div>
               <div class="row mb-1 mt-1">
@@ -269,6 +274,17 @@
           </ng-template>
         </p-listbox>
       </ul>
+    </div>
+  </div>
+</p-overlayPanel>
+
+
+<p-overlayPanel #filterpanel>
+  <div class="flex flex-column gap-3 w-25rem">
+    <div class="my-2">      
+     <input type="text" pInputText/>
+     <p-button label="Apply" styleClass="p-1 rounded-2 ms-2 me-0" icon="pi pi-filter" iconPos="right" />
+     <p-button label="Clear" styleClass="p-1 rounded-2 ms-1" icon="pi pi-filter-slash" iconPos="right" severity="danger" />
     </div>
   </div>
 </p-overlayPanel>

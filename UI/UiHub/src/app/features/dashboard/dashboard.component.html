@@ -18,40 +18,54 @@
         <div class="col-xl-8">
 
             <div class="row">
-                <div class="col-xl-9">
-                    <div class="card widget-flat bg-primary text-light rounded-4 shadow-lg">
-                        <div class="card-body p-2">
-                            <div class="row">
-                                <div class="col-md-2 px-0">
-                                    <img src="assets/images/title_image-min.png" class="img img-fluid"
-                                        style="height: 150px;">
-                                </div>
-                                <div class="col-md-10" style="height: 100%;">
+                <div class="col-xl-9">                    
+                    <div style="display: block;">
 
-                                    <div class="col-xl-12">
-                                        <div class="mt-2 fw-normal" style="font-size: small;">
-                                            <p style="font-size: large;">
-                                                Welcome, <strong>{{userName}}!</strong></p>
-                                            <p style="letter-spacing: 0.4px;">
-                                                You are now logged in to <strong> Project Monitor </strong>, your
-                                                dedicated
-                                                tool for efficient project
-                                                management. Get ready to stay organized, track progress, and collaborate
-                                                seamlessly
-                                                with your team.
-                                            </p>
-                                            <p style="letter-spacing: 0.4px;"><i> Happy monitoring and project
-                                                    success!"</i>
-                                            </p>
+                        <div class="card widget-flat bg-default text-dark rounded-4 shadow-lg">
+                            <div class="card-body p-2">
+                                <div class="row">
 
-                                        </div>
+                                    <div class="col-xl-4">
+                                        <apx-chart
+                                        [series]="chartOptions.series!"
+                                        [chart]="chartOptions.chart!"
+                                        [labels]="chartOptions.labels"
+                                        [responsive]="chartOptions.responsive!"
+                                        [legend]="chartOptions.legend!">
+                                      </apx-chart>
                                     </div>
 
+                                    <div class="col-xl-7 pt-3">
+                                        <div class="chart-widget-list">
+                                            <p>
+                                                <i class="mdi mdi-square text-primary"></i> To Do
+                                                <span class="badge bg-success-lighten text-success">2 starting shortly</span>
+                                                <span class="float-end">10</span>
+                                            </p>
+                                            <p>
+                                                <i class="mdi mdi-square text-danger"></i>  In-Progress
+                                                <span class="badge bg-danger-lighten text-danger">2 task overdue</span>
+                                                <span class="float-end">2</span>
+                                            </p>
+                                            <p>
+                                                <i class="mdi mdi-square text-success"></i> Completed
+                                                <span class="float-end">5</span>
+                                            </p>
+                                            <p class="mb-0">
+                                                <i class="mdi mdi-square text-warning"></i> Published
+                                                <span class="float-end">20</span>
+                                            </p>
+                                        </div> 
 
+                                    </div>
 
                                 </div>
+                               
+                                  
                             </div>
-                        </div> <!-- end card-body-->
+                        </div>
+
+                                         
                     </div>
                 </div>
                 <div class="col-xl-3">
@@ -71,11 +85,10 @@
                     </div>
                 </div>
 
-
                 <div class="col-xl-12">
                     <div class="card widget-flat rounded-4" style="height: 70vh;">
                         <div class="card-header">
-                            <h4 class="text-secondary">My Tasks</h4>
+                            <h4 class="text-secondary">Calendar</h4>
                         </div>
                         <div class="card-body px-2">
                             <full-calendar [options]="calendarOptions"></full-calendar>
@@ -98,14 +111,16 @@
                     <div *ngFor="let task of tableData">
                         <div class="card bg-transparent">
                             <div class="card-header">
-                                <strong> <i class="fa fa-tasks pe-2 text-secondary"></i> {{ task.summary }} </strong>
+                                <strong> <i class="fa fa-tasks pe-2 text-secondary"></i>
+                                    <span [innerHTML]="task.summary"></span>  
+                                    </strong>
                                 <span class="badge bg-danger ms-2"><i class="fa fa-exclamation-circle"></i> {{
                                     task.priorityName }}</span>
                                 <span class="badge bg-warning ms-2"><i class="fa fa-info-circle"></i> {{ task.statusName
                                     }}</span>
                             </div>
                             <div class="card-body bg-transparent p-2">
-                                <p class="text-secondary">{{ task.description }}</p>
+                                <p class="text-secondary clamped-text" [innerHTML]="task.description"></p>
                             </div>
                         </div>
                     </div>
@@ -116,3 +131,37 @@
     </div>
 
 </div>
+
+
+<p-dialog [(visible)]="welcomeDialog" [modal]="true" [style]="{width: '40vw'}" [closable]="false" [draggable]="false" [resizable]="false">
+ 
+  <div class="alert alert-primary bg-light text-dark border-0"> 
+  <div class="welcome-content-card dialog-content">
+    <img src="assets/images/title_image-min.png" class="img img-fluid"
+                                        style="height: 150px;">
+    <div>
+        <p class="mb-2"> <span>
+            Welcome, <strong>{{ userName }}!</strong></span></p>
+      <p>You are now logged in to <strong>Task Planner</strong>, your dedicated tool for efficient project management. Get ready to stay organized, track progress, and collaborate seamlessly with your team.</p>
+      <em>Wishing you all the very best for the project!</em>
+    </div>
+</div>
+   <!-- Useful Tips Section -->
+   <div class="alert alert-light bg-light text-dark border-0">
+    <h4>
+      <i class="pi pi-bolt" style="color: #ffc107;"></i> Tips:
+    </h4>
+    <ul>
+      <li>Use the sidebar to quickly navigate between your tasks and projects.</li>
+      <li>Set task deadlines to receive timely reminders and stay on track.</li>
+      <li>Collaborate with your team using the built-in chat and comment features.</li>
+    </ul>
+
+</div>
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Get Started" icon="pi pi-check" (click)="closeWelcomBox()"></button>
+  </ng-template>
+</p-dialog>
